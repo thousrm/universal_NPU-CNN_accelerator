@@ -135,19 +135,13 @@ always @(posedge clk) begin
         if (p_step == step_d) begin
             p_step <= 3'b000;
             out_en <= 1'b1;
+            mux_f_s <= 1'b0;
         end
         else begin
             p_step <= p_step +1;
             out_en <= 1'b0;
-        end
-
-        if (p_step == step_d) begin
-            mux_f_s <= 1'b0;
-        end
-        else begin
             mux_f_s <= 1'b1;
         end
-        
     end
     else  begin
         mux_f_s <= 0;
