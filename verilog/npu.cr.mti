@@ -1,0 +1,94 @@
+C:/Users/thouh/Desktop/npu/verilog/maxpooling.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\maxpooling.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module maxpooling
+
+Top level modules:
+	maxpooling
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_ad_mul.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/tb_ad_mul.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module tb_ad_mul
+
+Top level modules:
+	tb_ad_mul
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/Multiply.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\Multiply.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module M_8
+
+Top level modules:
+	M_8
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_ac.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\tb_ac.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module tb_ac
+
+Top level modules:
+	tb_ac
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/Flip_Flop.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\Flip_Flop.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module D_FF144
+-- Compiling module D_FF8
+-- Compiling module D_FF1
+-- Compiling module D_FF3
+-- Compiling module D_FF2
+-- Compiling module D_FF16
+
+Top level modules:
+	D_FF144
+	D_FF8
+	D_FF1
+	D_FF3
+	D_FF2
+	D_FF16
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/FF_test.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\FF_test.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module FF_test
+
+Top level modules:
+	FF_test
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/Adder.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\Adder.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module A_16
+-- Compiling module A_17
+-- Compiling module A_18_f
+-- Compiling module A_8_f
+
+Top level modules:
+	A_16
+	A_17
+	A_18_f
+	A_8_f
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/Relu.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\Relu.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module relu
+
+Top level modules:
+	relu
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_mp.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\tb_mp.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module tb_mp
+
+Top level modules:
+	tb_mp
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/arithmetic_core.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\arithmetic_core.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module arithmetic_core
+
+Top level modules:
+	arithmetic_core
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_relu.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\tb_relu.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module tb_relu
+
+Top level modules:
+	tb_relu
+
+} {} {}}
