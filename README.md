@@ -8,7 +8,12 @@ Architecture
 
 
 ![image](https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/c036ea54-cd50-4597-9843-1f02eb32852b)
+
 arithmetic_core
 
+
+
+
 ![image](https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/a979a3bd-e9e0-43e2-828a-0888501a17c8)
+
 processing_element
