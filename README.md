@@ -21,4 +21,13 @@ processing_element
 
 ![image](https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/a979a3bd-e9e0-43e2-828a-0888501a17c8)
 
+&nbsp;
+<br/>
+<br/>
+
+processing_element_mod
+
+![image](https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/b0be3090-7613-468f-8935-ce0df1ce1778)
+
+
 
