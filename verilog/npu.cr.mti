@@ -1,4 +1,11 @@
-C:/Users/thouh/Desktop/npu/verilog/maxpooling.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\maxpooling.v}
+C:/Users/thouh/Desktop/npu/verilog/Processing_element.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\Processing_element.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module PE
+
+Top level modules:
+	PE
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/maxpooling.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\maxpooling.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
 -- Compiling module maxpooling
 
@@ -83,6 +90,13 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 
 Top level modules:
 	arithmetic_core
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/Processing_element_mod.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\Processing_element_mod.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module PE_m
+
+Top level modules:
+	PE_m
 
 } {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_relu.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\tb_relu.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
