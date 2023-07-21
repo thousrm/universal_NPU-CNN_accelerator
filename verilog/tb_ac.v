@@ -109,7 +109,7 @@ module tb_ac;
 		#670
 
 		reset <= 0;
-		step <= 3'b000;
+		step <= 3'b011;
 		en_mp <= 1;
 		en_relu <= 1;
 		bound_level <= 2'b00;
