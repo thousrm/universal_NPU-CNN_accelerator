@@ -35,7 +35,12 @@ module tb_ac;
 	//module PE(in, weight, bias, bound_level, step, en, out, out_en, clk, reset);
 	//PE P0(in, weightin, 16'b0000_0000_0000_0000, 2'b0, 3'b000, en, out, out_en, clk, reset);
 
-    arithmetic_core A0 (in, weightin, bias, bound_level, step, en,
+    /* arithmetic_core A0 (in, weightin, bias, bound_level, step, en,
+                            en_relu, en_mp, 
+                            out, out_en,
+                            clk, reset); */
+
+	arithmetic_core_mod A0 (in, weightin, bias, bound_level, step, en,
                             en_relu, en_mp, 
                             out, out_en,
                             clk, reset);
@@ -46,6 +51,7 @@ module tb_ac;
 		reset <= 0;
         en_relu <= 0;
         en_mp <= 0;
+		en <= 0;
 		#12
 		reset <= 1;
         #8
@@ -110,8 +116,8 @@ module tb_ac;
 
 		reset <= 0;
 		step <= 3'b011;
-		en_mp <= 1;
-		en_relu <= 1;
+		en_mp <= 0;
+		en_relu <= 0;
 		bound_level <= 2'b00;
 		#12
 		reset <= 1;
@@ -193,51 +199,14 @@ module tb_ac;
 
 			#30
 			#20
-			for (i=0; i<8; i=i+1)
+			for (i=0; i<64; i=i+1)
 			begin
 				in <= mat_in[i];
 				en <= 1;
 				#(10);
-			end
-			for (i=8; i<10; i=i+1)
-			begin
-				in <= mat_in[i];
 				en <= 0;
-				#(10);
+				#(20);
 			end
-			for (i=8; i<20; i=i+1)
-			begin
-				in <= mat_in[i];
-				en <= 1;
-				#(10);
-			end
-			for (i=20; i<26; i=i+1)
-			begin
-				in <= mat_in[i];
-				en <= 0;
-				#(10);
-			end
-			for (i=20; i<26; i=i+1)
-			begin
-				in <= mat_in[i];
-				en <= 1;
-				#(10);
-			end
-			en <= 0;
-			#(10);
-			for (i=26; i<38; i=i+1)
-			begin
-				in <= mat_in[i];
-				en <= 0;
-				#(10);
-			end
-			for (i=26; i<64; i=i+1)
-			begin
-				in <= mat_in[i];
-				en <= 1;
-				#(10);
-			end
-
 			en <= 0;
 		end
 	end
@@ -313,6 +282,18 @@ module tb_ac;
 			begin
                 p_out = mat_out[j];
                 #(9);
+				if ( (out != p_out) | out_en != 1) err = err + 1;
+				#(1);
+			end
+		end
+
+		$readmemh("output_ac4.txt", mat_out);
+		begin
+			#(30); //change if needed
+			for (j=0; j<16; j=j+1)
+			begin
+                p_out = mat_out[j];
+                #(119);
 				if ( (out != p_out) | out_en != 1) err = err + 1;
 				#(1);
 			end
