@@ -1,0 +1,532 @@
+m255
+K4
+z2
+!s11f vlog 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/Users/thouh/Desktop/vlsi/project2/Verilog_Project_Final__2017170914
+vA_16
+Z0 !s110 1689061268
+!i10b 1
+!s100 K;YV?go7@n=dY>fc>:6RK1
+Z1 !s11b Dg1SIo80bB@j0V0VzS_@n1
+INzW0LPgD<7TW@C<NM8AaR2
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+Z3 dC:/Users/thouh/Desktop/npu/verilog
+Z4 w1689061253
+Z5 8C:\Users\thouh\Desktop\npu\verilog\Adder.v
+Z6 FC:\Users\thouh\Desktop\npu\verilog\Adder.v
+!i122 98
+L0 2 15
+Z7 OV;L;2020.1;71
+r1
+!s85 0
+31
+Z8 !s108 1689061268.000000
+Z9 !s107 C:\Users\thouh\Desktop\npu\verilog\Adder.v|
+Z10 !s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\Adder.v|
+!i113 1
+Z11 o-work work
+Z12 tCvgOpt 0
+n@a_16
+vA_17
+R0
+!i10b 1
+!s100 YTSVcl^PFFW;GX_;4MJKh3
+R1
+I[@Y:M3dk]bEB[fGT`1I8n1
+R2
+R3
+R4
+R5
+R6
+!i122 98
+L0 18 15
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 1
+R11
+R12
+n@a_17
+vA_18_f
+R0
+!i10b 1
+!s100 nGAFGGQoO?347@VmQRGeF0
+R1
+I]Fo?VoAZ<4UO2kH=h]KmY3
+R2
+R3
+R4
+R5
+R6
+!i122 98
+L0 34 15
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 1
+R11
+R12
+n@a_18_f
+vA_8_f
+R0
+!i10b 1
+!s100 EU16@86oge4_I_zgJcT]D1
+R1
+I9`EBhmQKLRczbj3V7Olld3
+R2
+R3
+R4
+R5
+R6
+!i122 98
+L0 50 15
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 1
+R11
+R12
+n@a_8_f
+varithmetic_core
+!s110 1688993934
+!i10b 1
+!s100 9_dljC9=4MBFY8B^WAW]J3
+R1
+INjNUCF8U[087Z;:Q>iCP_2
+R2
+R3
+w1688993932
+8C:\Users\thouh\Desktop\npu\verilog\arithmetic_core.v
+FC:\Users\thouh\Desktop\npu\verilog\arithmetic_core.v
+!i122 82
+L0 2 59
+R7
+r1
+!s85 0
+31
+!s108 1688993934.000000
+!s107 C:\Users\thouh\Desktop\npu\verilog\arithmetic_core.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\arithmetic_core.v|
+!i113 1
+R11
+R12
+vD_FF1
+Z13 !s110 1689682641
+!i10b 1
+!s100 YLXG>d`i74TCde59<alCK2
+R1
+IS>5iG3BmQAbJB9N1km[c?1
+R2
+R3
+Z14 w1689682593
+Z15 8C:\Users\thouh\Desktop\npu\verilog\Flip_Flop.v
+Z16 FC:\Users\thouh\Desktop\npu\verilog\Flip_Flop.v
+!i122 125
+L0 43 20
+R7
+r1
+!s85 0
+31
+Z17 !s108 1689682640.000000
+Z18 !s107 C:\Users\thouh\Desktop\npu\verilog\Flip_Flop.v|
+Z19 !s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\Flip_Flop.v|
+!i113 1
+R11
+R12
+n@d_@f@f1
+vD_FF12
+!s110 1688103785
+!i10b 1
+!s100 Y?njliabaoeLD]Ji[4KS[1
+R1
+IAle?nS71^S:8LW;I31aZ60
+R2
+R3
+w1688101197
+R15
+R16
+!i122 4
+Z20 L0 1 20
+R7
+r1
+!s85 0
+31
+!s108 1688103785.000000
+R18
+R19
+!i113 1
+R11
+R12
+n@d_@f@f12
+vD_FF144
+R13
+!i10b 1
+!s100 kcf1`P:zXn?0SIbd<z3M40
+R1
+IgKS03h`1FgSdJlPngnL]K3
+R2
+R3
+R14
+R15
+R16
+!i122 125
+R20
+R7
+r1
+!s85 0
+31
+R17
+R18
+R19
+!i113 1
+R11
+R12
+n@d_@f@f144
+vD_FF16
+R13
+!i10b 1
+!s100 C>JSP2F9JVF5R8oH?nTi<2
+R1
+IZ=2Rgl1`QT:GeG`8OEGc53
+R2
+R3
+R14
+R15
+R16
+!i122 125
+L0 106 20
+R7
+r1
+!s85 0
+31
+R17
+R18
+R19
+!i113 1
+R11
+R12
+n@d_@f@f16
+vD_FF2
+R13
+!i10b 1
+!s100 [Oc:`LN49_IEM>W7aS^OY2
+R1
+I9Z7KUlZ0enPzN8l?:bJjL0
+R2
+R3
+R14
+R15
+R16
+!i122 125
+L0 85 20
+R7
+r1
+!s85 0
+31
+R17
+R18
+R19
+!i113 1
+R11
+R12
+n@d_@f@f2
+vD_FF3
+R13
+!i10b 1
+!s100 M?eCHN95e=nT1R`Ln18NH3
+R1
+Iij[1DGRlog9@cH[Z3XNkG0
+R2
+R3
+R14
+R15
+R16
+!i122 125
+L0 64 20
+R7
+r1
+!s85 0
+31
+R17
+R18
+R19
+!i113 1
+R11
+R12
+n@d_@f@f3
+vD_FF8
+R13
+!i10b 1
+!s100 ;oV`41?EH^7PEgccQ7FK@2
+R1
+I@i?PbJGZFj^;WLGXl3G5_2
+R2
+R3
+R14
+R15
+R16
+!i122 125
+L0 22 20
+R7
+r1
+!s85 0
+31
+R17
+R18
+R19
+!i113 1
+R11
+R12
+n@d_@f@f8
+vFF_test
+Z21 !s110 1688992649
+!i10b 1
+!s100 5<z?:6nnh;GhZ<UWAdCYg1
+R1
+IzP?FPBW[:N<SmS[RC@]Wb3
+R2
+R3
+w1688988411
+8C:\Users\thouh\Desktop\npu\verilog\FF_test.v
+FC:\Users\thouh\Desktop\npu\verilog\FF_test.v
+!i122 79
+L0 5 60
+R7
+r1
+!s85 0
+31
+Z22 !s108 1688992649.000000
+!s107 C:\Users\thouh\Desktop\npu\verilog\FF_test.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\FF_test.v|
+!i113 1
+R11
+R12
+n@f@f_test
+vM_8
+R0
+!i10b 1
+!s100 _8N1?PF1]XeTLo[7^j?S22
+R1
+IEM^8<T?dE6EES@<HfAS8:1
+R2
+R3
+w1689061261
+8C:\Users\thouh\Desktop\npu\verilog\Multiply.v
+FC:\Users\thouh\Desktop\npu\verilog\Multiply.v
+!i122 97
+L0 3 13
+R7
+r1
+!s85 0
+31
+R8
+!s107 C:\Users\thouh\Desktop\npu\verilog\Multiply.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\Multiply.v|
+!i113 1
+R11
+R12
+n@m_8
+vmaxpooling
+!s110 1689238389
+!i10b 1
+!s100 lCUAilVANR]OfC?dD752i1
+R1
+ISGD@XnijOkTPJaVoUK5FI0
+R2
+R3
+w1689238384
+8C:\Users\thouh\Desktop\npu\verilog\maxpooling.v
+FC:\Users\thouh\Desktop\npu\verilog\maxpooling.v
+!i122 120
+L0 3 69
+R7
+r1
+!s85 0
+31
+!s108 1689238389.000000
+!s107 C:\Users\thouh\Desktop\npu\verilog\maxpooling.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\maxpooling.v|
+!i113 1
+R11
+R12
+vPE
+!s110 1689691732
+!i10b 1
+!s100 ]VOL90D_L16C?VYdXz4nm3
+R1
+I>lnF1Y3UM36jER^l4m>`D1
+R2
+R3
+w1689691723
+8C:\Users\thouh\Desktop\npu\verilog\Processing_element.v
+FC:\Users\thouh\Desktop\npu\verilog\Processing_element.v
+!i122 128
+L0 1 170
+R7
+r1
+!s85 0
+31
+!s108 1689691731.000000
+!s107 C:\Users\thouh\Desktop\npu\verilog\Processing_element.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\Processing_element.v|
+!i113 1
+R11
+R12
+n@p@e
+vPE_m
+!s110 1689914009
+!i10b 1
+!s100 AH5ZUAS?FlEaXn<Y4R0Qm0
+R1
+Id4Q^g4AJzAiEA=8fjJO;?0
+R2
+R3
+w1689913995
+8C:\Users\thouh\Desktop\npu\verilog\Processing_element_mod.v
+FC:\Users\thouh\Desktop\npu\verilog\Processing_element_mod.v
+!i122 129
+L0 2 173
+R7
+r1
+!s85 0
+31
+!s108 1689914009.000000
+!s107 C:\Users\thouh\Desktop\npu\verilog\Processing_element_mod.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\Processing_element_mod.v|
+!i113 1
+R11
+R12
+n@p@e_m
+vrelu
+!s110 1688994706
+!i10b 1
+!s100 I9DVXOSE9F?<_SE9hL`BC2
+R1
+IhU?<kEbaN=[c3df7nbeUh3
+R2
+R3
+w1688994517
+8C:\Users\thouh\Desktop\npu\verilog\Relu.v
+FC:\Users\thouh\Desktop\npu\verilog\Relu.v
+!i122 84
+R20
+R7
+r1
+!s85 0
+31
+!s108 1688994706.000000
+!s107 C:\Users\thouh\Desktop\npu\verilog\Relu.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\Relu.v|
+!i113 1
+R11
+R12
+vtb_ac
+!s110 1689914125
+!i10b 1
+!s100 8o=4ISDF@;z^dJ^4bLZUc1
+R1
+I9SO4g^2ZQM:8NAX=kmV;[0
+R2
+R3
+w1689914122
+8C:\Users\thouh\Desktop\npu\verilog\tb_ac.v
+FC:\Users\thouh\Desktop\npu\verilog\tb_ac.v
+!i122 130
+L0 4 323
+R7
+r1
+!s85 0
+31
+!s108 1689914125.000000
+!s107 C:\Users\thouh\Desktop\npu\verilog\tb_ac.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\tb_ac.v|
+!i113 1
+R11
+R12
+vtb_ad_mul
+!s110 1688992648
+!i10b 1
+!s100 G2__Mo?n>LH=aeaZ`Jk?@2
+R1
+ICQSXhBS9OAcfK47Z]@UTJ0
+R2
+R3
+w1688624870
+8C:/Users/thouh/Desktop/npu/verilog/tb_ad_mul.v
+FC:/Users/thouh/Desktop/npu/verilog/tb_ad_mul.v
+!i122 75
+L0 3 81
+R7
+r1
+!s85 0
+31
+!s108 1688992648.000000
+!s107 C:/Users/thouh/Desktop/npu/verilog/tb_ad_mul.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/thouh/Desktop/npu/verilog/tb_ad_mul.v|
+!i113 1
+R11
+R12
+vtb_mp
+R21
+!i10b 1
+!s100 >lMdZoL^L:zgG6YbPUFjl0
+R1
+IF421IK48:zcJM8MfiUWdR2
+R2
+R3
+w1688992085
+8C:\Users\thouh\Desktop\npu\verilog\tb_mp.v
+FC:\Users\thouh\Desktop\npu\verilog\tb_mp.v
+!i122 78
+L0 4 82
+R7
+r1
+!s85 0
+31
+R22
+!s107 C:\Users\thouh\Desktop\npu\verilog\tb_mp.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\tb_mp.v|
+!i113 1
+R11
+R12
+vtb_relu
+R21
+!i10b 1
+!s100 9P@^QKBDPbOm_fXT43diL1
+R1
+I<[;H:_CB3Gi7E;HAcnz[m0
+R2
+R3
+w1688992641
+8C:\Users\thouh\Desktop\npu\verilog\tb_relu.v
+FC:\Users\thouh\Desktop\npu\verilog\tb_relu.v
+!i122 80
+L0 5 79
+R7
+r1
+!s85 0
+31
+R22
+!s107 C:\Users\thouh\Desktop\npu\verilog\tb_relu.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\tb_relu.v|
+!i113 1
+R11
+R12
