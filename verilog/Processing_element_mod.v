@@ -145,7 +145,7 @@ always @(posedge clk) begin
         end
     end
     else  begin
-        mux_f_s <= 0;
+        mux_f_s <= mux_f_s;
         out_en <= 1'b0;
     end
 end

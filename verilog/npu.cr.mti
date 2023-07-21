@@ -57,6 +57,13 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 Top level modules:
 	FF_test
 
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/arithmatic_core_mod.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\arithmatic_core_mod.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module arithmetic_core_mod
+
+Top level modules:
+	arithmetic_core_mod
+
 } {} {}} C:/Users/thouh/Desktop/npu/verilog/Adder.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\Adder.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
 -- Compiling module A_16
@@ -91,7 +98,7 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 Top level modules:
 	arithmetic_core
 
-} {} {}} C:/Users/thouh/Desktop/npu/verilog/Processing_element_mod.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\Processing_element_mod.v}
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/Processing_element_mod.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/Processing_element_mod.v
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
 -- Compiling module PE_m
 
