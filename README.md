@@ -27,7 +27,8 @@ processing_element
 
 processing_element_mod
 
-![image](https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/b0be3090-7613-468f-8935-ce0df1ce1778)
+![image](https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/5217f66b-d1ff-4c09-9139-4f10bf5cdd2d)
+
 
 
 
