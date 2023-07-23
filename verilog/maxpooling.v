@@ -1,5 +1,3 @@
-`timescale 1ns/10ps
-
 module maxpooling(in, en, en_mp, out, out_en, clk, reset);
 
 input signed [7:0] in;
@@ -52,20 +50,19 @@ wire com_en_and;
 assign com_en_and = comparator_out & en;
 
 wire mux_in_s;
-assign mux_in_s = com_en_and | en2_d;
+assign mux_in_s = com_en_and | en2;
 
 wire signed [7:0] mux_in;
 assign mux_in = mux_in_s ? in : mux_out;
 
 D_FF8 D_in(mux_in, out, clk, reset);
 
-wire en_mp_d;
-D_FF1 D_en_mp(en_mp, en_mp_d, clk, reset);
+/*wire en_mp_d_i;
+D_FF1 D_en_mp(~(en_mp), en_mp_d_i, clk, reset);*/
 
 //mux_out
-assign mux_out = (out_en | ~en_mp_d) ? 8'b1000_0000 : out;
+assign mux_out = (out_en) ? 8'b1000_0000 : out;
 
-//// is it repuired to add ff for en_mp?
 
 
 endmodule
