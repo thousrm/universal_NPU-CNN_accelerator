@@ -30,5 +30,28 @@ processing_element_mod
 ![image](https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/5217f66b-d1ff-4c09-9139-4f10bf5cdd2d)
 
 
+&nbsp;
+<br/>
+<br/>
+
+Relu
+
+![image](https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/d0748433-32b7-4fa2-b8cb-4f1216470b67)
+
+
+
+
+&nbsp;
+<br/>
+<br/>
+
+maxpooling
+
+![image](https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/b0c27dd5-766b-4336-b7a8-0523e284bb66)
+
+
+
+
+
 
 
