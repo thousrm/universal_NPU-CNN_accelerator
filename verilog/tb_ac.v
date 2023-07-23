@@ -15,14 +15,15 @@ module tb_ac;
 
     //wire [17-1:0] outa;
 	//wire [16-1:0] out;
-    reg [8-1:0] p_out;
+    reg [8-1:0] signed p_out;
+	wire [8-1:0] signed out;
 	
 	
 	//M_8 M0 (A, B, out);
 	//A_16 A0 (Aa, Ab, outa);
 	reg [8*9-1:0] in;
 	wire [8*9-1:0] weightin;
-	wire [8-1:0] out;
+	
 	wire out_en;
 
     reg signed [16-1:0] bias;
