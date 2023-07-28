@@ -15,8 +15,8 @@ module tb_ac;
 
     //wire [17-1:0] outa;
 	//wire [16-1:0] out;
-    reg [8-1:0] signed p_out;
-	wire [8-1:0] signed out;
+    reg signed [8-1:0] p_out;
+	wire signed [8-1:0] out;
 	
 	
 	//M_8 M0 (A, B, out);
