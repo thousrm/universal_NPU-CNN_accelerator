@@ -12,12 +12,12 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 Top level modules:
 	PE
 
-} {} {}} C:/Users/thouh/Desktop/npu/verilog/MBE_dec.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\MBE_dec.v}
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/multiplier.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\multiplier.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling module MBE_dec
+-- Compiling module multiplier
 
 Top level modules:
-	MBE_dec
+	multiplier
 
 } {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_ad_mul.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/tb_ad_mul.v
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
