@@ -1,12 +1,12 @@
 
 module multiplier(multiplicand, multiplier,
-                        O15, O14, O13, O12, O11, O10, O9, O8, O7, O6, O5, O4, O3, O2, O1, O0);
+                        O14, O13, O12, O11, O10, O9, O8, O7, O6, O5, O4, O3, O2, O1, O0);
 
 input [8*9-1:0] multiplicand, multiplier;
 wire signed [8-1:0] md[0:8], mr[0:8];
 
-wire [11:0] pp0[0:8];
-wire [9:0] pp1[0:8], pp2[0:8], pp3[0:8];
+wire [10:0] pp0[0:8];
+wire [8:0] pp1[0:8], pp2[0:8], pp3[0:8];
 wire neg0[0:8], neg1[0:8], neg2[0:8], neg3[0:8];
 
 genvar i;
@@ -25,12 +25,12 @@ wire [8:0] pp1_trans[0:9], pp2_trans[0:9], pp3_trans[0:9];
 
 genvar j;
 generate
-for(j=0; j<12; j=j+1) begin : transpose_pp0
+for(j=0; j<11; j=j+1) begin : transpose_pp0
     assign pp0_trans[j] = {pp0[0][j], pp0[1][j], pp0[2][j], pp0[3][j], pp0[4][j], pp0[5][j], pp0[6][j], pp0[7][j], 
                 pp0[8][j]};
 end
 
-for(j=0; j<10; j=j+1) begin : transpose_pp123
+for(j=0; j<9; j=j+1) begin : transpose_pp123
     assign pp1_trans[j] = {pp1[0][j], pp1[1][j], pp1[2][j], pp1[3][j], pp1[4][j], pp1[5][j], pp1[6][j], pp1[7][j], 
                 pp1[8][j]};
     assign pp2_trans[j] = {pp2[0][j], pp2[1][j], pp2[2][j], pp2[3][j], pp2[4][j], pp2[5][j], pp2[6][j], pp2[7][j], 
@@ -41,9 +41,9 @@ end
 
 endgenerate
 
-output [8:0] O15, O14;
-output [17:0] O13, O12;
-output [35:0] O11, O10, O9, O8, O7;
+output [8:0] O14, O13;
+output [17:0] O12, O11;
+output [35:0] O10, O9, O8, O7;
 output [44:0] O6;
 output [26:0] O5;
 output [35:0] O4;
@@ -52,11 +52,10 @@ output [26:0] O2;
 output [8:0] O1;
 output [17:0] O0;
 
-assign O15 = pp3_trans[9];
 assign O14 = pp3_trans[8];
-assign O13 = {pp3_trans[7], pp2_trans[9]};
+assign O13 = pp3_trans[7];
 assign O12 = {pp3_trans[6], pp2_trans[8]};
-assign O11 = {pp3_trans[5], pp2_trans[7], pp1_trans[9], pp0_trans[11]};
+assign O11 = {pp3_trans[5], pp2_trans[7]};
 assign O10 = {pp3_trans[4], pp2_trans[6], pp1_trans[8], pp0_trans[10]};
 assign O9 = {pp3_trans[3], pp2_trans[5], pp1_trans[7], pp0_trans[9]};
 assign O8 = {pp3_trans[2], pp2_trans[4], pp1_trans[6], pp0_trans[8]};

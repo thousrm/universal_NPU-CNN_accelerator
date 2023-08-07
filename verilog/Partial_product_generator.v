@@ -31,13 +31,13 @@ for(j=0; j<4; j=j+1) begin : multia
 end
 endgenerate
 
-output [11:0] pp0;
-output [9:0] pp1, pp2, pp3;
+output [10:0] pp0;
+output [8:0] pp1, pp2, pp3;
 
-assign pp0 = {~m[0][8], m[0][8], m[0][8], m[0]};
-assign pp1 = {~m[1][8], m[1]};
-assign pp2 = {~m[2][8], m[2]};
-assign pp3 = {~m[3][8], m[3]};
+assign pp0 = {~m[0][8], m[0][8], m[0]};
+assign pp1 = {~m[1][8], m[1][7-:8]};
+assign pp2 = {~m[2][8], m[2][7-:8]};
+assign pp3 = {~m[3][8], m[3][7-:8]};
 
 
 output neg0, neg1, neg2, neg3;
