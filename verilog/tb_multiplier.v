@@ -9,9 +9,9 @@ module tb_multiplier;
     reg [15:0] mat_in[0:140];
 
 
-    wire [8:0] O15, O14;
-    wire [17:0] O13, O12;
-    wire [35:0] O11, O10, O9, O8, O7;
+    wire [8:0] O14, O13;
+    wire [17:0] O12, O11;
+    wire [35:0] O10, O9, O8, O7;
     wire [44:0] O6;
     wire [26:0] O5;
     wire [35:0] O4;
@@ -21,7 +21,7 @@ module tb_multiplier;
     wire [17:0] O0;
 
     multiplier M0(multiplicand9, multiplier9,
-                        O15, O14, O13, O12, O11, O10, O9, O8, O7, O6, O5, O4, O3, O2, O1, O0);
+                        O14, O13, O12, O11, O10, O9, O8, O7, O6, O5, O4, O3, O2, O1, O0);
 
     assign multiplier9 = {9{multiplier}};
     assign multiplicand9 = {9{multiplicand}};
@@ -35,7 +35,7 @@ module tb_multiplier;
 	
 	always #5 clk = ~clk;
 
-    wire [5:0] Oa[15:0];
+    wire [5:0] Oa[14:0];
 
     function [5:0] addport1;
     input [8:0] in;
@@ -75,20 +75,19 @@ module tb_multiplier;
     endfunction
 
     
-    //15, 14, 1 - 1
-    assign Oa[15] = addport1(O15);
+    //14, 13, 1 - 1
     assign Oa[14] = addport1(O14);
+    assign Oa[13] = addport1(O13);
     assign Oa[1] = addport1(O1);
 
-    //13, 12, 3, 0 - 2
-    assign Oa[13] = addport2(O13[17:9], O13[8:0]);
+    //12, 11, 3, 0 - 2
+    assign Oa[11] = addport2(O11[17:9], O11[8:0]);
     assign Oa[12] = addport2(O12[17:9], O12[8:0]);
     assign Oa[3] = addport2(O3[17:9], O3[8:0]);
     assign Oa[0] = addport2(O0[17:9], O0[8:0]);
 
 
-    // 11, 10, 9, 8, 7, 4 - 4
-    assign Oa[11] = addport4(O11[35:27], O11[26:18], O11[17:9], O11[8:0]);
+    // 10, 9, 8, 7, 4 - 4
     assign Oa[10] = addport4(O10[35:27], O10[26:18], O10[17:9], O10[8:0]);
     assign Oa[9] = addport4(O9[35:27], O9[26:18], O9[17:9], O9[8:0]);
     assign Oa[8] = addport4(O8[35:27], O8[26:18], O8[17:9], O8[8:0]);
@@ -111,14 +110,14 @@ module tb_multiplier;
 
     wire signed [18:0] O9o, O9m;
 
-    assign O9o = (Oa[15]<<15) + (Oa[14]<<14) + (Oa[13]<<13) + (Oa[12]<<12) + (Oa[11]<<11) + 
+    assign O9o = (Oa[14]<<14) + (Oa[13]<<13) + (Oa[12]<<12) + (Oa[11]<<11) + 
                 (Oa[10]<<10) + (Oa[9]<<9) + (Oa[8]<<8) + (Oa[7]<<7) + (Oa[6]<<6) + 
                 (Oa[5]<<5) + (Oa[4]<<4) + (Oa[3]<<3) + (Oa[2]<<2) + (Oa[1]<<1) + Oa[0] +
-                19'b001_1101_0000_0000_0000;
+                19'b100_1110_1000_0000_0000;
     assign O9m = multiplier * multiplicand * 9;
 
 
-    integer err = 0, i = 0, j = 0, err10 = 0;
+    integer err = 0, i = 0, j = 0, err2 = 0;
     initial
 	begin		
 		$readmemh("input_ppg.txt", mat_in);
@@ -128,7 +127,7 @@ module tb_multiplier;
 			begin
 				{multiplier, multiplicand} = mat_in[i];
                 #(1);
-                if (O9o != O9m) err10 = err10 + 1;
+                if (O9o != O9m) err = err + 1;
 				#(9);
 			end
 		end
@@ -144,7 +143,7 @@ module tb_multiplier;
                 begin
                     multiplicand = multiplicand + 1;
                     #(1);
-                    if (O9o != O9m) err10 = err10 + 1;
+                    if (O9o != O9m) err = err + 1;
                     #(9);
                 end
 			end

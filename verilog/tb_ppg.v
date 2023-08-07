@@ -5,8 +5,8 @@ module tb_ppg;
 	reg clk, reset;
     reg signed [7:0] multiplicand, multiplier;
     reg [15:0] mat_in[0:140];
-    wire [11:0] pp0;
-    wire [9:0] pp1, pp2, pp3;
+    wire [10:0] pp0;
+    wire [8:0] pp1, pp2, pp3;
     wire neg0, neg1, neg2, neg3;
 
     PPG P0(multiplicand, multiplier, pp0,  pp1,  pp2,  pp3, neg0, neg1, neg2, neg3);
@@ -27,7 +27,7 @@ module tb_ppg;
 
     assign Om = multiplier * multiplicand;
     assign Ob = pp0 + (pp1<<2) + (pp2<<4) + (pp3<<6) + (neg0) + (neg1<<2) + (neg2<<4) + (neg3<<6) + 
-                    19'b111_0101_0000_0000_0000;
+                    19'b111_1010_1000_0000_0000;
     assign O = Ob[16:0];
     assign O10 = pp0 + (pp1<<2) + (pp2<<4) + (pp3<<6) + (neg0) + (neg1<<2) + (neg2<<4) + (neg3<<6) + 
                 pp0 + (pp1<<2) + (pp2<<4) + (pp3<<6) + (neg0) + (neg1<<2) + (neg2<<4) + (neg3<<6) + 
@@ -39,7 +39,7 @@ module tb_ppg;
                 pp0 + (pp1<<2) + (pp2<<4) + (pp3<<6) + (neg0) + (neg1<<2) + (neg2<<4) + (neg3<<6) + 
                 pp0 + (pp1<<2) + (pp2<<4) + (pp3<<6) + (neg0) + (neg1<<2) + (neg2<<4) + (neg3<<6) + 
                 pp0 + (pp1<<2) + (pp2<<4) + (pp3<<6) + (neg0) + (neg1<<2) + (neg2<<4) + (neg3<<6) + 
-                19'b001_1101_0000_0000_0000;
+                19'b100_1110_1000_0000_0000;
     assign O10m = multiplier * multiplicand * 9;
 
 
