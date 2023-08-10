@@ -67,3 +67,40 @@ assign cout = mux0 & cand0;
 
 
 endmodule
+
+module adder5_3_mod2(x1, x2, x3, x4, x5, cout, carry, sum);
+
+input x1, x2, x3, x4, x5;
+output cout, carry, sum;
+
+wire and12, xor12, and34, xor34;
+
+assign and12 = x1 & x2;
+assign xor12 = x1 ^ x2;
+assign and34 = x3 & x4;
+assign xor34 = x3 ^ x4;
+
+wire  and3, xor3, and4, xor4;
+
+assign and3 = and12 & and34;
+assign xor3 = and12 ^ and34;
+assign and4 = xor12 & xor34;
+assign xor4 = xor12 ^ xor34;
+
+wire xor5, and6, xor6;
+
+assign xor5 = xor3 ^ and4;
+assign and6 = x5 & xor4;
+assign xor6 = x5 ^ xor4;
+
+wire and7, xor7, xor8;
+
+assign and7 = xor5 & and6;
+assign xor7 = xor5 ^ and6;
+assign xor8 = and7 ^ and3;
+
+assign sum = xor6;
+assign carry = xor7;
+assign cout = xor8;
+
+endmodule

@@ -1,8 +1,7 @@
 
+module adder7_3(x1, x2, x3, x4, x5, x6, x7, cout, carry, sum);
 
-module adder6_3(x1, x2, x3, x4, x5, x6, cout, carry, sum);
-
-input x1, x2, x3, x4, x5, x6;
+input x1, x2, x3, x4, x5, x6, x7;
 output cout, carry, sum;
 
 wire and12, xor12, and34, xor34, and56, xor56;
@@ -14,18 +13,19 @@ assign xor34 = x3 ^ x4;
 assign and56 = x5 & x6;
 assign xor56 = x5 ^ x6;
 
-wire  and4, xor4, and5, xor5, xor6;
+wire  and4, xor4, and5, xor5, and6, xor6;
 
 assign and4 = and12 & and34;
 assign xor4 = and12 ^ and34;
 assign and5 = xor12 & xor34;
 assign xor5 = xor12 ^ xor34;
-assign xor6 = xor56;
+assign and6 = x7 & xor56;
+assign xor6 = x7 ^ xor56;
 
 wire xor10, xor7;
 
 assign xor10 = xor4 ^ and5;
-assign xor7 = and56;
+assign xor7 = and56 ^ and6;
 
 wire and8, xor8, and9, xor9;
 
