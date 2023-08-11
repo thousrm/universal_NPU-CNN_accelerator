@@ -9,17 +9,17 @@ module tb_adder;
     wire O3, O2, O1, O0, O3m, O2m, O1m, O0m;
 	
 	
-    adder15_4 A0(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, O3, O2, O1, O0);
-    adder15_4_mod A15(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, O3m, O2m, O1m, O0m);
+    adder_15to4 A0({x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14}, O3, O2, O1, O0);
+    adder_15to4_mod A15({x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14}, O3m, O2m, O1m, O0m);
 
     wire OO2, OO1, OO0, OOO2, OOO1, OOO0, OOOO2, OOOO1, OOOO0, O2_, O1_, O0_, O26, O16, O06;
-    adder5_3 A1(x10, x11, x12, x13, x14, OO2, OO1, OO0);
-    adder5_3_mod A2(x10, x11, x12, x13, x14, OOO2, OOO1, OOO0);
-    adder5_3_mod2 A3(x10, x11, x12, x13, x14, OOOO2, OOOO1, OOOO0);
+    adder_5to3 A1({x10, x11, x12, x13, x14}, OO2, OO1, OO0);
+    adder_5to3_mod A2({x10, x11, x12, x13, x14}, OOO2, OOO1, OOO0);
+    adder_5to3_mod2 A3({x10, x11, x12, x13, x14}, OOOO2, OOOO1, OOOO0);
 
-    adder7_3 A4(x8, x9, x10, x11, x12, x13, x14, O2_, O1_, O0_);
+    adder_7to3 A4({x8, x9, x10, x11, x12, x13, x14}, O2_, O1_, O0_);
 
-    adder6_3 A5(x9, x10, x11, x12, x13, x14, O26, O16, O06);
+    adder_6to3 A5({x9, x10, x11, x12, x13, x14}, O26, O16, O06);
 
     reg [14:0] in;
     wire [3:0] out, outm, p_out;

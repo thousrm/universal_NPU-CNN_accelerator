@@ -1,9 +1,12 @@
 
 
-module adder6_3(x1, x2, x3, x4, x5, x6, cout, carry, sum);
+module adder_6to3(in, cout, carry, sum);
 
-input x1, x2, x3, x4, x5, x6;
+input [5:0] in;
+wire x1, x2, x3, x4, x5, x6;
 output cout, carry, sum;
+
+assign {x1, x2, x3, x4, x5, x6} = in;
 
 wire and12, xor12, and34, xor34, and56, xor56;
 

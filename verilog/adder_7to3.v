@@ -1,8 +1,11 @@
 
-module adder7_3(x1, x2, x3, x4, x5, x6, x7, cout, carry, sum);
+module adder_7to3(in, cout, carry, sum);
 
-input x1, x2, x3, x4, x5, x6, x7;
+input [6:0] in;
+wire x1, x2, x3, x4, x5, x6, x7;
 output cout, carry, sum;
+
+assign {x1, x2, x3, x4, x5, x6, x7} = in;
 
 wire and12, xor12, and34, xor34, and56, xor56;
 

@@ -1,8 +1,11 @@
 
-module adder5_3(x0, x1, x2, x3, x4, cout, carry, sum);
+module adder_5to3(in, cout, carry, sum);
 
-input x0, x1, x2, x3, x4;
+input [4:0] in;
+wire x0, x1, x2, x3, x4;
 output cout, carry, sum;
+
+assign {x0, x1, x2, x3, x4} = in;
 
 wire y0, y1, y2, y3;
 
@@ -33,10 +36,13 @@ assign cout = mux0 & cand0;
 
 endmodule
 
-module adder5_3_mod(x0, x1, x2, x3, x4, cout, carry, sum);
+module adder_5to3_mod(in, cout, carry, sum);
 
-input x0, x1, x2, x3, x4;
+input [4:0] in;
+wire x0, x1, x2, x3, x4;
 output cout, carry, sum;
+
+assign {x0, x1, x2, x3, x4} = in;
 
 wire y0, y1, y2, y3;
 
@@ -68,10 +74,13 @@ assign cout = mux0 & cand0;
 
 endmodule
 
-module adder5_3_mod2(x1, x2, x3, x4, x5, cout, carry, sum);
+module adder_5to3_mod2(in, cout, carry, sum);
 
-input x1, x2, x3, x4, x5;
+input [4:0] in;
+wire x1, x2, x3, x4, x5;
 output cout, carry, sum;
+
+assign {x1, x2, x3, x4, x5} = in;
 
 wire and12, xor12, and34, xor34;
 
