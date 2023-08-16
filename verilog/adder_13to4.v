@@ -9,8 +9,8 @@ assign {x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12} = in;
 
 wire A[2:0], B[2:0];
 
-adder_7to3 A730(x0, x1, x2, x3, x4, x5, x6, B[2], B[1], B[0]);
-adder_6to3 A630(x7, x8, x9, x10, x11, x12, A[2], A[1], A[0]);
+adder_7to3 A730({x0, x1, x2, x3, x4, x5, x6}, B[2], B[1], B[0]);
+adder_6to3 A630({x7, x8, x9, x10, x11, x12}, A[2], A[1], A[0]);
 
 wire C1, C2;
 
