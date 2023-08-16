@@ -113,8 +113,8 @@ module tb_multiplier;
     assign O9o = (Oa[14]<<14) + (Oa[13]<<13) + (Oa[12]<<12) + (Oa[11]<<11) + 
                 (Oa[10]<<10) + (Oa[9]<<9) + (Oa[8]<<8) + (Oa[7]<<7) + (Oa[6]<<6) + 
                 (Oa[5]<<5) + (Oa[4]<<4) + (Oa[3]<<3) + (Oa[2]<<2) + (Oa[1]<<1) + Oa[0] +
-                19'b100_1110_1000_0000_0000;
-    assign O9m = multiplier * multiplicand * 9;
+                19'b100_1110_1000_0000_0000 + 19'b000_1000_0000_0000_0000;
+    assign O9m = multiplier * multiplicand * 9 + 19'b111_1000_0000_0000_0000;
 
 
     integer err = 0, i = 0, j = 0, err2 = 0;
