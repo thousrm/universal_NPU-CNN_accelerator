@@ -1,4 +1,11 @@
-C:/Users/thouh/Desktop/npu/verilog/maxpooling.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/maxpooling.v
+C:/Users/thouh/Desktop/npu/verilog/adder_8to4.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\adder_8to4.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module adder_8to4
+
+Top level modules:
+	adder_8to4
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/maxpooling.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/maxpooling.v
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
 -- Compiling module maxpooling
 
@@ -40,6 +47,15 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 Top level modules:
 	M_8
 
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/adder_12to4.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\adder_12to4.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module adder_12to4
+-- Compiling module adder_12to4_mod
+
+Top level modules:
+	adder_12to4
+	adder_12to4_mod
+
 } {} {}} C:/Users/thouh/Desktop/npu/verilog/MBE_enc.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/MBE_enc.v
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
 -- Compiling module MBE_enc
@@ -75,9 +91,11 @@ Top level modules:
 } {} {}} C:/Users/thouh/Desktop/npu/verilog/adder_14to4.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\adder_14to4.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
 -- Compiling module adder_14to4
+-- Compiling module adder_14to4_mod
 
 Top level modules:
 	adder_14to4
+	adder_14to4_mod
 
 } {} {}} C:/Users/thouh/Desktop/npu/verilog/FF_test.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/FF_test.v
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
@@ -137,6 +155,20 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 
 Top level modules:
 	tb_adder
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_addertree1.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\tb_addertree1.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module tb_addertree1
+
+Top level modules:
+	tb_addertree1
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/adder_9to4.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\adder_9to4.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module adder_9to4
+
+Top level modules:
+	adder_9to4
 
 } {} {}} C:/Users/thouh/Desktop/npu/verilog/Relu.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/Relu.v
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
@@ -233,6 +265,13 @@ Top level modules:
 	adder_15to4
 	adder_15to4_mod
 	adder_15to4_mod2
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/addertree_stage2.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\addertree_stage2.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module addertree_stage2
+
+Top level modules:
+	addertree_stage2
 
 } {} {}} C:/Users/thouh/Desktop/npu/verilog/Processing_element_mod.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/Processing_element_mod.v
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
