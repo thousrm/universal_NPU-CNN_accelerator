@@ -23,7 +23,7 @@ input [5:0] x3;
 
 input [13:1] pre_output;
 
-wire p19, p20;
+wire p19;
 output o19;
 output [2:0] o18, o17;
 output [3:0] o16, o15, o14, o13, o12, o11, o10, o9, o8, o7;

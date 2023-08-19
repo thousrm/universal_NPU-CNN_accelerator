@@ -109,9 +109,15 @@ module tb_addertree2;
                     (aao[10]<<10) +(aao[9]<<9) +(aao[8]<<8) +(aao[7]<<7) +
                     (aao[6]<<6) +(aao[5]<<5) +(aao[4]<<4) +(aao[3]<<3);
 
-    wire signed [13:1] outm, outa;
+    reg signed [13:1] outm;
+    wire signed [13:1] outa;
 
-    assign outm = O9m[19-:2] == 2'b01 ? 'b0_1111_1111_1111 : O9m[19-:2] == 2'b10 ? 'b1_0000_0000_0000 : O9m[18-:13];
+    always @(*) begin
+        if (O9m > 20'sd262143) outm = 13'sd4095;
+        else if (O9m < -20'sd262144) outm = -13'sd4096;
+        else outm = O9m[18-:13];
+    end
+
     assign outa = Oao[19-:2] == 2'b01 ? 'b0_1111_1111_1111 : Oao[19-:2] == 2'b10 ? 'b1_0000_0000_0000 : Oao[18-:13];
 
     always begin #10 pre_output = outa; #10 pre_output = outa; #10 pre_output = outa; #10 pre_output = 0; end
