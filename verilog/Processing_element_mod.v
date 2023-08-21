@@ -1,4 +1,3 @@
-
 module PE_m(in, weight, bias, bound_level, step, en, out, out_en, clk, reset);
 
 parameter cell_bit = 8;
@@ -6,8 +5,7 @@ parameter N_cell = 9;
 parameter biasport = 16;
 parameter outport = 8;
 
-parameter outport_mul = 16;
-parameter outport_add = 17;
+parameter outport_add = 14;
 
 input [cell_bit*N_cell-1:0] in;
 input [cell_bit*N_cell-1:0] weight;
@@ -16,67 +14,108 @@ output signed [outport-1:0] out;
 
 input clk, reset;
 
-wire signed [cell_bit-1:0] inp[0:N_cell-1];
-wire signed [cell_bit-1:0] wei[0:N_cell-1];
 
-wire signed [outport_mul-1:0] mulout[0:N_cell-1];
-wire signed [outport_mul-1:0] d_mulout[0:N_cell-1];
-wire signed [outport_add-1:0] addout[0:4];
-wire signed [outport_add:0] addout_1[0:3];
+wire [8:0] O14, O13;
+wire [17:0] O12, O11;
+wire [35:0] O10, O9, O8, O7;
+wire [44:0] O6;
+wire [26:0] O5;
+wire [35:0] O4;
+wire [17:0] O3;
+wire [26:0] O2;
+wire [8:0] O1;
+wire [17:0] O0;
 
-genvar i;
-generate
-for(i=0; i<N_cell; i=i+1) begin : app
-    assign inp[i] = in[cell_bit*N_cell-1 - cell_bit*i -: cell_bit];
-    assign wei[i] = weight[cell_bit*N_cell-1 - cell_bit*i -: cell_bit];
-    M_8 M8(inp[i], wei[i], mulout[i]);
-end
-endgenerate
+wire ao18;
+wire [1:0] ao17;
+wire [2:0] ao16;
+wire [4:0] ao15, ao14;
+wire [6:0] ao13;
+wire [8:0] ao12;
+wire [9:0] ao11;
+wire [10:0] ao10;
+wire [11:0] ao9;
+wire [10:0] ao8;
+wire [9:0] ao7;
+wire [9:0] ao6;
+wire [8:0] ao5;
+wire [7:0] ao4;
+wire [5:0] ao3;
 
 
-input en;
-wire en_d;
-input [1:0] bound_level;
-wire [1:0] bound_level_d;
-input [2:0] step;
-wire [2:0] step_d;
-wire signed [biasport-1:0] bias_d;
+multiplier M0(in, weight,
+                        O14, O13, O12, O11, O10, O9, O8, O7, O6, O5, O4, O3, O2, O1, O0);
 
-D_FF144 FF0 ({mulout[0], mulout[1], mulout[2], mulout[3], mulout[4], mulout[5], mulout[6], mulout[7], mulout[8]},           
-                {d_mulout[0], d_mulout[1], d_mulout[2], d_mulout[3], d_mulout[4], d_mulout[5], d_mulout[6], d_mulout[7], d_mulout[8]},
-                 clk, reset);
-
-D_FF1 F3 (en, en_d, clk, reset);
-D_FF3 F9 (step, step_d, clk, reset);
-D_FF2 F8 (bound_level, bound_level_d, clk, reset);
-D_FF16 F_bias(bias, bias_d, clk, reset);
-
+addertree_stage1 AT10(O14, O13, O12, O11, O10, O9, O8, O7, O6, O5, O4, O3, O2, O1, O0, 
+                        bias,
+                        ao18, ao17, ao16, ao15, ao14, ao13, ao12, ao11, ao10, ao9, ao8, ao7, ao6, ao5, ao4, ao3);
 
 /////////////////////////////////////////////
 //clk+1
 /////////////////////////////////////////////
 
+wire ao18_d;
+wire [1:0] ao17_d;
+wire [2:0] ao16_d;
+wire [4:0] ao15_d, ao14_d;
+wire [6:0] ao13_d;
+wire [8:0] ao12_d;
+wire [9:0] ao11_d;
+wire [10:0] ao10_d;
+wire [11:0] ao9_d;
+wire [10:0] ao8_d;
+wire [9:0] ao7_d;
+wire [9:0] ao6_d;
+wire [8:0] ao5_d;
+wire [7:0] ao4_d;
+wire [5:0] ao3_d;
 
 
-A_16 A0 (bias, d_mulout[0], addout[0]);
-A_16 A1 (d_mulout[1], d_mulout[2], addout[1]);
-A_16 A2 (d_mulout[3], d_mulout[4], addout[2]);
-A_16 A3 (d_mulout[5], d_mulout[6], addout[3]);
-A_16 A4 (d_mulout[7], d_mulout[8], addout[4]);
+input en;
+wire en_d;
+input [2:0] bound_level;
+wire [2:0] bound_level_d;
+input [2:0] step;
+wire [2:0] step_d;
+wire signed [biasport-1:0] bias_d;
+wire [outport_add-2:0] pre_output;
 
-A_17 A5 (addout[0], addout[1], addout_1[0]);
-A_17 A6 (addout[2], addout[3], addout_1[1]);
+D_FF119 FF0 ({ao18, ao17, ao16, ao15, ao14, ao13, ao12, ao11, ao10, ao9, ao8, ao7, ao6, ao5, ao4, ao3},           
+                {ao18_d, ao17_d, ao16_d, ao15_d, ao14_d, ao13_d, ao12_d, ao11_d, ao10_d, ao9_d, ao8_d, ao7_d, ao6_d, ao5_d, ao4_d, ao3_d},
+                 clk, reset);
+D_FF1 F3 (en, en_d, clk, reset);
+D_FF3 F9 (step, step_d, clk, reset);
+D_FF3 F8 (bound_level, bound_level_d, clk, reset);
 
-A_18_f A7 (addout_1[0], addout_1[1], addout_1[2]);
 
-A_18_f A8 ({addout[4][outport_add-1], addout[4]}, addout_1[2], addout_1[3]);
+wire o19;
+wire [2:0] o18, o17;
+wire [3:0] o16, o15, o14, o13, o12, o11, o10, o9, o8, o7;
+wire [2:0] o6, o5;
+wire [1:0] o4;
+wire o3;
 
+wire [1:0] a19, a18, a17, a16, a15, a14, a13, a12, a11, a10, a9, a8, a7, a6;
+wire a5; 
 
-//assign out = addout_1[3][outport_add-:outport];
+wire [outport_add-1:0] addout;
+
+addertree_stage2 AT20(ao18_d, ao17_d, ao16_d, ao15_d, ao14_d, ao13_d, ao12_d, ao11_d, ao10_d, ao9_d, ao8_d, ao7_d, ao6_d, ao5_d, ao4_d, ao3_d,
+                    pre_output,
+                    o19, o18, o17, o16, o15, o14, o13, o12, o11, o10, o9, o8, o7, o6, o5, o4, o3
+                    );
+
+addertree_stage3 AT30(o19, o18, o17, o16, o15, o14, o13, o12, o11, o10, o9, o8, o7, o6, o5, o4, o3,
+                    a19, a18, a17, a16, a15, a14, a13, a12, a11, a10, a9, a8, a7, a6, a5
+                    );
+
+adder_final AF0(a19, a18, a17, a16, a15, a14, a13, a12, a11, a10, a9, a8, a7, a6,
+                    addout);
+
 
 
 ////////////////
-//adder tree end, output = addout_1[3]
+//adder tree end, output = addout
 ////////////////
 
 
@@ -85,29 +124,54 @@ A_18_f A8 ({addout[4][outport_add-1], addout[4]}, addout_1[2], addout_1[3]);
 ////////////////
 
 wire signed [outport-1:0] b_out;
-wire uxnor[1:3], uand[1:2]; 
-assign b_out[7] = addout_1[3][outport_add]; //MSB
+wire oxor[0:5], chk_over[0:5]; 
+assign b_out[7] = addout[outport_add-1]; //MSB
 
-assign uxnor[1] = addout_1[3][outport_add] ~^ addout_1[3][outport_add-1];
-assign uxnor[2] = addout_1[3][outport_add-1] ~^ addout_1[3][outport_add-2];
-assign uxnor[3] = addout_1[3][outport_add-2] ~^ addout_1[3][outport_add-3];
+assign oxor[0] = addout[outport_add-1] ~^ addout[outport_add-2];
+assign oxor[1] = addout[outport_add-2] ~^ addout[outport_add-3];
+assign oxor[2] = addout[outport_add-3] ~^ addout[outport_add-4];
+assign oxor[3] = addout[outport_add-4] ~^ addout[outport_add-5];
+assign oxor[4] = addout[outport_add-5] ~^ addout[outport_add-6];
+assign oxor[5] = addout[outport_add-6] ~^ addout[outport_add-7];
 
-assign uand[1] = uxnor[1] & uxnor[2];
-assign uand[2] = uand[1] & uxnor[3];
+assign chk_over[0] = oxor[0];
+assign chk_over[1] = oxor[0] & oxor[1];
+assign chk_over[2] = oxor[0] & oxor[1] & oxor[2];
+assign chk_over[3] = oxor[0] & oxor[1] & oxor[2] & oxor[3];
+assign chk_over[4] = oxor[0] & oxor[1] & oxor[2] & oxor[3] & oxor[4];
+assign chk_over[5] = oxor[0] & oxor[1] & oxor[2] & oxor[3] & oxor[4] & oxor[5];
 
-assign b_out[6:0] = bound_level_d == 2'b01 ?
-                    uxnor[1] == 1'b0 ? {~addout_1[3][outport_add], ~addout_1[3][outport_add], ~addout_1[3][outport_add],
-                                ~addout_1[3][outport_add], ~addout_1[3][outport_add], ~addout_1[3][outport_add], ~addout_1[3][outport_add]}
-                                : addout_1[3][outport_add-2-:7]
-                : bound_level_d == 2'b10 ?
-                    uand[1] == 1'b0 ? {~addout_1[3][outport_add], ~addout_1[3][outport_add], ~addout_1[3][outport_add],
-                                ~addout_1[3][outport_add], ~addout_1[3][outport_add], ~addout_1[3][outport_add], ~addout_1[3][outport_add]}
-                                : addout_1[3][outport_add-3-:7]
-                : bound_level_d == 2'b11 ?
-                    uand[2] == 1'b0 ? {~addout_1[3][outport_add], ~addout_1[3][outport_add], ~addout_1[3][outport_add],
-                                ~addout_1[3][outport_add], ~addout_1[3][outport_add], ~addout_1[3][outport_add], ~addout_1[3][outport_add]}
-                                : addout_1[3][outport_add-4-:7]
-                : addout_1[3][outport_add-1-:7];
+assign b_out[6:0] =   bound_level_d == 3'b001 ?
+                            chk_over[1] == 1'b0 ? {7{~addout[outport_add]}}
+                                : addout[outport_add-4-:7]
+
+                    : bound_level_d == 3'b010 ?
+                            chk_over[2] == 1'b0 ? {7{~addout[outport_add]}}
+                                : addout[outport_add-5-:7]
+                    
+                    : bound_level_d == 3'b011 ?
+                            chk_over[3] == 1'b0 ? {7{~addout[outport_add]}}
+                                : addout[outport_add-6-:7]
+                    : bound_level_d == 3'b100 ?
+                            chk_over[4] == 1'b0 ? {7{~addout[outport_add]}}
+                                : addout[outport_add-7-:7]
+                    : bound_level_d == 3'b101 ?
+                            chk_over[5] == 1'b0 ? {7{~addout[outport_add]}}
+                                : addout[outport_add-8-:7]
+                    
+                    : chk_over[0] == 1'b0 ? {7{~addout[outport_add]}}
+                                : addout[outport_add-3-:7];
+
+wire signed [outport-1:0] pre_output_b;
+
+assign pre_output[outport_add-2] = pre_output_b[7];
+assign pre_output[outport_add-3:0] =   bound_level_d == 3'b001 ? {pre_output_b[7], pre_output_b[6:0], 4'b0000}
+                                    :  bound_level_d == 3'b010 ? {pre_output_b[7], pre_output_b[7], pre_output_b[6:0], 3'b000}
+                                    :  bound_level_d == 3'b010 ? {pre_output_b[7], pre_output_b[7], pre_output_b[7], pre_output_b[6:0], 2'b00}
+                                    :  bound_level_d == 3'b010 ? {pre_output_b[7], pre_output_b[7], pre_output_b[7], pre_output_b[7], pre_output_b[6:0], 1'b0}
+                                    :  bound_level_d == 3'b010 ? {pre_output_b[7], pre_output_b[7], pre_output_b[7], pre_output_b[7], pre_output_b[7], pre_output_b[6:0]}
+                                    :  {pre_output_b[6:0], 5'b00000};
+
 
 
 
@@ -145,22 +209,20 @@ always @(posedge clk) begin
         end
     end
     else  begin
-        mux_f_s <= mux_f_s;
+        mux_f_s <= 0;
         out_en <= 1'b0;
     end
 end
 
 //adder
 
-wire signed [outport-1:0] adder_final_B, adder_final_out;
 
-assign adder_final_B = mux_f_s ? out : 8'b0000_0000;
 
-A_8_f A_final(b_out, adder_final_B, adder_final_out);
+assign pre_output_b = mux_f_s ? out : 8'b0000_0000;
 
 
 wire signed [outport-1:0] out_ck_en;
-assign out_ck_en = en_d ? adder_final_out : out;
+assign out_ck_en = en_d ? b_out : out;
 
 ///clk+2
 D_FF8 F1 (out_ck_en, out, clk, reset);

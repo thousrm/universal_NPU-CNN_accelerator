@@ -5,6 +5,7 @@ module tb_ad_mul;
 	reg clk, reset;
 
     reg [8*9-1:0] mat_in [0:63];
+	reg [8-1:0] ina[0:8];
 	reg [8-1:0] weight[0:8];
     reg [8-1:0] mat_out [0:63];
 	//reg [32-1:0] mata_in [0:27];
@@ -25,6 +26,8 @@ module tb_ad_mul;
 	wire [8-1:0] out;
 	reg en;
 	wire out_en;
+	
+	assign {ina[0], ina[1], ina[2], ina[3], ina[4], ina[5], ina[6], ina[7], ina[8]} = in;
 
 	assign weightin = {weight[0], weight[1], weight[2], weight[3], weight[4], weight[5], weight[6], weight[7], weight[8]}; 
 
