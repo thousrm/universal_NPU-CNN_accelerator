@@ -71,7 +71,7 @@ module tb_addertree3;
                         a19, a18, a17, a16, a15, a14, a13, a12, a11, a10, a9, a8, a7, a6, a5
                         );
 
-    adder_final AF0(a19, a18, a17, a16, a15, a14, a13, a12, a11, a10, a9, a8, a7, a6, a5,
+    adder_final AF0(a19, a18, a17, a16, a15, a14, a13, a12, a11, a10, a9, a8, a7, a6,
                     out);
 
 	initial

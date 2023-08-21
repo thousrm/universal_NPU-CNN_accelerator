@@ -6,8 +6,9 @@ module tb_ac;
 	reg clk, reset;
 
     reg [8*9-1:0] mat_in [0:63];
-	reg [8-1:0] weight[0:8];
-    reg [8-1:0] mat_out [0:63];
+	reg signed [8-1:0] ina[0:8];
+	reg signed [8-1:0] weight[0:8];
+    reg signed [8-1:0] mat_out [0:63];
 	//reg [32-1:0] mata_in [0:27];
 	//reg [16-1:0] mata_out [0:27];
 	//reg [8-1:0] A, B;
@@ -15,7 +16,9 @@ module tb_ac;
 
     //wire [17-1:0] outa;
 	//wire [16-1:0] out;
-    reg signed [8-1:0] p_out;
+	reg signed [8-1:0] p_out;
+    //wire signed [8-1:0] p_out_2b;
+	//reg signed [8-1:0] p_out, p_out_b;
 	wire signed [8-1:0] out;
 	
 	
@@ -27,24 +30,39 @@ module tb_ac;
 	wire out_en;
 
     reg signed [16-1:0] bias;
-    reg [1:0] bound_level;
+    reg [2:0] bound_level;
     reg [2:0] step;
     reg en, en_relu, en_mp;
 
+	assign {ina[0], ina[1], ina[2], ina[3], ina[4], ina[5], ina[6], ina[7], ina[8]} = in;
+
+	
 	assign weightin = {weight[0], weight[1], weight[2], weight[3], weight[4], weight[5], weight[6], weight[7], weight[8]}; 
+
+	/*
+	assign p_out_t = (ina[0] * weight[0] + ina[1] * weight[1] + ina[2] * weight[2] + ina[3] * weight[3] + 
+				ina[4] * weight[4] + ina[5] * weight[5] + ina[6] * weight[6] + ina[7] * weight[7] + ina[8] * weight[8] + bias);
+	assign p_out_2b = p_out_t >> (11-bound_level);*/
 
 	//module PE(in, weight, bias, bound_level, step, en, out, out_en, clk, reset);
 	//PE P0(in, weightin, 16'b0000_0000_0000_0000, 2'b0, 3'b000, en, out, out_en, clk, reset);
 
-    /* arithmetic_core A0 (in, weightin, bias, bound_level, step, en,
-                            en_relu, en_mp, 
-                            out, out_en,
-                            clk, reset); */
-
-	arithmetic_core_mod A0 (in, weightin, bias, bound_level, step, en,
+    arithmetic_core A0 (in, weightin, bias, bound_level, step, en,
                             en_relu, en_mp, 
                             out, out_en,
                             clk, reset);
+
+	/*arithmetic_core_mod A0 (in, weightin, bias, bound_level, step, en,
+                            en_relu, en_mp, 
+                            out, out_en,
+                            clk, reset);*/
+
+	/*
+	always @(posedge clk) begin
+		p_out_b <= p_out_2b;
+		p_out <= p_out_b;
+	end
+	*/
 	
 	initial
 	begin
@@ -61,7 +79,7 @@ module tb_ac;
         bias <= 16'b0000_0000_0000_0000;
         en_relu <= 1;
         en_mp <= 1;
-        bound_level <= 2'b00;
+        bound_level <= 3'b000;
         step <= 3'b000;
 
 		#670
@@ -107,7 +125,7 @@ module tb_ac;
 		step <= 3'b000;
 		en_mp <= 0;
 		en_relu <= 0;
-		bound_level <= 2'b10;
+		bound_level <= 3'b010;
 		#12
 		reset <= 1;
 
@@ -119,7 +137,7 @@ module tb_ac;
 		step <= 3'b011;
 		en_mp <= 0;
 		en_relu <= 0;
-		bound_level <= 2'b00;
+		bound_level <= 3'b000;
 		#12
 		reset <= 1;
 		
@@ -130,6 +148,7 @@ module tb_ac;
 	end
 	
 	always #5 clk <= ~clk;
+
 	
     integer i=0, j=0;
 
@@ -221,7 +240,7 @@ module tb_ac;
 			#(60); //change if needed
 			for (j=0; j<16; j=j+1)
 			begin
-                p_out = mat_out[j];
+                p_out = mat_out[j]>>>1;
                 #(39);
 				if (out != p_out) err = err + 1;
 				#(1);
@@ -233,7 +252,7 @@ module tb_ac;
 			#(50); //change if needed
 			for (j=0; j<64; j=j+1)
 			begin
-                p_out = mat_out[j];
+                p_out = mat_out[j]>>>1;
                 #(9);
 				if ( (out != p_out) | out_en != 1) err = err + 1;
 				#(1);
@@ -245,7 +264,7 @@ module tb_ac;
 			#(50); //change if needed
 			for (j=0; j<8; j=j+1)
 			begin
-                p_out = mat_out[j];
+                p_out = mat_out[j]>>>1;
                 #(79);
 				if ( (out != p_out) | out_en != 1) err = err + 1;
 				#(1);
@@ -257,7 +276,7 @@ module tb_ac;
 			#(50); //change if needed
 			for (j=0; j<16; j=j+1)
 			begin
-                p_out = mat_out[j];
+                p_out = mat_out[j]>>>1;
                 #(39);
 				if ( (out != p_out) | out_en != 1) err = err + 1;
 				#(1);
@@ -269,7 +288,7 @@ module tb_ac;
 			#(50); //change if needed
 			for (j=0; j<16; j=j+1)
 			begin
-                p_out = mat_out[j];
+                p_out = mat_out[j]>>>1;
                 #(39);
 				if ( (out != p_out) | out_en != 1) err = err + 1;
 				#(1);
@@ -281,7 +300,7 @@ module tb_ac;
 			#(50); //change if needed
 			for (j=0; j<64; j=j+1)
 			begin
-                p_out = mat_out[j];
+                p_out = mat_out[j]>>>1;
                 #(9);
 				if ( (out != p_out) | out_en != 1) err = err + 1;
 				#(1);
@@ -293,7 +312,7 @@ module tb_ac;
 			#(30); //change if needed
 			for (j=0; j<16; j=j+1)
 			begin
-                p_out = mat_out[j];
+                p_out = mat_out[j]>>>1;
                 #(119);
 				if ( (out != p_out) | out_en != 1) err = err + 1;
 				#(1);

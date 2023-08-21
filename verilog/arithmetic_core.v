@@ -11,7 +11,7 @@ module arithmetic_core (in, weight, bias, bound_level, step, en,
     input [cell_bit*N_cell-1:0] in;
     input [cell_bit*N_cell-1:0] weight;
     input signed [biasport-1:0] bias;
-    input [1:0] bound_level;
+    input [2:0] bound_level;
     input [2:0] step;
     input en, en_relu, en_mp;
     input clk, reset;
