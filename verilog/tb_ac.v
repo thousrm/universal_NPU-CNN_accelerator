@@ -47,15 +47,15 @@ module tb_ac;
 	//module PE(in, weight, bias, bound_level, step, en, out, out_en, clk, reset);
 	//PE P0(in, weightin, 16'b0000_0000_0000_0000, 2'b0, 3'b000, en, out, out_en, clk, reset);
 
-    arithmetic_core A0 (in, weightin, bias, bound_level, step, en,
-                            en_relu, en_mp, 
-                            out, out_en,
-                            clk, reset);
-
-	/*arithmetic_core_mod A0 (in, weightin, bias, bound_level, step, en,
+    /*arithmetic_core A0 (in, weightin, bias, bound_level, step, en,
                             en_relu, en_mp, 
                             out, out_en,
                             clk, reset);*/
+
+	arithmetic_core_mod A0 (in, weightin, bias, bound_level, step, en,
+                            en_relu, en_mp, 
+                            out, out_en,
+                            clk, reset);
 
 	/*
 	always @(posedge clk) begin
@@ -232,7 +232,7 @@ module tb_ac;
 	end
 
 	
-	integer err = 0;
+	integer err = 0, err1 = 0;
 	initial
 	begin		
 		$readmemh("output_ac.txt", mat_out);
@@ -242,7 +242,9 @@ module tb_ac;
 			begin
                 p_out = mat_out[j]>>>1;
                 #(39);
+				if (out_en != 1) err = err + 1;
 				if (out != p_out) err = err + 1;
+				if (out - p_out > 'sd1 | out - p_out < -'sd1) err1 = err1 + 1;
 				#(1);
 			end
 		end
@@ -254,7 +256,9 @@ module tb_ac;
 			begin
                 p_out = mat_out[j]>>>1;
                 #(9);
-				if ( (out != p_out) | out_en != 1) err = err + 1;
+				if (out_en != 1) err = err + 1;
+				if (out != p_out) err = err + 1;
+				if (out - p_out > 'sd1 | out - p_out < -'sd1) err1 = err1 + 1;
 				#(1);
 			end
 		end
@@ -266,7 +270,9 @@ module tb_ac;
 			begin
                 p_out = mat_out[j]>>>1;
                 #(79);
-				if ( (out != p_out) | out_en != 1) err = err + 1;
+				if (out_en != 1) err = err + 1;
+				if (out != p_out) err = err + 1;
+				if (out - p_out > 'sd1 | out - p_out < -'sd1) err1 = err1 + 1;
 				#(1);
 			end
 		end
@@ -278,7 +284,9 @@ module tb_ac;
 			begin
                 p_out = mat_out[j]>>>1;
                 #(39);
-				if ( (out != p_out) | out_en != 1) err = err + 1;
+				if (out_en != 1) err = err + 1;
+				if (out != p_out) err = err + 1;
+				if (out - p_out > 'sd1 | out - p_out < -'sd1) err1 = err1 + 1;
 				#(1);
 			end
 		end
@@ -290,7 +298,9 @@ module tb_ac;
 			begin
                 p_out = mat_out[j]>>>1;
                 #(39);
-				if ( (out != p_out) | out_en != 1) err = err + 1;
+				if (out_en != 1) err = err + 1;
+				if (out != p_out) err = err + 1;
+				if (out - p_out > 'sd1 | out - p_out < -'sd1) err1 = err1 + 1;
 				#(1);
 			end
 		end
@@ -302,7 +312,9 @@ module tb_ac;
 			begin
                 p_out = mat_out[j]>>>1;
                 #(9);
-				if ( (out != p_out) | out_en != 1) err = err + 1;
+				if (out_en != 1) err = err + 1;
+				if (out != p_out) err = err + 1;
+				if (out - p_out > 'sd1 | out - p_out < -'sd1) err1 = err1 + 1;
 				#(1);
 			end
 		end
@@ -314,7 +326,9 @@ module tb_ac;
 			begin
                 p_out = mat_out[j]>>>1;
                 #(119);
-				if ( (out != p_out) | out_en != 1) err = err + 1;
+				if (out_en != 1) err = err + 1;
+				if (out != p_out) err = err + 1;
+				if (out - p_out > 'sd1 | out - p_out < -'sd1) err1 = err1 + 1;
 				#(1);
 			end
 		end

@@ -656,6 +656,30 @@ r1
 !i113 1
 R12
 R13
+vAP
+!s110 1692680337
+!i10b 1
+!s100 XMGBl<?n?^gR@hRaT=NTY1
+R2
+IVo:jSl3NzF;>M`eVWZi^_3
+R3
+R0
+w1692680335
+8C:\Users\thouh\Desktop\npu\verilog\Arithmatic_part.v
+FC:\Users\thouh\Desktop\npu\verilog\Arithmatic_part.v
+!i122 231
+L0 2 29
+R8
+r1
+!s85 0
+31
+!s108 1692680337.000000
+!s107 C:\Users\thouh\Desktop\npu\verilog\Arithmatic_part.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\Arithmatic_part.v|
+!i113 1
+R12
+R13
+n@a@p
 varithmetic_core
 !s110 1692600785
 !i10b 1
@@ -1133,23 +1157,23 @@ R12
 R13
 n@p@e
 vPE_m
-!s110 1692605572
+!s110 1692669308
 !i10b 1
-!s100 f6]VEWokljUgh`J6F]24S2
+!s100 lkNk0]:aG2R>^KGM9:[Fh0
 R2
-IW`hTgYfiQg>kfDWj0Kh473
+I:0^0SPfj@kXQAK0Em5]2M2
 R3
 R0
-w1692605568
+w1692669299
 8C:\Users\thouh\Desktop\npu\verilog\Processing_element_mod.v
 FC:\Users\thouh\Desktop\npu\verilog\Processing_element_mod.v
-!i122 222
-L0 1 236
+!i122 227
+L0 1 237
 R8
 r1
 !s85 0
 31
-!s108 1692605572.000000
+!s108 1692669308.000000
 !s107 C:\Users\thouh\Desktop\npu\verilog\Processing_element_mod.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\Processing_element_mod.v|
 !i113 1
@@ -1204,23 +1228,23 @@ R78
 R12
 R13
 vtb_ac
-!s110 1692605758
+!s110 1692669561
 !i10b 1
-!s100 i_P;UfBh_?LBb0k`n2D3U3
+!s100 YDEn`fe93G8AYKWg`kPaX3
 R2
-Iz6E4AhfP?;M[0U^LQm_Fc1
+I]if@XI<WL5NDaXk=221]R0
 R3
 R0
-w1692605755
+w1692669558
 8C:\Users\thouh\Desktop\npu\verilog\tb_ac.v
 FC:\Users\thouh\Desktop\npu\verilog\tb_ac.v
-!i122 225
-L0 4 324
+!i122 228
+L0 4 338
 R8
 r1
 !s85 0
 31
-!s108 1692605758.000000
+!s108 1692669561.000000
 !s107 C:\Users\thouh\Desktop\npu\verilog\tb_ac.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\tb_ac.v|
 !i113 1
