@@ -1133,23 +1133,23 @@ R36
 R12
 R13
 vPE
-!s110 1692602010
+!s110 1692775416
 !i10b 1
-!s100 @Nm]l:Y9:VScii7^;gFgD3
+!s100 @MZ<HfjlmaJB_mFQRG<_@1
 R2
-IXR3hQ=GFD[Xgz[lPgnDnh3
+IkK3hNMoD]:mUI0OolZF:>2
 R3
 R0
-w1692602000
+w1692775410
 8C:\Users\thouh\Desktop\npu\verilog\Processing_element.v
 FC:\Users\thouh\Desktop\npu\verilog\Processing_element.v
-!i122 211
+!i122 244
 L0 1 233
 R8
 r1
 !s85 0
 31
-!s108 1692602010.000000
+!s108 1692775416.000000
 !s107 C:\Users\thouh\Desktop\npu\verilog\Processing_element.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\Processing_element.v|
 !i113 1
@@ -1385,6 +1385,29 @@ r1
 R64
 !s107 C:\Users\thouh\Desktop\npu\verilog\tb_addertree3.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\tb_addertree3.v|
+!i113 1
+R12
+R13
+vtb_ap
+!s110 1692777786
+!i10b 1
+!s100 4hd^9;dg8fOe]1U`Y=l<?3
+R2
+IhGm6bEUi8OJQX>4G0^g8g1
+R3
+R0
+w1692777783
+8C:\Users\thouh\Desktop\npu\verilog\tb_ap.v
+FC:\Users\thouh\Desktop\npu\verilog\tb_ap.v
+!i122 248
+L0 3 157
+R8
+r1
+!s85 0
+31
+!s108 1692777785.000000
+!s107 C:\Users\thouh\Desktop\npu\verilog\tb_ap.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\tb_ap.v|
 !i113 1
 R12
 R13
