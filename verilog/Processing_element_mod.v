@@ -141,24 +141,24 @@ assign chk_over[4] = oxor[0] & oxor[1] & oxor[2] & oxor[3] & oxor[4];
 assign chk_over[5] = oxor[0] & oxor[1] & oxor[2] & oxor[3] & oxor[4] & oxor[5];
 
 assign b_out[6:0] =   bound_level_d == 3'b001 ?
-                            chk_over[1] == 1'b0 ? {7{~addout[outport_add]}}
+                            chk_over[1] == 1'b0 ? {7{~addout[outport_add-1]}}
                                 : addout[outport_add-4-:7]
 
                     : bound_level_d == 3'b010 ?
-                            chk_over[2] == 1'b0 ? {7{~addout[outport_add]}}
+                            chk_over[2] == 1'b0 ? {7{~addout[outport_add-1]}}
                                 : addout[outport_add-5-:7]
                     
                     : bound_level_d == 3'b011 ?
-                            chk_over[3] == 1'b0 ? {7{~addout[outport_add]}}
+                            chk_over[3] == 1'b0 ? {7{~addout[outport_add-1]}}
                                 : addout[outport_add-6-:7]
                     : bound_level_d == 3'b100 ?
-                            chk_over[4] == 1'b0 ? {7{~addout[outport_add]}}
+                            chk_over[4] == 1'b0 ? {7{~addout[outport_add-1]}}
                                 : addout[outport_add-7-:7]
                     : bound_level_d == 3'b101 ?
-                            chk_over[5] == 1'b0 ? {7{~addout[outport_add]}}
+                            chk_over[5] == 1'b0 ? {7{~addout[outport_add-1]}}
                                 : addout[outport_add-8-:7]
                     
-                    : chk_over[0] == 1'b0 ? {7{~addout[outport_add]}}
+                    : chk_over[0] == 1'b0 ? {7{~addout[outport_add-1]}}
                                 : addout[outport_add-3-:7];
 
 wire signed [outport-1:0] pre_output_b;
@@ -166,9 +166,9 @@ wire signed [outport-1:0] pre_output_b;
 assign pre_output[outport_add-2] = pre_output_b[7];
 assign pre_output[outport_add-3:0] =   bound_level_d == 3'b001 ? {pre_output_b[7], pre_output_b[6:0], 4'b0000}
                                     :  bound_level_d == 3'b010 ? {pre_output_b[7], pre_output_b[7], pre_output_b[6:0], 3'b000}
-                                    :  bound_level_d == 3'b010 ? {pre_output_b[7], pre_output_b[7], pre_output_b[7], pre_output_b[6:0], 2'b00}
-                                    :  bound_level_d == 3'b010 ? {pre_output_b[7], pre_output_b[7], pre_output_b[7], pre_output_b[7], pre_output_b[6:0], 1'b0}
-                                    :  bound_level_d == 3'b010 ? {pre_output_b[7], pre_output_b[7], pre_output_b[7], pre_output_b[7], pre_output_b[7], pre_output_b[6:0]}
+                                    :  bound_level_d == 3'b011 ? {pre_output_b[7], pre_output_b[7], pre_output_b[7], pre_output_b[6:0], 2'b00}
+                                    :  bound_level_d == 3'b100 ? {pre_output_b[7], pre_output_b[7], pre_output_b[7], pre_output_b[7], pre_output_b[6:0], 1'b0}
+                                    :  bound_level_d == 3'b101 ? {pre_output_b[7], pre_output_b[7], pre_output_b[7], pre_output_b[7], pre_output_b[7], pre_output_b[6:0]}
                                     :  {pre_output_b[6:0], 5'b00000};
 
 

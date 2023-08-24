@@ -77,7 +77,6 @@ input [2:0] bound_level;
 wire [2:0] bound_level_d;
 input [2:0] step;
 wire [2:0] step_d;
-wire signed [biasport-1:0] bias_d;
 wire [outport_add-2:0] pre_output;
 
 D_FF119 FF0 ({ao18, ao17, ao16, ao15, ao14, ao13, ao12, ao11, ao10, ao9, ao8, ao7, ao6, ao5, ao4, ao3},           
