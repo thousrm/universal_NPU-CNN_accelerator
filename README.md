@@ -1,5 +1,5 @@
 # Universal_NPU-CNN_Accelerator
-### hardware design of universal NPU (CNN accelerator) for various convolution neural network
+### hardware design of universal NPU (CNN accelerator) for various convolution neural networks
 
 It can perform various cnns by calculating convolution for multiple clock cycles.
 
@@ -15,9 +15,28 @@ If you have suitable tools, such as design compiler or else, please give me timi
 ---
 # Descripton
 
-input
+### Mechanism
+It'
 
-module
+ <br/> 
+
+### Input
+
+|Input|Description|
+|:---|:---|
+|in|Port for input feature map. Each input data is 8bit, and this port receives 9 input datas every clock cycle.|
+|weight|Port for weights of filters. Each weight is 8bit, and this port receives 9*8 weights every clock cycle. <br/> But it can only receive 9 weights per filter in a clock cycle.|
+|bias|Port for biases of filters. Each bias is 16bit, and this port receives 8 biases every clock cycle.|
+|bound_level|Port for setting a maximum value and step size of data. <br/> output (bound_level=n) = output (bound_level=0) * 2^n |
+|step|Port for setting the period for convolution. <br/> If you set step=2, processing_element module will compute the convolution for 3 clock cycles, <br/>  so it can be used to compute a filter with 27 weights. |
+|en|Input data validation port|
+|en_relu|Port for enabling relu function|
+|en_mp|Port for enabling max pooling function|
+
+ <br/> 
+ 
+### Module
+dd
 
 
 
@@ -26,6 +45,10 @@ module
 1. run generate_par.py (I use pycharm)
 2. simulate tb_ap
 3. run predict.py
+
+If you want to use this module for other cnn model, you have to edit tb_ap for it.
+
+Because control part is not implemented yet, so it can't be done automatically.
 
 <br/>
 
@@ -75,6 +98,14 @@ layer0~3 are calculated by the accelerator.
 <br/>
 <br/>
 
+### multiplier
+
+![multiplier](https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/61ab435a-f7a7-4598-a08d-5bc963d8a909)
+
+&nbsp;
+<br/>
+<br/>
+
 ### Relu
 
 ![image](https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/d0748433-32b7-4fa2-b8cb-4f1216470b67)
@@ -91,7 +122,9 @@ layer0~3 are calculated by the accelerator.
 <br/>
 <br/>
 
-### multiplier
+
+
+
 
 
 
