@@ -136,6 +136,14 @@ layer0~3 are calculated by the accelerator.
 <br/>
 <br/>
 
+### adder_final
+
+![adder_final](https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/a8f3cbea-325c-4a4d-b6f3-fdb58b64a3b9)
+
+&nbsp;
+<br/>
+<br/>
+
 ### Relu
 
 ![image](https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/d0748433-32b7-4fa2-b8cb-4f1216470b67)
