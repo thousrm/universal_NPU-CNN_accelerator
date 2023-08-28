@@ -48,14 +48,24 @@ As a result, the output becomes previous weight * previous input + current weigh
 
 |Module|Description|
 |:---|:---|
+|tb_ap|testbench for ap module.|
 |AP|Arithmetic part module. It's a top module of arithmetic part and contains 8 arithmetic_core modules.|
 |arithmetic_core|arithmetic_core module contains PE(processing_element), relu and maxpooling module. Whole computation is done in this module.|
 |arithmetic_core_mod|It's almost same with arithmetic_core, but it uses PE_m instead of PE.|
-|||
-|||
-|||
-|||
-|||
+|PE|processing element module. It performs convoulution and contains many modules.|
+|PE_m| It's almost same witn PE, but it can accept more unstable sigals.|
+|relu|It performs relu function.|
+|maxpooling|It performs maxpooling.|
+|multiplier|It generates partial products from multiplicands and multipliers.|
+|PPG|It generates 1 partial product from 1 multiplicand and 1 multiplier.|
+|MBE_enc|It transforms a multiplier using modified booth algorithm|
+|addertree_stage1|First step of the wallce tree.|
+|addertree_stage2|Second step of the wallce tree.|
+|addertree_stage3|Third and fourth step of the wallce tree.|
+|adder_final|Last step of the wallce tree. It contains half adder, full adder and carry look ahead adders.|
+|Many types of adders|There are so many adders. <br/>  <br/> **IMPORTANT** <br/> There are various adders for same function but have different structure. You have to choose from them to enhance efficiency. <br/> For example, adder_15to4, adder_15to4_mod and adder_15to4_mod2 are all adders for computing 15 inputs addition, but their architectures are quite different.|
+
+
 
 
 
