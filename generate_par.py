@@ -28,10 +28,10 @@ img_int = img_tensor[0,:,:].astype(int)
 np.savetxt("verilog/input_map_hex.txt", img_int, delimiter="", fmt= '%02x')
 
 wei0_int = (weight0[:,:,0,0]*256).astype(int)
-np.savetxt("verilog/l0c0 weight.txt.txt", np.vectorize(np.binary_repr)(wei0_int, 8), delimiter="\n", fmt= '%s')
+np.savetxt("verilog/l0c0 weight.txt", np.vectorize(np.binary_repr)(wei0_int, 8), delimiter="\n", fmt= '%s')
 
 bias0_int = (bias0*128).astype(np.int8)
-np.savetxt("verilog/l0c0 bias.txt", np.vectorize(np.binary_repr)(bias0_int, 16), delimiter="\n", fmt= '%s')
+np.savetxt("verilog/l0 bias.txt", np.vectorize(np.binary_repr)(bias0_int, 16), delimiter="\n", fmt= '%s')
 
 
 
