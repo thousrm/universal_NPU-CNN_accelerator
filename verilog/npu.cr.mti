@@ -54,13 +54,6 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 Top level modules:
 	multiplier
 
-} {} {}} C:/Users/thouh/Desktop/npu/verilog/Multiply.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/Multiply.v
-Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling module M_8
-
-Top level modules:
-	M_8
-
 } {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_ac.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\tb_ac.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
 -- Compiling module tb_ac
@@ -213,19 +206,6 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 
 Top level modules:
 	relu
-
-} {} {}} C:/Users/thouh/Desktop/npu/verilog/Adder.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/Adder.v
-Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling module A_16
--- Compiling module A_17
--- Compiling module A_18_f
--- Compiling module A_8_f
-
-Top level modules:
-	A_16
-	A_17
-	A_18_f
-	A_8_f
 
 } {} {}} C:/Users/thouh/Desktop/npu/verilog/adder_11to4.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\adder_11to4.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
