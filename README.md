@@ -16,7 +16,16 @@ If you have suitable tools, such as design compiler or else, please give me timi
 # Descripton
 
 ### Mechanism
-It'
+
+The whole process is Modified Booth Algorithm -> Wallace Tree -> Relu -> Maxpooling.
+
+Since you can already find plenty of information on the Internet and elsewhere about each step, I won't explain them.
+
+Mechanism for calculating a variety of CNN is so simple. The processing_element module can store its output in a flip-flop, so it can be used in the next clock.
+
+Wallace tree (adder tree) receives previous output from flip-flop and adds it with current multiplication output.
+
+As a result, the output becomes previous weight * previous input + current weight * current input + bias. It's a result of convolution has over 9 weights.
 
  <br/> 
 
@@ -36,7 +45,18 @@ It'
  <br/> 
  
 ### Module
-dd
+
+|Module|Description|
+|:---|:---|
+|AP|Arithmetic part module. It's a top module of arithmetic part and contains 8 arithmetic_core modules.|
+|arithmetic_core|arithmetic_core module contains PE(processing_element), relu and maxpooling module. Whole computation is done in this module.|
+|arithmetic_core_mod|It's almost same with arithmetic_core, but it uses PE_m instead of PE.|
+|||
+|||
+|||
+|||
+|||
+
 
 
 
@@ -48,7 +68,7 @@ dd
 
 If you want to use this module for other cnn model, you have to edit tb_ap for it.
 
-Because control part is not implemented yet, so it can't be done automatically.
+Because control part is not implemented yet, it can't be done automatically.
 
 <br/>
 
