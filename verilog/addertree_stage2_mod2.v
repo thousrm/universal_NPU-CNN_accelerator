@@ -25,7 +25,8 @@ input [13:1] pre_output;
 
 wire p19;
 output o19;
-output [2:0] o18, o17;
+output [1:0] o18;
+output [2:0] o17;
 output [3:0] o16, o15, o14, o13, o12, o11, o10, o9, o8, o7;
 output [2:0] o6, o5;
 output [1:0] o4;
@@ -41,7 +42,7 @@ HA A180(x18,           pre_output[13],             o18[0], p19);
 HA A170(x17,           pre_output[12],                  o17[0], o18[1]);
 
 // x16 3 - 3
-FA A160(x16[0], x16[1],  pre_output[11],                o17[1], o18[2]);
+FA A160(x16[0], x16[1],  pre_output[11],                o16[0], o17[1]);
 
 // x15 5 - 5
 adder_5to3 A150({x15,  pre_output[10]},                         o17[2], o16[1], o15[0]);

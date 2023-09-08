@@ -28,9 +28,9 @@ wire [8:0] O1;
 wire [17:0] O0;
 
 wire ao18;
-wire [1:0] ao17;
-wire [2:0] ao16;
-wire [4:0] ao15, ao14;
+wire ao17;
+wire [1:0] ao16;
+wire [3:0] ao15, ao14;
 wire [6:0] ao13;
 wire [8:0] ao12;
 wire [9:0] ao11;
@@ -39,7 +39,7 @@ wire [11:0] ao9;
 wire [10:0] ao8;
 wire [9:0] ao7;
 wire [9:0] ao6;
-wire [8:0] ao5;
+wire [7:0] ao5;
 wire [7:0] ao4;
 wire [5:0] ao3;
 
@@ -55,9 +55,9 @@ addertree_stage1_mod2 AT10(O14, O13, O12, O11, O10, O9, O8, O7, O6, O5, O4, O3, 
 /////////////////////////////////////////////
 
 wire ao18_d;
-wire [1:0] ao17_d;
-wire [2:0] ao16_d;
-wire [4:0] ao15_d, ao14_d;
+wire ao17_d;
+wire [1:0] ao16_d;
+wire [3:0] ao15_d, ao14_d;
 wire [6:0] ao13_d;
 wire [8:0] ao12_d;
 wire [9:0] ao11_d;
@@ -66,7 +66,7 @@ wire [11:0] ao9_d;
 wire [10:0] ao8_d;
 wire [9:0] ao7_d;
 wire [9:0] ao6_d;
-wire [8:0] ao5_d;
+wire [7:0] ao5_d;
 wire [7:0] ao4_d;
 wire [5:0] ao3_d;
 
@@ -80,7 +80,7 @@ wire [2:0] step_d;
 wire [7:0] bias_d;
 wire [outport_add-2:0] pre_output;
 
-D_FF119 FF0 ({ao18, ao17, ao16, ao15, ao14, ao13, ao12, ao11, ao10, ao9, ao8, ao7, ao6, ao5, ao4, ao3},           
+D_FF114 FF0 ({ao18, ao17, ao16, ao15, ao14, ao13, ao12, ao11, ao10, ao9, ao8, ao7, ao6, ao5, ao4, ao3},           
                 {ao18_d, ao17_d, ao16_d, ao15_d, ao14_d, ao13_d, ao12_d, ao11_d, ao10_d, ao9_d, ao8_d, ao7_d, ao6_d, ao5_d, ao4_d, ao3_d},
                  clk, reset);
 D_FF1 F3 (en, en_d, clk, reset);
@@ -90,7 +90,8 @@ D_FF8 Fbias(bias[biasport-1-:8], bias_d, clk, reset);
 
 
 wire o19;
-wire [2:0] o18, o17;
+wire [1:0] o18;
+wire [2:0] o17;
 wire [3:0] o16, o15, o14, o13, o12, o11, o10, o9, o8, o7;
 wire [2:0] o6, o5;
 wire [1:0] o4;
@@ -101,12 +102,12 @@ wire a5;
 
 wire [outport_add-1:0] addout;
 
-addertree_stage2 AT20(ao18_d, ao17_d, ao16_d, ao15_d, ao14_d, ao13_d, ao12_d, ao11_d, ao10_d, ao9_d, ao8_d, ao7_d, ao6_d, ao5_d, ao4_d, ao3_d,
+addertree_stage2_mod2 AT20(ao18_d, ao17_d, ao16_d, ao15_d, ao14_d, ao13_d, ao12_d, ao11_d, ao10_d, ao9_d, ao8_d, ao7_d, ao6_d, ao5_d, ao4_d, ao3_d,
                     pre_output,
                     o19, o18, o17, o16, o15, o14, o13, o12, o11, o10, o9, o8, o7, o6, o5, o4, o3
                     );
 
-addertree_stage3 AT30(o19, o18, o17, o16, o15, o14, o13, o12, o11, o10, o9, o8, o7, o6, o5, o4, o3,
+addertree_stage3_mod2 AT30(o19, o18, o17, o16, o15, o14, o13, o12, o11, o10, o9, o8, o7, o6, o5, o4, o3,
                     a19, a18, a17, a16, a15, a14, a13, a12, a11, a10, a9, a8, a7, a6, a5
                     );
 
