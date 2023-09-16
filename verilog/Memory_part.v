@@ -1,41 +1,93 @@
 
-module memory_part(write_w, write_h, write,
-                    read_w0, read_w1, read_w2, read_w3, read_w4, read_w5, read_w6, read_w7, read_w8,
-                    read_h0, read_h1, read_h2, read_h3, read_h4, read_h5, read_h6, read_h7, read_h8,
-                    clk,
-                    read0, read1, read2, read3, read4, read5, read6, read7, read8
-                    );
+module memory_part
+#(
 
-parameter width = 16;
-parameter height = 16;
-parameter width_b = 4;
-parameter height_b = 4;
+parameter width = 57,
+parameter height = 8
 
-input clk;
+parameter width_b = 6,
+parameter height_b = 3
+
+)
+
+(
+write_w, write_h, write,
+
+readi_w, readi_h, readi,
+
+readw_w, readw,
+
+fmap, weight
+
+en, set, clk
+);
+
+parameter step0 = width - 9;
+parameter step1 = width - 18;
+parameter step2 = width - 27;
+parameter step3 = width - 36;
+parameter step4 = width - 45;
+parameter step5 = width - 49;
+
 
 input [width_b-1:0]  write_w;
 input [height_b-1:0]  write_h;
-input [7:0] write;
+input [8*9-1:0] write;
 
-input [width_b-1:0]  read_w0, read_w1, read_w2, read_w3, read_w4, read_w5, read_w6, read_w7, read_w8;
-input [height_b-1:0]  read_h0, read_h1, read_h2, read_h3, read_h4, read_h5, read_h6, read_h7, read_h8;
-output reg [7:0] read0, read1, read2, read3, read4, read5, read6, read7, read8;
+input [2:0] readi_w;
+input [height_b*9-1:0]  readi_h;
+
+input [width_b-1:0] count;
+
+input en, clk;
+
+output[8*9-1:0] fmap;
+output[8*9*8-1:0] weight;
 
 
-reg [7:0] mem[0:width][0:height];
+
+wire [width_b-1:0]  readi_w0, readi_w1, readi_w2, readi_w3, readi_w4, readi_w5, readi_w6, readi_w7, readi_w8;
+wire [height_b-1:0]  readi_h0, readi_h1, readi_h2, readi_h3, readi_h4, readi_h5, readi_h6, readi_h7, readi_h8;
+reg [7:0] readi0, readi1, readi2, readi3, readi4, readi5, readi6, readi7, readi8;
+
+reg [8*9-1:0] readw0, readw1, readw2, readw3, readw4, readw5, readw6, readw7, readw8;
+
+reg [2:0] count_p;
+
+assign {readi_w0, readi_w1, readi_w2, readi_w3, readi_w4, readi_w5, readi_w6, readi_w7, readi_w8} = readi_w;
+assign {readi_h0, readi_h1, readi_h2, readi_h3, readi_h4, readi_h5, readi_h6, readi_h7, readi_h8} = readi_h;
+
+
+assign fmap = {readi0, readi1, readi2, readi3, readi4, readi5, readi6, readi7, readi8};
+assign weight = {readw0, readw1, readw2, readw3, readw4, readw5, readw6, readw7, readw8};
+
+
+
+
+reg [7:0] mem[0:width-1][0:height-1];
 
 always @(posedge clk) begin
 
-    mem[write_w][write_h] <= write;
-    read0 <= mem[read_w0][read_h0];
-    read1 <= mem[read_w1][read_h1];
-    read2 <= mem[read_w2][read_h2];
-    read3 <= mem[read_w3][read_h3];
-    read4 <= mem[read_w4][read_h4];
-    read5 <= mem[read_w5][read_h5];
-    read6 <= mem[read_w6][read_h6];
-    read7 <= mem[read_w7][read_h7];
-    read8 <= mem[read_w8][read_h8];
+    readi0 <= mem[readi_w0][readi_h0];
+    readi1 <= mem[readi_w1][readi_h1];
+    readi2 <= mem[readi_w2][readi_h2];
+    readi3 <= mem[readi_w3][readi_h3];
+    readi4 <= mem[readi_w4][readi_h4];
+    readi5 <= mem[readi_w5][readi_h5];
+    readi6 <= mem[readi_w6][readi_h6];
+    readi7 <= mem[readi_w7][readi_h7];
+    readi8 <= mem[readi_w8][readi_h8];
+
+    if (en == 1) begin
+        if (set == 1) begin
+            case(count)
+
+
+
+
+            endcase
+        end
+    end
 
 end
 
