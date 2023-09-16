@@ -76,7 +76,7 @@ As a result, the output becomes previous weight * previous input + current weigh
 2. simulate tb_ap
 3. run predict.py
 
-If you want to use this module for other cnn model, you have to edit tb_ap for it.
+If you want to use this module for other cnn model, you have to edit generate_par.py, tb_ap and predict.py for it.
 
 Because control part is not implemented yet, it can't be done automatically.
 
