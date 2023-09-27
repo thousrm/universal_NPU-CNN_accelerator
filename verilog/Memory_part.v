@@ -2,24 +2,25 @@
 module memory_part
 #(
 
-parameter width = 57,
+parameter width = 80,
 parameter height = 8,
 
-parameter width_b = 6,
+parameter width_b = 7,
 parameter height_b = 3
 
 )
 
 (
-write_w, write_h, write,
+    write_w, write_h, write, // from control
+    readi_w, readi_h,
+    step, en,
 
-readi_w, readi_h,
+    biases, // to control
 
-mode, step,
+    fmap, weight, // to pe
 
-fmap, weight,
+    clk
 
- en, clk
 );
 
 parameter step0 = width - 9;
@@ -27,21 +28,25 @@ parameter step1 = width - 18;
 parameter step2 = width - 27;
 parameter step3 = width - 36;
 parameter step4 = width - 45;
-parameter step5 = width - 49;
+parameter step5 = width - 54;
+
+parameter bias = 2;
 
 
 input [width_b-1:0]  write_w;
 input [height_b-1:0]  write_h;
 input [8*9-1:0] write;
 
-input [2:0] readi_w;
+input [width_b*9-1:0] readi_w;
 input [height_b*9-1:0]  readi_h;
 
 input [2:0] step;
-input mode, en, clk;
+input [8:0] en;
+input clk;
 
-output[8*9-1:0] fmap;
-output[8*9*8-1:0] weight;
+output [8*9-1:0] fmap;
+output [8*9*8-1:0] weight;
+output [16*8-1:0] biases;
 
 
 
@@ -59,9 +64,22 @@ assign fmap = {readi0, readi1, readi2, readi3, readi4, readi5, readi6, readi7, r
 assign weight = {readw0, readw1, readw2, readw3, readw4, readw5, readw6, readw7, readw8};
 
 
+reg [7:0] mem[0:width-1+bias][0:height-1];
+
+    // read bias
+assign biases = {mem[width-1+bias-1][0], mem[width-1+bias][0], 
+             mem[width-1+bias-1][1], mem[width-1+bias][1], 
+             mem[width-1+bias-1][2], mem[width-1+bias][2], 
+             mem[width-1+bias-1][3], mem[width-1+bias][3], 
+             mem[width-1+bias-1][4], mem[width-1+bias][4], 
+             mem[width-1+bias-1][5], mem[width-1+bias][5], 
+             mem[width-1+bias-1][6], mem[width-1+bias][6], 
+             mem[width-1+bias-1][7], mem[width-1+bias][7]};
 
 
-reg [7:0] mem[0:width-1][0:height-1];
+
+
+
 
 always @(posedge clk) begin
     // read feature map
@@ -147,22 +165,42 @@ always @(posedge clk) begin
 
 
     //write
-    if (en == 1) begin
-        // write 1 mem
+    if (en[8] == 1) begin
         mem[write_w][write_h] <= write[8*9-1-:8];
-
-        // write 8 mems more
-        if (mode == 1) begin        
-            mem[write_w+1][write_h] <= write[8*9-1-1*8-:8];
-            mem[write_w+2][write_h] <= write[8*9-1-2*8-:8];
-            mem[write_w+3][write_h] <= write[8*9-1-3*8-:8];
-            mem[write_w+4][write_h] <= write[8*9-1-4*8-:8];
-            mem[write_w+5][write_h] <= write[8*9-1-5*8-:8];
-            mem[write_w+6][write_h] <= write[8*9-1-6*8-:8];
-            mem[write_w+7][write_h] <= write[8*9-1-7*8-:8];
-            mem[write_w+8][write_h] <= write[8*9-1-8*8-:8];       
-        end
     end
+
+    if (en[7] == 1) begin
+        mem[write_w+1][write_h] <= write[8*9-1-1*8-:8];
+    end
+
+    if (en[6] == 1) begin
+        mem[write_w+2][write_h] <= write[8*9-1-2*8-:8];
+    end
+
+    if (en[5] == 1) begin
+        mem[write_w+3][write_h] <= write[8*9-1-3*8-:8];
+    end
+
+    if (en[4] == 1) begin
+        mem[write_w+4][write_h] <= write[8*9-1-4*8-:8];
+    end
+
+    if (en[3] == 1) begin
+        mem[write_w+5][write_h] <= write[8*9-1-5*8-:8];
+    end
+
+    if (en[2] == 1) begin
+        mem[write_w+6][write_h] <= write[8*9-1-6*8-:8];
+    end
+
+    if (en[1] == 1) begin
+        mem[write_w+7][write_h] <= write[8*9-1-7*8-:8];
+    end
+
+    if (en[0] == 1) begin
+        mem[write_w+8][write_h] <= write[8*9-1-8*8-:8]; 
+    end    
+            
 
 
 end
