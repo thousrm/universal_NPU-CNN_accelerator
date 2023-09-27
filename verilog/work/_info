@@ -868,23 +868,23 @@ R12
 R13
 n@c@l@g4_3
 vcontrol_part_simple
-!s110 1695812481
+!s110 1695813103
 !i10b 1
-!s100 =9?ONjFAkDlUAP42`a?[11
+!s100 Y5_j;045Yh56U`UHFVD9=1
 R2
-I?kSE4A]NB057Ko9DLkiZh3
+IQ^6=]6Efon8HW]eJV;=`02
 R3
 R0
-w1695812478
+w1695813101
 8C:\Users\thouh\Desktop\npu\verilog\Control_part_simple.v
 FC:\Users\thouh\Desktop\npu\verilog\Control_part_simple.v
-!i122 287
-L0 3 101
+!i122 288
+L0 3 104
 R8
 r1
 !s85 0
 31
-!s108 1695812481.000000
+!s108 1695813103.000000
 !s107 C:\Users\thouh\Desktop\npu\verilog\Control_part_simple.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\Control_part_simple.v|
 !i113 1
