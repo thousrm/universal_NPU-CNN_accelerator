@@ -867,6 +867,29 @@ R68
 R12
 R13
 n@c@l@g4_3
+vcontrol_part_simple
+!s110 1695812481
+!i10b 1
+!s100 =9?ONjFAkDlUAP42`a?[11
+R2
+I?kSE4A]NB057Ko9DLkiZh3
+R3
+R0
+w1695812478
+8C:\Users\thouh\Desktop\npu\verilog\Control_part_simple.v
+FC:\Users\thouh\Desktop\npu\verilog\Control_part_simple.v
+!i122 287
+L0 3 101
+R8
+r1
+!s85 0
+31
+!s108 1695812481.000000
+!s107 C:\Users\thouh\Desktop\npu\verilog\Control_part_simple.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\Control_part_simple.v|
+!i113 1
+R12
+R13
 vD_FF1
 R60
 !i10b 1
@@ -1227,23 +1250,23 @@ R12
 R13
 n@m@b@e_enc
 vmemory_part
-!s110 1695042800
+!s110 1695812098
 !i10b 1
-!s100 8WVbY]fTBR5OM>4dkT2[S0
+!s100 Kc@3H0HAgel]DgzakI1<L2
 R2
-I4cS8FT9dm;B=F9AQX_`:R0
+IDO?^JYN]eVWGj]n6kQkQX2
 R3
 R0
-w1695042795
+w1695798534
 8C:\Users\thouh\Desktop\npu\verilog\Memory_part.v
 FC:\Users\thouh\Desktop\npu\verilog\Memory_part.v
-!i122 279
-L0 2 169
+!i122 282
+L0 2 207
 R8
 r1
 !s85 0
 31
-!s108 1695042800.000000
+!s108 1695812098.000000
 !s107 C:\Users\thouh\Desktop\npu\verilog\Memory_part.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\Memory_part.v|
 !i113 1
