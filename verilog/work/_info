@@ -868,23 +868,23 @@ R12
 R13
 n@c@l@g4_3
 vcontrol_part_simple
-!s110 1695813103
+!s110 1696334963
 !i10b 1
-!s100 Y5_j;045Yh56U`UHFVD9=1
+!s100 0O39_nMn2_4ZQAZ<4neIK0
 R2
-IQ^6=]6Efon8HW]eJV;=`02
+I3`GNB;_8=6jCMP0XR:QVB1
 R3
 R0
-w1695813101
+w1696334911
 8C:\Users\thouh\Desktop\npu\verilog\Control_part_simple.v
 FC:\Users\thouh\Desktop\npu\verilog\Control_part_simple.v
-!i122 288
-L0 3 104
+!i122 293
+L0 3 102
 R8
 r1
 !s85 0
 31
-!s108 1695813103.000000
+!s108 1696334963.000000
 !s107 C:\Users\thouh\Desktop\npu\verilog\Control_part_simple.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\Control_part_simple.v|
 !i113 1
@@ -1250,23 +1250,23 @@ R12
 R13
 n@m@b@e_enc
 vmemory_part
-!s110 1695812098
+!s110 1696334619
 !i10b 1
 !s100 Kc@3H0HAgel]DgzakI1<L2
 R2
 IDO?^JYN]eVWGj]n6kQkQX2
 R3
 R0
-w1695798534
+w1696333670
 8C:\Users\thouh\Desktop\npu\verilog\Memory_part.v
 FC:\Users\thouh\Desktop\npu\verilog\Memory_part.v
-!i122 282
+!i122 291
 L0 2 207
 R8
 r1
 !s85 0
 31
-!s108 1695812098.000000
+!s108 1696334618.000000
 !s107 C:\Users\thouh\Desktop\npu\verilog\Memory_part.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\Memory_part.v|
 !i113 1
@@ -1292,6 +1292,29 @@ r1
 R36
 !s107 C:\Users\thouh\Desktop\npu\verilog\multiplier.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\multiplier.v|
+!i113 1
+R12
+R13
+vnpu_simple
+!s110 1696337378
+!i10b 1
+!s100 chDLH8V4mYF2dcYjL`O4<3
+R2
+I]W@hVT6?S;IO0:UdTaM5U2
+R3
+R0
+w1696337305
+8C:\Users\thouh\Desktop\npu\verilog\NPU_simple.v
+FC:\Users\thouh\Desktop\npu\verilog\NPU_simple.v
+!i122 297
+L0 2 101
+R8
+r1
+!s85 0
+31
+!s108 1696337378.000000
+!s107 C:\Users\thouh\Desktop\npu\verilog\NPU_simple.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\NPU_simple.v|
 !i113 1
 R12
 R13
@@ -1415,23 +1438,23 @@ R78
 R12
 R13
 vtb_ac
-!s110 1692669561
+!s110 1696335883
 !i10b 1
 !s100 YDEn`fe93G8AYKWg`kPaX3
 R2
 I]if@XI<WL5NDaXk=221]R0
 R3
 R0
-w1692669558
+w1696335875
 8C:\Users\thouh\Desktop\npu\verilog\tb_ac.v
 FC:\Users\thouh\Desktop\npu\verilog\tb_ac.v
-!i122 228
+!i122 295
 L0 4 338
 R8
 r1
 !s85 0
 31
-!s108 1692669561.000000
+!s108 1696335883.000000
 !s107 C:\Users\thouh\Desktop\npu\verilog\tb_ac.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\tb_ac.v|
 !i113 1

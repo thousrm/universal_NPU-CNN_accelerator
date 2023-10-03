@@ -13,7 +13,7 @@ parameter height_b = 3
 )
 
 (write_wr, write_hr, data_in, en_in, // from ram
-readi_wr, readi_hr, en_read, en_bias, stepr, en_pe,
+readi_wr, readi_hr, en_read, en_bias, stepr,
 
 
 write_w, write_h, write, // to mem
@@ -22,7 +22,7 @@ step, en_out,
 
 fmaps, weights, biases, // from mem
 
-fmap, weight, biasp, en_pe_out, // to pe
+fmap, weight, biasp, // to pe
 
 clk
 );
@@ -41,22 +41,21 @@ input [8:0] en_in, en_read;
 input en_bias;
 input clk;
 
-output [width_b-1:0]  write_wr;
-output [height_b-1:0]  write_hr;
+input [width_b-1:0]  write_wr;
+input [height_b-1:0]  write_hr;
 output [width_b-1:0]  write_w;
 output [height_b-1:0]  write_h;
 output [8*9-1:0] write;
 
-output [width_b*9-1:0] readi_wr;
-output [height_b*9-1:0]  readi_hr;
+input [width_b*9-1:0] readi_wr;
+input [height_b*9-1:0]  readi_hr;
 output [width_b*9-1:0] readi_w;
 output [height_b*9-1:0]  readi_h;
 
 input [2:0] stepr;
 output [2:0] step;
 output [8:0] en_out;
-input en_pe;
-output reg en_pe_out;
+
 
 input [8*9-1:0] fmaps;
 output [8*9-1:0] fmap;
@@ -80,7 +79,6 @@ reg en_bias_d;
 always @(posedge clk) begin
        en_read_d <= en_read;
        en_bias_d <= en_bias;
-       en_pe_out <= en_pe;
 end
 
 

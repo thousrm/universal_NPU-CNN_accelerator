@@ -17,7 +17,7 @@ parameter height_b = 3
 
     biases, // to control
 
-    fmap, weight, // to pe
+    fmap, weight, // to control
 
     clk
 
