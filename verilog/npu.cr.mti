@@ -1,16 +1,16 @@
-C:/Users/thouh/Desktop/npu/verilog/addertree_stage2_mod2.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/addertree_stage2_mod2.v
-Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling module addertree_stage2_mod2
-
-Top level modules:
-	addertree_stage2_mod2
-
-} {} {}} C:/Users/thouh/Desktop/npu/verilog/adder_8to4.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\adder_8to4.v}
+C:/Users/thouh/Desktop/npu/verilog/adder_8to4.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\adder_8to4.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
 -- Compiling module adder_8to4
 
 Top level modules:
 	adder_8to4
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/addertree_stage2_mod2.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/addertree_stage2_mod2.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module addertree_stage2_mod2
+
+Top level modules:
+	addertree_stage2_mod2
 
 } {} {}} C:/Users/thouh/Desktop/npu/verilog/adder_10to4.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\adder_10to4.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
@@ -26,13 +26,6 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 Top level modules:
 	adder_7to3
 
-} {} {}} C:/Users/thouh/Desktop/npu/verilog/addertree_stage1_mod2.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\addertree_stage1_mod2.v}
-Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling module addertree_stage1_mod2
-
-Top level modules:
-	addertree_stage1_mod2
-
 } {} {}} C:/Users/thouh/Desktop/npu/verilog/arithmatic_core_mod.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\arithmatic_core_mod.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
 -- Compiling module arithmetic_core_mod
@@ -40,12 +33,12 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 Top level modules:
 	arithmetic_core_mod
 
-} {} {}} C:/Users/thouh/Desktop/npu/verilog/Relu.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/Relu.v
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/addertree_stage1_mod2.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\addertree_stage1_mod2.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling module relu
+-- Compiling module addertree_stage1_mod2
 
 Top level modules:
-	relu
+	addertree_stage1_mod2
 
 } {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_addertree3.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\tb_addertree3.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
@@ -53,6 +46,13 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 
 Top level modules:
 	tb_addertree3
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/Relu.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/Relu.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module relu
+
+Top level modules:
+	relu
 
 } {} {}} C:/Users/thouh/Desktop/npu/verilog/adder_4to3.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\adder_4to3.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
@@ -63,19 +63,19 @@ Top level modules:
 	adder_4to3
 	adder_4to3_mod
 
-} {} {}} C:/Users/thouh/Desktop/npu/verilog/arithmetic_core.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\arithmetic_core.v}
-Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling module arithmetic_core
-
-Top level modules:
-	arithmetic_core
-
 } {} {}} C:/Users/thouh/Desktop/npu/verilog/half_adder.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/half_adder.v
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
 -- Compiling module HA
 
 Top level modules:
 	HA
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/arithmetic_core.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\arithmetic_core.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module arithmetic_core
+
+Top level modules:
+	arithmetic_core
 
 } {} {}} C:/Users/thouh/Desktop/npu/verilog/adder_15to4.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\adder_15to4.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
@@ -124,6 +124,13 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 Top level modules:
 	adder_12to4
 	adder_12to4_mod
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/NPU_simple.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\NPU_simple.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module npu_simple
+
+Top level modules:
+	npu_simple
 
 } {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_adder.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\tb_adder.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
@@ -246,6 +253,13 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 
 Top level modules:
 	adder_11to4
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_npu_simple.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\tb_npu_simple.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module tb_npu_simple
+
+Top level modules:
+	tb_npu_simple
 
 } {} {}} C:/Users/thouh/Desktop/npu/verilog/Arithmatic_part.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\Arithmatic_part.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020

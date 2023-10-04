@@ -1,5 +1,7 @@
 
-module npu_simple (write_wr, write_hr, data_in, en_in, readi_wr, readi_hr, en_read, en_bias, stepr, en_pe, bound_levelr, step_pr, out, out_en, clk, reset);
+module npu_simple (write_w, write_h, data_in, en_in, readi_w, readi_h, en_read, en_bias, step, en_pe, bound_level, step_p,
+                        en_relu, en_mp, 
+                        out, out_en, clk, reset);
 
 parameter width = 80;
 parameter height = 8;
@@ -7,68 +9,56 @@ parameter height = 8;
 parameter width_b = 7;
 parameter height_b = 3;
 
+input [width_b-1:0]  write_w;
+input [height_b-1:0]  write_h;
+input [width_b*9-1:0] readi_w;
+input [height_b*9-1:0]  readi_h;
 input [8*9-1:0] data_in;
 input [8:0] en_in, en_read;
 input en_bias;
-input [2:0] stepr;
+input [2:0] step;
 input en_pe;
-input [2:0] step_pr, bound_levelr;
+input [2:0] step_p, bound_level;
+input en_relu, en_mp;
 input clk, reset;
-input [width_b-1:0]  write_wr;
-input [height_b-1:0]  write_hr;
-input [width_b*9-1:0] readi_wr;
-input [height_b*9-1:0]  readi_hr;
 
-output [7:0] out;
-output out_en;
-
-
-wire [width_b-1:0]  write_w;
-wire [height_b-1:0]  write_h;
-wire [8*9-1:0] write;
-
-wire [width_b*9-1:0] readi_w;
-wire [height_b*9-1:0]  readi_h;
-wire [2:0] step;
-wire [8:0] en_out;
-
-
+output [8*8-1:0] out;
+output [7:0] out_en;
 
 wire [8*9-1:0] fmaps, fmap;
-wire [8*9*8-1:0] weights, weight;
+wire [8*9*8-1:0] weight;
 wire [16*8-1:0] biases, biasp;
-reg [2:0] step_p, bound_levelp;
-reg en_pe_out;
+reg [2:0] step_d, bound_level_d;
+reg en_pe_d;
 
 
 
 always @(posedge clk) begin
-       en_pe_out <= en_pe;
-       step_p <= step_pr;
-       bound_levelp <= bound_levelr;
+       en_pe_d <= en_pe;
+       step_d <= step_p;
+       bound_level_d <= bound_level;
 end
 
 
 
-control_part_simple #(width, height, width_b, height_b) control 
-(write_wr, write_hr, data_in, en_in, readi_wr, readi_hr, en_read, en_bias, stepr, en_pe, bound_levelr, step_pr, write_w, write_h, write,
-readi_w, readi_h, step, en_out, fmaps, weights, biases, fmap, weight, biasp, en_pe_out, bound_levelp, step_p, clk);
+control_part_simple #(width, height, width_b, height_b) control (en_read, en_bias, fmaps, biases, fmap, biasp, clk);
 
-memory_part #(width, height, width_b, height_b) memory
-(write_w, write_h, write, readi_w, readi_h, step, en_out, biases, fmaps, weights, clk);
+memory_part #(width, height, width_b, height_b) memory (write_w, write_h, data_in, readi_w, readi_h, step, en_in, fmaps, biases, weight, clk);
 
-AP arithmetic (fmap, weight, biasp, bound_levelp, step_p, en_pe_out, en_relu, en_mp, out, out_en, clk, reset);
+AP arithmetic (fmap, weight, biasp, bound_level_d, step_d, en_pe_d, en_relu, en_mp, out, out_en, clk, reset);
 
 
 //////////////// for debugging
-wire [7:0] data_cm [0:8];
+wire [7:0] data_in_each [0:8];
+
 wire [7:0] data_mc [0:8];
 
 wire [7:0] data_cp [0:8];
 wire [7:0] weight_group_cp [0:8][0:7];
 wire [15:0] bias_cp [0:7];
 
-assign {data_cm[0], data_cm[1], data_cm[2], data_cm[3], data_cm[4], data_cm[5], data_cm[6], data_cm[7], data_cm[8]} = write;
+assign {data_in_each[0], data_in_each[1], data_in_each[2], data_in_each[3], data_in_each[4], data_in_each[5], data_in_each[6], data_in_each[7], data_in_each[8]} = data_in;
+
 assign {data_mc[0], data_mc[1], data_mc[2], data_mc[3], data_mc[4], data_mc[5], data_mc[6], data_mc[7], data_mc[8]} = fmaps;
 
 assign {data_cp[0], data_cp[1], data_cp[2], data_cp[3], data_cp[4], data_cp[5], data_cp[6], data_cp[7], data_cp[8]} = fmap;

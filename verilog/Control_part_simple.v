@@ -12,17 +12,12 @@ parameter height_b = 3
 
 )
 
-(write_wr, write_hr, data_in, en_in, // from ram
-readi_wr, readi_hr, en_read, en_bias, stepr,
+(en_read, en_bias,// from ram
 
 
-write_w, write_h, write, // to mem
-readi_w, readi_h,
-step, en_out,
+fmaps, biases, // from mem
 
-fmaps, weights, biases, // from mem
-
-fmap, weight, biasp, // to pe
+fmap, biasp, // to pe
 
 clk
 );
@@ -36,42 +31,15 @@ parameter step5 = width - 54;
 
 parameter bias = 2;
 
-input [8*9-1:0] data_in;
-input [8:0] en_in, en_read;
+
+input [8:0] en_read;
 input en_bias;
 input clk;
 
-input [width_b-1:0]  write_wr;
-input [height_b-1:0]  write_hr;
-output [width_b-1:0]  write_w;
-output [height_b-1:0]  write_h;
-output [8*9-1:0] write;
-
-input [width_b*9-1:0] readi_wr;
-input [height_b*9-1:0]  readi_hr;
-output [width_b*9-1:0] readi_w;
-output [height_b*9-1:0]  readi_h;
-
-input [2:0] stepr;
-output [2:0] step;
-output [8:0] en_out;
-
-
 input [8*9-1:0] fmaps;
 output [8*9-1:0] fmap;
-input [8*9*8-1:0] weights;
-output [8*9*8-1:0] weight;
 input [16*8-1:0] biases;
 output [16*8-1:0] biasp;
-
-
-assign write_w = write_wr;
-assign write_h = write_hr;
-assign readi_w = readi_wr;
-assign readi_h = readi_hr;
-assign write = data_in;
-assign step = stepr;
-assign en_out = en_in;
 
 reg [8:0] en_read_d;
 reg en_bias_d;
@@ -92,8 +60,6 @@ assign fmap[8*9-1-8*5-:8] = en_read_d[3] ? fmaps[8*9-1-8*5-:8] : 8'b0000_0000;
 assign fmap[8*9-1-8*6-:8] = en_read_d[2] ? fmaps[8*9-1-8*6-:8] : 8'b0000_0000;
 assign fmap[8*9-1-8*7-:8] = en_read_d[1] ? fmaps[8*9-1-8*7-:8] : 8'b0000_0000;
 assign fmap[8*9-1-8*8-:8] = en_read_d[0] ? fmaps[8*9-1-8*8-:8] : 8'b0000_0000;
-
-assign weight = weights;
 
 assign biasp = en_bias_d ? biases : 0;
 
