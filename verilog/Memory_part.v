@@ -11,13 +11,13 @@ parameter height_b = 3
 )
 
 (
-    write_w, write_h, write, // from control
+    write_w, write_h, write, // from mem
     readi_w, readi_h,
     step, en,
 
-    biases, // to control
+    fmap, biases,  // to control
 
-    fmap, weight, // to control
+    weight, // to ar
 
     clk
 
@@ -54,14 +54,14 @@ wire [width_b-1:0]  readi_w0, readi_w1, readi_w2, readi_w3, readi_w4, readi_w5, 
 wire [height_b-1:0]  readi_h0, readi_h1, readi_h2, readi_h3, readi_h4, readi_h5, readi_h6, readi_h7, readi_h8;
 reg [7:0] readi0, readi1, readi2, readi3, readi4, readi5, readi6, readi7, readi8;
 
-reg [8*9-1:0] readw0, readw1, readw2, readw3, readw4, readw5, readw6, readw7, readw8;
+reg [8*9-1:0] readw0, readw1, readw2, readw3, readw4, readw5, readw6, readw7;
 
 assign {readi_w0, readi_w1, readi_w2, readi_w3, readi_w4, readi_w5, readi_w6, readi_w7, readi_w8} = readi_w;
 assign {readi_h0, readi_h1, readi_h2, readi_h3, readi_h4, readi_h5, readi_h6, readi_h7, readi_h8} = readi_h;
 
 
 assign fmap = {readi0, readi1, readi2, readi3, readi4, readi5, readi6, readi7, readi8};
-assign weight = {readw0, readw1, readw2, readw3, readw4, readw5, readw6, readw7, readw8};
+assign weight = {readw0, readw1, readw2, readw3, readw4, readw5, readw6, readw7};
 
 
 reg [7:0] mem[0:width-1+bias][0:height-1];
@@ -104,7 +104,6 @@ always @(posedge clk) begin
             readw5 <= {mem[step1][5], mem[step1+1][5], mem[step1+2][5], mem[step1+3][5], mem[step1+4][5], mem[step1+5][5], mem[step1+6][5], mem[step1+7][5], mem[step1+8][5]};
             readw6 <= {mem[step1][6], mem[step1+1][6], mem[step1+2][6], mem[step1+3][6], mem[step1+4][6], mem[step1+5][6], mem[step1+6][6], mem[step1+7][6], mem[step1+8][6]};
             readw7 <= {mem[step1][7], mem[step1+1][7], mem[step1+2][7], mem[step1+3][7], mem[step1+4][7], mem[step1+5][7], mem[step1+6][7], mem[step1+7][7], mem[step1+8][7]};
-            readw8 <= {mem[step1][8], mem[step1+1][8], mem[step1+2][8], mem[step1+3][8], mem[step1+4][8], mem[step1+5][8], mem[step1+6][8], mem[step1+7][8], mem[step1+8][8]};
         end
         3'b010 : begin
             readw0 <= {mem[step2][0], mem[step2+1][0], mem[step2+2][0], mem[step2+3][0], mem[step2+4][0], mem[step2+5][0], mem[step2+6][0], mem[step2+7][0], mem[step2+8][0]};
@@ -115,7 +114,6 @@ always @(posedge clk) begin
             readw5 <= {mem[step2][5], mem[step2+1][5], mem[step2+2][5], mem[step2+3][5], mem[step2+4][5], mem[step2+5][5], mem[step2+6][5], mem[step2+7][5], mem[step2+8][5]};
             readw6 <= {mem[step2][6], mem[step2+1][6], mem[step2+2][6], mem[step2+3][6], mem[step2+4][6], mem[step2+5][6], mem[step2+6][6], mem[step2+7][6], mem[step2+8][6]};
             readw7 <= {mem[step2][7], mem[step2+1][7], mem[step2+2][7], mem[step2+3][7], mem[step2+4][7], mem[step2+5][7], mem[step2+6][7], mem[step2+7][7], mem[step2+8][7]};
-            readw8 <= {mem[step2][8], mem[step2+1][8], mem[step2+2][8], mem[step2+3][8], mem[step2+4][8], mem[step2+5][8], mem[step2+6][8], mem[step2+7][8], mem[step2+8][8]};
         end
         3'b011 : begin
             readw0 <= {mem[step3][0], mem[step3+1][0], mem[step3+2][0], mem[step3+3][0], mem[step3+4][0], mem[step3+5][0], mem[step3+6][0], mem[step3+7][0], mem[step3+8][0]};
@@ -126,7 +124,6 @@ always @(posedge clk) begin
             readw5 <= {mem[step3][5], mem[step3+1][5], mem[step3+2][5], mem[step3+3][5], mem[step3+4][5], mem[step3+5][5], mem[step3+6][5], mem[step3+7][5], mem[step3+8][5]};
             readw6 <= {mem[step3][6], mem[step3+1][6], mem[step3+2][6], mem[step3+3][6], mem[step3+4][6], mem[step3+5][6], mem[step3+6][6], mem[step3+7][6], mem[step3+8][6]};
             readw7 <= {mem[step3][7], mem[step3+1][7], mem[step3+2][7], mem[step3+3][7], mem[step3+4][7], mem[step3+5][7], mem[step3+6][7], mem[step3+7][7], mem[step3+8][7]};
-            readw8 <= {mem[step3][8], mem[step3+1][8], mem[step3+2][8], mem[step3+3][8], mem[step3+4][8], mem[step3+5][8], mem[step3+6][8], mem[step3+7][8], mem[step3+8][8]};
         end
         3'b100 : begin
             readw0 <= {mem[step4][0], mem[step4+1][0], mem[step4+2][0], mem[step4+3][0], mem[step4+4][0], mem[step4+5][0], mem[step4+6][0], mem[step4+7][0], mem[step4+8][0]};
@@ -137,7 +134,6 @@ always @(posedge clk) begin
             readw5 <= {mem[step4][5], mem[step4+1][5], mem[step4+2][5], mem[step4+3][5], mem[step4+4][5], mem[step4+5][5], mem[step4+6][5], mem[step4+7][5], mem[step4+8][5]};
             readw6 <= {mem[step4][6], mem[step4+1][6], mem[step4+2][6], mem[step4+3][6], mem[step4+4][6], mem[step4+5][6], mem[step4+6][6], mem[step4+7][6], mem[step4+8][6]};
             readw7 <= {mem[step4][7], mem[step4+1][7], mem[step4+2][7], mem[step4+3][7], mem[step4+4][7], mem[step4+5][7], mem[step4+6][7], mem[step4+7][7], mem[step4+8][7]};
-            readw8 <= {mem[step4][8], mem[step4+1][8], mem[step4+2][8], mem[step4+3][8], mem[step4+4][8], mem[step4+5][8], mem[step4+6][8], mem[step4+7][8], mem[step4+8][8]};
         end
         3'b101 : begin
             readw0 <= {mem[step5][0], mem[step5+1][0], mem[step5+2][0], mem[step5+3][0], mem[step5+4][0], mem[step5+5][0], mem[step5+6][0], mem[step5+7][0], mem[step5+8][0]};
@@ -148,7 +144,6 @@ always @(posedge clk) begin
             readw5 <= {mem[step5][5], mem[step5+1][5], mem[step5+2][5], mem[step5+3][5], mem[step5+4][5], mem[step5+5][5], mem[step5+6][5], mem[step5+7][5], mem[step5+8][5]};
             readw6 <= {mem[step5][6], mem[step5+1][6], mem[step5+2][6], mem[step5+3][6], mem[step5+4][6], mem[step5+5][6], mem[step5+6][6], mem[step5+7][6], mem[step5+8][6]};
             readw7 <= {mem[step5][7], mem[step5+1][7], mem[step5+2][7], mem[step5+3][7], mem[step5+4][7], mem[step5+5][7], mem[step5+6][7], mem[step5+7][7], mem[step5+8][7]};
-            readw8 <= {mem[step5][8], mem[step5+1][8], mem[step5+2][8], mem[step5+3][8], mem[step5+4][8], mem[step5+5][8], mem[step5+6][8], mem[step5+7][8], mem[step5+8][8]};
         end
         default : begin
             readw0 <= {mem[step0][0], mem[step0+1][0], mem[step0+2][0], mem[step0+3][0], mem[step0+4][0], mem[step0+5][0], mem[step0+6][0], mem[step0+7][0], mem[step0+8][0]};
@@ -159,7 +154,6 @@ always @(posedge clk) begin
             readw5 <= {mem[step0][5], mem[step0+1][5], mem[step0+2][5], mem[step0+3][5], mem[step0+4][5], mem[step0+5][5], mem[step0+6][5], mem[step0+7][5], mem[step0+8][5]};
             readw6 <= {mem[step0][6], mem[step0+1][6], mem[step0+2][6], mem[step0+3][6], mem[step0+4][6], mem[step0+5][6], mem[step0+6][6], mem[step0+7][6], mem[step0+8][6]};
             readw7 <= {mem[step0][7], mem[step0+1][7], mem[step0+2][7], mem[step0+3][7], mem[step0+4][7], mem[step0+5][7], mem[step0+6][7], mem[step0+7][7], mem[step0+8][7]};
-            readw8 <= {mem[step0][8], mem[step0+1][8], mem[step0+2][8], mem[step0+3][8], mem[step0+4][8], mem[step0+5][8], mem[step0+6][8], mem[step0+7][8], mem[step0+8][8]};
         end
     endcase
 
