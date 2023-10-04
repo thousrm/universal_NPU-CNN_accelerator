@@ -36,7 +36,7 @@ As a result, the output becomes previous weight * previous input + current weigh
 |in|Port for input feature map. Each input data is 8bit, and this port receives 9 input datas every clock cycle.|
 |weight|Port for weights of filters. Each weight is 8bit, and this port receives 9*8 weights every clock cycle. <br/> But it can only receive 9 weights per filter in a clock cycle.|
 |bias|Port for biases of filters. Each bias is 16bit, and this port receives 8 biases every clock cycle.|
-|bound_level|Port for setting a maximum value and step size of data. <br/> output (bound_level=n) = output (bound_level=0) * 2^n |
+|bound_level|Port for setting a maximum value and step size of data. <br/> output (bound_level=n) = output (bound_level=0) * 2^n = original value * 2^(n-11)|
 |step|Port for setting the period for convolution. <br/> If you set step=2, processing_element module will compute the convolution for 3 clock cycles, <br/>  so it can be used to compute a filter with 27 weights. |
 |en|Input data validation port|
 |en_relu|Port for enabling relu function|
