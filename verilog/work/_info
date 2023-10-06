@@ -1273,25 +1273,25 @@ r1
 R12
 R13
 vmultiplier
-R76
+!s110 1696564358
 !i10b 1
 !s100 Z5ecm5Iz3AY?>6;S6mLSV3
 R2
-I4Ih`VI?VfzTDHdoLMbZ>z1
+IFiF:A6amPE<3UR@jbJaLP3
 R3
 R0
 w1691392978
-8C:\Users\thouh\Desktop\npu\verilog\multiplier.v
-FC:\Users\thouh\Desktop\npu\verilog\multiplier.v
-!i122 110
+8C:/Users/thouh/Desktop/npu/verilog/multiplier.v
+FC:/Users/thouh/Desktop/npu/verilog/multiplier.v
+!i122 323
 L0 2 75
 R8
 r1
 !s85 0
 31
-R36
-!s107 C:\Users\thouh\Desktop\npu\verilog\multiplier.v|
-!s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\multiplier.v|
+!s108 1696564358.000000
+!s107 C:/Users/thouh/Desktop/npu/verilog/multiplier.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/thouh/Desktop/npu/verilog/multiplier.v|
 !i113 1
 R12
 R13
@@ -1414,6 +1414,29 @@ R36
 R12
 R13
 n@p@p@g
+vreading33
+!s110 1696563930
+!i10b 1
+!s100 ]zX8D1Vk`dF:ce@bTT:QI0
+R2
+I2>?5C[E7l_FZUZAjaAKKj0
+R3
+R0
+w1696563927
+Z80 8C:\Users\thouh\Desktop\npu\verilog\run_npu_simple.v
+Z81 FC:\Users\thouh\Desktop\npu\verilog\run_npu_simple.v
+!i122 321
+L0 5 22
+R8
+r1
+!s85 0
+31
+!s108 1696563929.000000
+!s107 C:\Users\thouh\Desktop\npu\verilog\run_npu_simple.v|
+Z82 !s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\run_npu_simple.v|
+!i113 1
+R12
+R13
 vrelu
 R1
 !i10b 1
@@ -1434,6 +1457,52 @@ r1
 R78
 !s107 C:/Users/thouh/Desktop/npu/verilog/Relu.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/thouh/Desktop/npu/verilog/Relu.v|
+!i113 1
+R12
+R13
+vrun_33
+Z83 !s110 1696577833
+!i10b 1
+!s100 j[l26ckIelA3AjknY?=zH0
+R2
+I1ifbc6`R:=EAC`ENRB_ed2
+R3
+R0
+Z84 w1696577824
+R80
+R81
+!i122 330
+L0 5 174
+R8
+r1
+!s85 0
+31
+Z85 !s108 1696577833.000000
+Z86 !s107 C:\Users\thouh\Desktop\npu\verilog\run_npu_simple.v|
+R82
+!i113 1
+R12
+R13
+vrun_npu_simple
+R83
+!i10b 1
+!s100 _GQ6l`BHhldCUHzQ_4?HQ3
+R2
+Ib7B2E6P>cEzK80S0i1g>52
+R3
+R0
+R84
+R80
+R81
+!i122 330
+L0 181 153
+R8
+r1
+!s85 0
+31
+R85
+R86
+R82
 !i113 1
 R12
 R13
@@ -1668,23 +1737,23 @@ r1
 R12
 R13
 vtb_npu_simple
-!s110 1696426095
+!s110 1696577287
 !i10b 1
-!s100 ]Bc3FO^SjA_;@F?Pl1;io2
+!s100 4jA7FAf=gEZz?gQRPL:i^0
 R2
-IQDO;PA_8kEFoXg[cDWXm23
+Ing3c6Mgi@o8C@X1ZXdB[C3
 R3
 R0
-w1696426089
+w1696577285
 8C:\Users\thouh\Desktop\npu\verilog\tb_npu_simple.v
 FC:\Users\thouh\Desktop\npu\verilog\tb_npu_simple.v
-!i122 318
-L0 3 167
+!i122 328
+L0 3 175
 R8
 r1
 !s85 0
 31
-!s108 1696426095.000000
+!s108 1696577287.000000
 !s107 C:\Users\thouh\Desktop\npu\verilog\tb_npu_simple.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:\Users\thouh\Desktop\npu\verilog\tb_npu_simple.v|
 !i113 1
