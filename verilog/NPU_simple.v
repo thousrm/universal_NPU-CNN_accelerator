@@ -57,7 +57,12 @@ wire [7:0] data_cp [0:8];
 wire [7:0] weight_group_cp [0:8][0:7];
 wire [15:0] bias_cp [0:7];
 
+wire [width_b-1:0] readw[0:8];
+wire [height_b-1:0] readh[0:8];
+
 assign {data_in_each[0], data_in_each[1], data_in_each[2], data_in_each[3], data_in_each[4], data_in_each[5], data_in_each[6], data_in_each[7], data_in_each[8]} = data_in;
+assign {readw[0], readw[1], readw[2], readw[3], readw[4], readw[5], readw[6], readw[7], readw[8]} = readi_w;
+assign {readh[0], readh[1], readh[2], readh[3], readh[4], readh[5], readh[6], readh[7], readh[8]} = readi_h;
 
 assign {data_mc[0], data_mc[1], data_mc[2], data_mc[3], data_mc[4], data_mc[5], data_mc[6], data_mc[7], data_mc[8]} = fmaps;
 

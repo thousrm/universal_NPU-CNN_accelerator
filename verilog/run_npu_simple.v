@@ -326,9 +326,8 @@ end
 //read
 initial begin
 	#(read_delay);
-	en_pe <= 1;
 	if (input_width > memory_width-9) begin
-		for ( i=0; i < (input_width/(memory_width-filter_width-filter_width*filter_height+1))-1; i=i+1 ) begin // fmap > right
+		for ( i=0; i < (input_width/(memory_width-filter_width-filter_width*filter_height+1)); i=i+1 ) begin // fmap > right
 			for ( j=0; j < input_height; j=j+2 ) begin // mem > under
 				for ( k=0; k < memory_width-filter_width-filter_width*filter_height+1; k=k+2 ) begin // mem > right
 					for( l=0; l < 4; l=l+1 ) begin // for maxpooling
@@ -354,12 +353,13 @@ initial begin
 
 						if (l==0 || l==1) w <= 0;
 						else w <= 1;
-						if (l==0 || l==2) h <= 0;
+						if (l==0 || l==3) h <= 0;
 						else h <= 1; 
 
 						
 
 						en_bias <= 1;
+						en_pe <= 1;
 
 						#10;
 					end
@@ -379,10 +379,10 @@ initial begin
 					else if ((j==input_height-1 || j==input_height-2) && k==0 && l==1) begin // bottom-left
 								en_read <= 9'b011011000;
 					end
-					if (k > input_width - i * (memory_width-filter_width-filter_width*filter_height+1)-3 && j==0 && l==3) begin // top-right
+					else if (k > input_width - i * (memory_width-filter_width-filter_width*filter_height+1)-3 && j==0 && l==3) begin // top-right
 						en_read <= 9'b000011011;
 					end
-					if (k > input_width - i * (memory_width-filter_width-filter_width*filter_height+1)-3 && (j==input_height-1 || j==input_height-2) && l==2) begin // bottom-right
+					else if (k > input_width - i * (memory_width-filter_width-filter_width*filter_height+1)-3 && (j==input_height-1 || j==input_height-2) && l==2) begin // bottom-right
 						en_read <= 9'b000011011;
 					end
 					else if (j==0 && (l==0 || l==3)) begin // top
@@ -403,10 +403,11 @@ initial begin
 
 				if (l==0 || l==1) w <= 0;
 				else w <= 1;
-				if (l==0 || l==2) h <= 0;
+				if (l==0 || l==3) h <= 0;
 				else h <= 1; 
 
 				en_bias <= 1;
+				en_pe <= 1;
 
 				#10;
 			end
@@ -471,12 +472,19 @@ always #5 clk <= ~clk;
 
 integer i=0, j=0, k=0;
 
+// for debugging
+wire [7:0] out_1;
+assign out_1 = out[8*8-1-:8];
+
 initial
 begin
 	clk <= 1;
 	reset <= 0;
 	en_relu <= 0;
 	en_mp <= 0;
+	bound_level <= 3'b011;
+	step <= 3'b000;
+	step_p <= 3'b000;
 	#12
 	reset <= 1;
 
