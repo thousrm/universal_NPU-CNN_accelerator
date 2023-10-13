@@ -1,6 +1,6 @@
 
 git add . 
-git commit -m "update"
+git commit -m "complete npu_simple(maybe?)"
 
 pause
 git push
