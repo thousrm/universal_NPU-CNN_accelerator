@@ -82,6 +82,16 @@ assign readh[8] = en_read[0] ? j + h +1 : 0;
 assign readwg = {readw[0], readw[1], readw[2], readw[3], readw[4], readw[5], readw[6], readw[7], readw[8]};
 assign readhg = {readh[0], readh[1], readh[2], readh[3], readh[4], readh[5], readh[6], readh[7], readh[8]};
 
+// for debugging
+integer data_in_ck, data_in_w, data_in_h;
+always @(*) begin
+	data_in_ck = k? j-2+h+input_height*i*(memory_width-filter_width-filter_width*filter_height+1)+(k-2+w)*input_height +8
+				:	j-4+h+input_height*i*(memory_width-filter_width-filter_width*filter_height+1)
+					+(memory_width-filter_width-filter_width*filter_height+w)*input_height +8;
+	data_in_w = data_in_ck/128;
+	data_in_h = data_in_ck - 128*data_in_w;
+end
+
 
 //write
 
@@ -134,11 +144,63 @@ initial begin
 	en_in <= 9'b0_0000_0000;
 end
 
+reg enable_write_reading;
+//write during reading
+always @(*) begin
+	if (enable_write_reading==1) begin
+		if (j>0) begin
+								if (j==2 && k!=0) begin
+									write_w = k-2+w; 
+									write_h = j-2+h;
+									data_in = {mat_in[j-2+h+input_height*i*(memory_width-filter_width-filter_width*filter_height+1)+(k-2+w)*input_height +8], {8{8'b0000_0000}}};
+									en_in = 9'b1_0000_0000;
+								end
+								else if (j==2 && k==0) begin
+									data_in = {9{8'b0000_0000}};
+									en_in = 9'b0_0000_0000;
+								end
+								else if (j>2) begin
+									if (k==0) begin
+										write_w = memory_width-filter_width-filter_width*filter_height + w;
+										write_h = j-4+h;
+										data_in = {mat_in[j-4+h+input_height*i*(memory_width-filter_width-filter_width*filter_height+1)
+										+(memory_width-filter_width-filter_width*filter_height+w)*input_height +8], {8{8'b0000_0000}}};
+										if (l==2 || l==3) begin
+											data_in = {mat_in[j-4+h+input_height*i*(memory_width-filter_width-filter_width*filter_height+1)
+											+(memory_width-filter_width-filter_width*filter_height+w)*input_height +8],
+											mat_in[j-4+h+input_height*i*(memory_width-filter_width-filter_width*filter_height+1)
+											+(memory_width-filter_width-filter_width*filter_height+w+1)*input_height +8], {7{8'b0000_0000}}};
+											en_in = 9'b1_1000_0000;
+										end
+										else begin
+											data_in = {mat_in[j-4+h+input_height*i*(memory_width-filter_width-filter_width*filter_height+1)
+											+(memory_width-filter_width-filter_width*filter_height+w)*input_height +8], {8{8'b0000_0000}}};
+											en_in = 9'b1_0000_0000;
+										end 	
+									end
+									else begin
+										write_w = k-2+w;
+										write_h = j-2+h;
+										data_in = {mat_in[j-2+h+input_height*i*(memory_width-filter_width-filter_width*filter_height+1)+(k-2+w)*input_height +8], {8{8'b0000_0000}}}; 		
+										en_in = 9'b1_0000_0000;		
+									end
+									
+								end
+							end
+	end
+	else begin
+		write_w = 0;
+		write_h = 0;
+		data_in = {9{8'b0000_0000}};
+		en_in = 9'b0_0000_0000;
+	end
+end
 
 
 
-//read & write
+//read
 initial begin
+	enable_write_reading <= 0;
 	#(read_delay);
 	if (input_width > memory_width-9) begin
 		for ( i=0; i < (input_width/(memory_width-filter_width-filter_width*filter_height+1)); i=i+1 ) begin // fmap > right  
@@ -175,22 +237,9 @@ initial begin
 						en_bias <= 1;
 						en_pe <= 1;
 
-						///////////// write
-						if (j>0) begin
-							if (j==2 && k!=0) begin
-								write_w = k-2+w; 
-								write_h = j-2+h;
-								data_in = {mat_in[j-2+h+input_height*i*(memory_width-filter_width-filter_width*filter_height+1)+(k-2+w)*input_height], {8{8'b0000_0000}}};
-								en_in <= 9'b1_0000_0000;
-							end
-							else if (j>2) begin
-								if (k==0) write_w = memory_width-filter_width-filter_width*filter_height + w;
-								else write_w = k-2+w; 				
-								write_h = j-2+h;
-								data_in = {mat_in[j-2+h+input_height*i*(memory_width-filter_width-filter_width*filter_height+1)+(k-2+w)*input_height], {8{8'b0000_0000}}};
-								en_in = 9'b1_0000_0000;
-							end
-						end
+						// write_reading start
+						enable_write_reading <= 1;
+						
 
 						#10;
 					end
@@ -240,22 +289,8 @@ initial begin
 				en_bias <= 1;
 				en_pe <= 1;
 
-				///////////// write
-				if (j>0) begin
-					if (j==2 && k!=0) begin
-						write_w = k-2+w; 
-						write_h = j-2+h;
-						data_in = {mat_in[j-2+h+input_height*i*(memory_width-filter_width-filter_width*filter_height+1)+(k-2+w)*input_height], {8{8'b0000_0000}}};
-						en_in = 9'b1_0000_0000;
-					end
-					else begin
-						if (k==0) write_w = memory_width-filter_width-filter_width*filter_height + w;
-						else write_w = k-2+w; 				
-						write_h = j-2+h;
-						data_in = {mat_in[j-2+h+input_height*i*(memory_width-filter_width-filter_width*filter_height+1)+(k-2+w)*input_height], {8{8'b0000_0000}}};
-						en_in = 9'b1_0000_0000;
-					end
-				end
+				// write_reading start
+				enable_write_reading <= 1;
 
 				#10;
 			end
