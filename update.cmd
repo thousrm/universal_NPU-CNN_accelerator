@@ -1,6 +1,6 @@
 
 git add . 
-git commit -m "update"
+git commit -m "complete run33"
 
 pause
 git push
