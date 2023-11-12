@@ -62,23 +62,23 @@ parameter zero_padding = 1)
 	wire [height_b-1:0] readh [0:8];
 
 	assign readw[0] = en_read[8] ? k + w -1 : 0;
-	assign readh[0] = en_read[8] ? (j + h -1) % memory_height : 0;
+	assign readh[0] = en_read[8] ? (j+i*input_height + h -1) % memory_height : 0;
 	assign readw[1] = en_read[7] ? k + w -0 : 0;
-	assign readh[1] = en_read[7] ? (j + h -1) % memory_height : 0;
+	assign readh[1] = en_read[7] ? (j+i*input_height + h -1) % memory_height : 0;
 	assign readw[2] = en_read[6] ? k + w +1 : 0;
-	assign readh[2] = en_read[6] ? (j + h -1) % memory_height : 0;
+	assign readh[2] = en_read[6] ? (j+i*input_height + h -1) % memory_height : 0;
 	assign readw[3] = en_read[5] ? k + w -1 : 0;
-	assign readh[3] = en_read[5] ? (j + h -0) % memory_height : 0;
+	assign readh[3] = en_read[5] ? (j+i*input_height + h -0) % memory_height : 0;
 	assign readw[4] = en_read[4] ? k + w -0 : 0;
-	assign readh[4] = en_read[4] ? (j + h -0) % memory_height : 0;
+	assign readh[4] = en_read[4] ? (j+i*input_height + h -0) % memory_height : 0;
 	assign readw[5] = en_read[3] ? k + w +1 : 0;
-	assign readh[5] = en_read[3] ? (j + h -0) % memory_height : 0;
+	assign readh[5] = en_read[3] ? (j+i*input_height + h -0) % memory_height : 0;
 	assign readw[6] = en_read[2] ? k + w -1 : 0;
-	assign readh[6] = en_read[2] ? (j + h +1) % memory_height : 0;
+	assign readh[6] = en_read[2] ? (j+i*input_height + h +1) % memory_height : 0;
 	assign readw[7] = en_read[1] ? k + w -0 : 0;
-	assign readh[7] = en_read[1] ? (j + h +1) % memory_height : 0;
+	assign readh[7] = en_read[1] ? (j+i*input_height + h +1) % memory_height : 0;
 	assign readw[8] = en_read[0] ? k + w +1 : 0;
-	assign readh[8] = en_read[0] ? (j + h +1) % memory_height : 0;
+	assign readh[8] = en_read[0] ? (j+i*input_height + h +1) % memory_height : 0;
 
 	assign readwg = {readw[0], readw[1], readw[2], readw[3], readw[4], readw[5], readw[6], readw[7], readw[8]};
 	assign readhg = {readh[0], readh[1], readh[2], readh[3], readh[4], readh[5], readh[6], readh[7], readh[8]};
@@ -103,9 +103,9 @@ parameter zero_padding = 1)
 	// first write
 	initial begin
 		#(write_delay);
-		$readmemh(input_file, mat_in);
-		$readmemh(weight_file, weight);
-		$readmemh(bias_file, bias);
+		$readmemb(input_file, mat_in);
+		$readmemb(weight_file, weight);
+		$readmemb(bias_file, bias);
 
 		// write bias
 		for (i=0; i<8; i=i+1)
@@ -162,7 +162,7 @@ parameter zero_padding = 1)
 			if ((j==0 || (j==2 && k==1)) && i!=0) begin 
 				if (k==1) begin
 					write_w = rightest ? input_width - i * (memory_width-filter_width-filter_width*filter_height+1) +w -2 : k_4d + w; 
-					write_h = (j+4+h) % memory_height; // +4 is correct
+					write_h = (j+i*input_height-4+h) % memory_height;
 					if (l==2 || l==3) begin
 						data_in = rightest ?
 						{mat_in[j+(memory_height-4)+h+input_height*i*(memory_width-filter_width-filter_width*filter_height+1)+
@@ -186,7 +186,7 @@ parameter zero_padding = 1)
 				end
 				else if (k==3) begin
 					write_w = 0 + w; 
-					write_h = (j+6+h)% memory_height; // +6 is correct
+					write_h = (j+i*input_height-2+h)% memory_height;
 					if (l==0 || l==1) begin
 						data_in = {mat_in[j+(memory_height-2)+h+input_height*i*(memory_width-filter_width-filter_width*filter_height+1)+
 						(0+w)*input_height],
@@ -202,7 +202,7 @@ parameter zero_padding = 1)
 				end
 				else begin
 					write_w = k_4d+w;
-					write_h = (j+6+h)% memory_height; // +6 is correct
+					write_h = (j+i*input_height-2+h)% memory_height; // +6 is correct
 					data_in = {mat_in[j-2+h+input_height*i*(memory_width-filter_width-filter_width*filter_height+1)+(k_4d+w)*input_height +memory_height], {8{8'b0000_0000}}}; 	
 					en_in = 9'b1_0000_0000;
 				end
@@ -210,7 +210,7 @@ parameter zero_padding = 1)
 			else if (j>0) begin
 				if (j==2 && (k!=0 && k!=1)) begin
 					write_w = k==3 ? k_4d+w-1 : k_4d+w; 
-					write_h = (j-2+h)% memory_height;
+					write_h = (j+i*input_height-2+h)% memory_height;
 					data_in = k==3 ?
 					{mat_in[j-2+h+input_height*i*(memory_width-filter_width-filter_width*filter_height+1)+(k_4d+w-1)*input_height +memory_height],
 					mat_in[j-2+h+input_height*i*(memory_width-filter_width-filter_width*filter_height+1)+(k_4d+w)*input_height +memory_height], {7{8'b0000_0000}}}
@@ -226,7 +226,7 @@ parameter zero_padding = 1)
 						if (pre_rightest==1) begin
 							if (k==0 || k==1) begin 
 								write_w =  input_width - (i+1) * (memory_width-filter_width-filter_width*filter_height+1)-2 + w; 
-								write_h = (j-4+h) % memory_height;
+								write_h = (j+i*input_height-4+h) % memory_height;
 								if (l==2 || l==3) begin
 									data_in = {mat_in[j-(input_height-(memory_height-4))+h+input_height*(i+1)*(memory_width-filter_width-filter_width*filter_height+1)
 									+(input_width - (i+1) * (memory_width-filter_width-filter_width*filter_height+1)-2+w)*input_height], {8{8'b0000_0000}}};
@@ -244,7 +244,7 @@ parameter zero_padding = 1)
 							end
 							else if (k==2 || k==3) begin 
 								write_w = k==3 ? 0+w*2 : w; 
-								write_h = (j-2+h) % memory_height;
+								write_h = (j+i*input_height-2+h) % memory_height;
 								if (l==0 || l==1) begin
 									data_in = {mat_in[j-(input_height-(memory_height-2))+h+input_height*(i+1)*(memory_width-filter_width-filter_width*filter_height+1)
 									+(w)*input_height], mat_in[j-(input_height-(memory_height-2))+h+input_height*(i+1)*(memory_width-filter_width-filter_width*filter_height+1)
@@ -257,13 +257,14 @@ parameter zero_padding = 1)
 									data_in = {mat_in[j-(input_height-(memory_height-2))+h+input_height*(i+1)*(memory_width-filter_width-filter_width*filter_height+1)
 									+(w+1)*input_height], {8{8'b0000_0000}}};
 									en_in = k < input_width - (i+1) * (memory_width-filter_width-filter_width*filter_height+1) ?
+									k==3 ?
 									9'b1_0000_0000
-									: 9'b0_0000_0000;
+									: 9'b0_0000_0000 : 9'b0_0000_0000;
 								end
 							end
 							else begin
 								write_w = k_4d+w;
-								write_h = (j-2+h) % memory_height;
+								write_h = (j+i*input_height-2+h) % memory_height;
 								data_in = k < input_width - (i+1) * (memory_width-filter_width-filter_width*filter_height+1) ?
 								{mat_in[j-(input_height-(memory_height-2))+h+input_height*(i+1)*(memory_width-filter_width-filter_width*filter_height+1)
 								+(k_4d+w)*input_height], {8{8'b0000_0000}}}
@@ -276,7 +277,7 @@ parameter zero_padding = 1)
 						else begin
 							if (k==0 || k==1) begin
 								write_w = k_4d + w; 
-								write_h = (j-4+h)% memory_height;
+								write_h = (j+i*input_height-4+h)% memory_height;
 								if (l==2 || l==3) begin
 									data_in = {mat_in[j-(input_height-(memory_height-4))+h+input_height*(i+1)*(memory_width-filter_width-filter_width*filter_height+1)
 									+(k_4d+w)*input_height],
@@ -292,7 +293,7 @@ parameter zero_padding = 1)
 							end
 							else if (k==2 || k==3) begin
 								write_w = k==3 ? 0+w*2 : w; 
-								write_h = (j-2+h)% memory_height;
+								write_h = (j+i*input_height-2+h)% memory_height;
 								if (l==0 || l==1) begin
 									data_in = {mat_in[j-(input_height-(memory_height-4))+h+input_height*(i+1)*(memory_width-filter_width-filter_width*filter_height+1)
 									+(w)*input_height],
@@ -303,12 +304,14 @@ parameter zero_padding = 1)
 								else begin
 									data_in = {mat_in[j-(input_height-(memory_height-4))+h+input_height*(i+1)*(memory_width-filter_width-filter_width*filter_height+1)
 									+(w+1)*input_height], {8{8'b0000_0000}}};
-									en_in = 9'b1_0000_0000;
+									en_in = k==3 ?
+									9'b1_0000_0000
+									: 9'b0_0000_0000;
 								end
 							end
 							else begin
 								write_w = k_4d+w;
-								write_h = (j-2+h)% memory_height;
+								write_h = (j+i*input_height-2+h)% memory_height;
 								data_in = {mat_in[j-(input_height-(memory_height-2))+h+input_height*(i+1)*(memory_width-filter_width-filter_width*filter_height+1)
 								+(k_4d+w)*input_height], {8{8'b0000_0000}}};
 								en_in = 9'b1_0000_0000;
@@ -317,7 +320,7 @@ parameter zero_padding = 1)
 					end
 					else if (k==0 || k==1) begin
 							write_w = k_4d + w;
-							write_h = (j-4+h)% memory_height;
+							write_h = (j+i*input_height-4+h)% memory_height;
 							if (l==2 || l==3) begin
 								data_in = {mat_in[j-4+h+input_height*i*(memory_width-filter_width-filter_width*filter_height+1)
 								+(k_4d+w)*input_height +memory_height],
@@ -333,7 +336,7 @@ parameter zero_padding = 1)
 					end
 					else if (k==3) begin
 								write_w = 0+w*2; 
-								write_h = (j-2+h)% memory_height;
+								write_h = (j+i*input_height-2+h)% memory_height;
 								if (l==0 || l==1) begin
 									data_in = {mat_in[j-2+h+input_height*(i)*(memory_width-filter_width-filter_width*filter_height+1)
 									+(w)*input_height +memory_height],
@@ -349,7 +352,7 @@ parameter zero_padding = 1)
 							end
 					else begin
 						write_w = k_4d+w;
-						write_h = (j-2+h)% memory_height;
+						write_h = (j+i*input_height-2+h)% memory_height;
 						data_in = {mat_in[j-2+h+input_height*i*(memory_width-filter_width-filter_width*filter_height+1)+(k_4d+w)*input_height +memory_height], {8{8'b0000_0000}}}; 		
 						en_in = 9'b1_0000_0000;		
 					end
@@ -535,15 +538,16 @@ parameter zero_padding = 1)
 			f7 = $fopen(output_file7, "w");
 
 			for (fw=0; fw < (input_width/2); fw = fw + 1) begin
-				for (fh=0; fh < (input_height/2); fh = fh + 1)
-				$fdisplay(f0, "%d", out_save[0][fw][fh]);
-				$fdisplay(f1, "%d", out_save[1][fw][fh]);
-				$fdisplay(f2, "%d", out_save[2][fw][fh]);
-				$fdisplay(f3, "%d", out_save[3][fw][fh]);
-				$fdisplay(f4, "%d", out_save[4][fw][fh]);
-				$fdisplay(f5, "%d", out_save[5][fw][fh]);
-				$fdisplay(f6, "%d", out_save[6][fw][fh]);
-				$fdisplay(f7, "%d", out_save[7][fw][fh]);
+				for (fh=0; fh < (input_height/2); fh = fh + 1) begin
+					$fdisplay(f0, "%b", out_save[0][fw][fh]);
+					$fdisplay(f1, "%b", out_save[1][fw][fh]);
+					$fdisplay(f2, "%b", out_save[2][fw][fh]);
+					$fdisplay(f3, "%b", out_save[3][fw][fh]);
+					$fdisplay(f4, "%b", out_save[4][fw][fh]);
+					$fdisplay(f5, "%b", out_save[5][fw][fh]);
+					$fdisplay(f6, "%b", out_save[6][fw][fh]);
+					$fdisplay(f7, "%b", out_save[7][fw][fh]);
+				end
 
 			end
 			$fclose(f0);
@@ -629,21 +633,21 @@ parameter zero_padding = 1)
 	wire [height_b-1:0] readh [0:8];
 
 	assign readw[0] = en_read[8] ? k + w -2 : 0;
-	assign readh[0] = en_read[8] ? (j + h -2)% memory_height : 0;
+	assign readh[0] = en_read[8] ? (j+i*input_height + h -2)% memory_height : 0;
 	assign readw[1] = en_read[7] ? k + w -1 : 0;
-	assign readh[1] = en_read[7] ? (j + h -2)% memory_height : 0;
+	assign readh[1] = en_read[7] ? (j+i*input_height + h -2)% memory_height : 0;
 	assign readw[2] = en_read[6] ? k + w +0 : 0;
-	assign readh[2] = en_read[6] ? (j + h -2)% memory_height : 0;
+	assign readh[2] = en_read[6] ? (j+i*input_height + h -2)% memory_height : 0;
 	assign readw[3] = en_read[5] ? k + w +1 : 0;
-	assign readh[3] = en_read[5] ? (j + h -2)% memory_height : 0;
+	assign readh[3] = en_read[5] ? (j+i*input_height + h -2)% memory_height : 0;
 	assign readw[4] = en_read[4] ? k + w -2 : 0;
-	assign readh[4] = en_read[4] ? (j + h -1)% memory_height : 0;
+	assign readh[4] = en_read[4] ? (j+i*input_height + h -1)% memory_height : 0;
 	assign readw[5] = en_read[3] ? k + w -1 : 0;
-	assign readh[5] = en_read[3] ? (j + h -1)% memory_height : 0;
+	assign readh[5] = en_read[3] ? (j+i*input_height + h -1)% memory_height : 0;
 	assign readw[6] = en_read[2] ? k + w -0 : 0;
-	assign readh[6] = en_read[2] ? (j + h -1)% memory_height : 0;
+	assign readh[6] = en_read[2] ? (j+i*input_height + h -1)% memory_height : 0;
 	assign readw[7] = en_read[1] ? k + w +1 : 0;
-	assign readh[7] = en_read[1] ? (j + h -1)% memory_height : 0;
+	assign readh[7] = en_read[1] ? (j+i*input_height + h -1)% memory_height : 0;
 	assign readw[8] = 0;
 	assign readh[8] = 0;
 
@@ -670,9 +674,9 @@ parameter zero_padding = 1)
 	// first write
 	initial begin
 		#(write_delay);
-		$readmemh(input_file, mat_in);
-		$readmemh(weight_file, weight);
-		$readmemh(bias_file, bias);
+		$readmemb(input_file, mat_in);
+		$readmemb(weight_file, weight);
+		$readmemb(bias_file, bias);
 
 		// write bias
 		for (i=0; i<8; i=i+1)
@@ -779,7 +783,7 @@ parameter zero_padding = 1)
 					if (pre_rightest==1) begin
 						if (k==2 && i!=0) begin 
 							write_w = w ? 3 : 0;
-							write_h = (j-(input_height-(memory_height-4))+h) % memory_height;
+							write_h = (j+i*input_height-4+h) % memory_height;
 							if (l==0 || l==2) begin
 								data_in = {mat_in[j-(input_height-(memory_height-4))+h+input_height*(i+1)*(memory_width-filter_width-(filter_width*filter_height+2))+
 								(0+w)*input_height],
@@ -802,7 +806,7 @@ parameter zero_padding = 1)
 						end
 						else if (k==memory_width-filter_width-(filter_width*filter_height+2)) begin 
 							write_w = k+w;
-							write_h = (j-(input_height-(memory_height-4))+h) % memory_height;
+							write_h = (j+i*input_height-4+h) % memory_height;
 							if (l==0 || l==2) begin
 								data_in = {mat_in[j-(input_height-(memory_height-4))+h+input_height*(i+1)*(memory_width-filter_width-(filter_width*filter_height+2))+
 								(k+w)*input_height], {8{8'b0000_0000}}};
@@ -825,7 +829,7 @@ parameter zero_padding = 1)
 						end
 						else begin
 							write_w = k+w;
-							write_h = (j-(input_height-(memory_height-4))+h) % memory_height;
+							write_h = (j+i*input_height-4+h) % memory_height;
 							data_in = k < input_width - (i+1) * (memory_width-filter_width-(filter_width*filter_height+2)) ?
 							{mat_in[j-(input_height-(memory_height-4))+h+input_height*(i+1)*(memory_width-filter_width-(filter_width*filter_height+2))
 							+(k+w)*input_height], {8{8'b0000_0000}}}
@@ -838,7 +842,7 @@ parameter zero_padding = 1)
 					else begin
 						if (k==2 && i!=0) begin 
 							write_w = w ? 3 : 0; 
-							write_h = (j-(input_height-(memory_height-4))+h) % memory_height;
+							write_h = (j+i*input_height-4+h) % memory_height;
 							if (l==0 || l==2) begin
 								data_in = {mat_in[j-(input_height-(memory_height-4))+h+input_height*(i+1)*(memory_width-filter_width-(filter_width*filter_height+2))+
 								(0+w)*input_height],
@@ -859,7 +863,7 @@ parameter zero_padding = 1)
 						end
 						else if (k==memory_width-filter_width-(filter_width*filter_height+2)) begin 
 							write_w = k+w;
-							write_h = (j-(input_height-(memory_height-4))+h) % memory_height;
+							write_h = (j+i*input_height-4+h) % memory_height;
 							if (l==0 || l==2) begin
 								data_in = {mat_in[j-(input_height-(memory_height-4))+h+input_height*(i+1)*(memory_width-filter_width-(filter_width*filter_height+2))+
 								(k+w)*input_height], {8{8'b0000_0000}}};
@@ -878,7 +882,7 @@ parameter zero_padding = 1)
 						end
 						else begin
 							write_w = k+w;
-							write_h = (j-(input_height-(memory_height-4))+h) % memory_height;
+							write_h = (j+i*input_height-4+h) % memory_height;
 							data_in = k < input_width - (i+1) * (memory_width-filter_width-(filter_width*filter_height+2)) ?
 							{mat_in[j-(input_height-(memory_height-4))+h+input_height*(i+1)*(memory_width-filter_width-(filter_width*filter_height+2))
 							+(k+w)*input_height], {8{8'b0000_0000}}}
@@ -889,7 +893,7 @@ parameter zero_padding = 1)
 				end
 				else if (k==2 && i!=0) begin 
 					write_w = w ? 3 : 0; 
-					write_h = (j-4+h) % memory_height;
+					write_h = (j+i*input_height-4+h) % memory_height;
 					if (l==0 || l==2) begin
 						data_in = {mat_in[j+(memory_height-4)+h+input_height*(i)*(memory_width-filter_width-(filter_width*filter_height+2))+
 						(0+w)*input_height],
@@ -910,7 +914,7 @@ parameter zero_padding = 1)
 				end
 				else if (k==memory_width-filter_width-(filter_width*filter_height+2)) begin 
 					write_w = k+w;
-					write_h = (j-4+h) % memory_height;
+					write_h = (j+i*input_height-4+h) % memory_height;
 					if (l==0 || l==2) begin
 						data_in = {mat_in[j+(memory_height-4)+h+input_height*(i)*(memory_width-filter_width-(filter_width*filter_height+2))+
 						(k+w)*input_height], {8{8'b0000_0000}}};
@@ -929,7 +933,7 @@ parameter zero_padding = 1)
 				end
 				else begin
 					write_w = k+w;
-					write_h = (j-4+h) % memory_height;
+					write_h = (j+i*input_height-4+h) % memory_height;
 					data_in = {mat_in[j+(memory_height-4)+h+input_height*(i)*(memory_width-filter_width-(filter_width*filter_height+2))
 					+(k+w)*input_height], {8{8'b0000_0000}}};
 					en_in = (l==0 || l==2 || l==4 || l==6) ? 9'b1_0000_0000 : 9'b0_0000_0000;
@@ -1209,15 +1213,16 @@ parameter zero_padding = 1)
 			f7 = $fopen(output_file7, "w");
 
 			for (fw=0; fw < (input_width/2); fw = fw + 1) begin
-				for (fh=0; fh < (input_height/2); fh = fh + 1)
-				$fdisplay(f0, "%d", out_save[0][fw][fh]);
-				$fdisplay(f1, "%d", out_save[1][fw][fh]);
-				$fdisplay(f2, "%d", out_save[2][fw][fh]);
-				$fdisplay(f3, "%d", out_save[3][fw][fh]);
-				$fdisplay(f4, "%d", out_save[4][fw][fh]);
-				$fdisplay(f5, "%d", out_save[5][fw][fh]);
-				$fdisplay(f6, "%d", out_save[6][fw][fh]);
-				$fdisplay(f7, "%d", out_save[7][fw][fh]);
+				for (fh=0; fh < (input_height/2); fh = fh + 1) begin
+					$fdisplay(f0, "%b", out_save[0][fw][fh]);
+					$fdisplay(f1, "%b", out_save[1][fw][fh]);
+					$fdisplay(f2, "%b", out_save[2][fw][fh]);
+					$fdisplay(f3, "%b", out_save[3][fw][fh]);
+					$fdisplay(f4, "%b", out_save[4][fw][fh]);
+					$fdisplay(f5, "%b", out_save[5][fw][fh]);
+					$fdisplay(f6, "%b", out_save[6][fw][fh]);
+					$fdisplay(f7, "%b", out_save[7][fw][fh]);
+				end
 
 			end
 			$fclose(f0);
@@ -1260,15 +1265,28 @@ reg signed [8-1:0] weight [0:8];
 reg signed [16-1:0] bias [0:8];
 reg [8-1:0] mat_out [0:128*128-1];
 
-wire [width_b-1:0]  write_w;
-wire [height_b-1:0]  write_h;
-wire [width_b*9-1:0] readi_w;
-wire [height_b*9-1:0]  readi_h;
-wire [8*9-1:0] data_in;
-wire [8:0] en_in, en_read;
-wire en_bias;
-wire [2:0] step;
-wire en_pe;
+
+reg [width_b-1:0]  write_w0;
+reg [height_b-1:0]  write_h0;
+reg [width_b*9-1:0] readi_w0;
+reg [height_b*9-1:0]  readi_h0;
+reg [8*9-1:0] data_in0;
+reg [8:0] en_in0, en_read0;
+reg en_bias0;
+reg [2:0] step00;
+reg en_pe0;
+
+
+wire [width_b-1:0]  write_w[1:5];
+wire [height_b-1:0]  write_h[1:5];
+wire [width_b*9-1:0] readi_w[1:5];
+wire [height_b*9-1:0]  readi_h[1:5];
+wire [8*9-1:0] data_in[1:5];
+wire [8:0] en_in[1:5], en_read[1:5];
+wire en_bias[1:5];
+wire [2:0] step[1:5];
+wire en_pe[1:5];
+
 reg [2:0] step_p, bound_level;
 reg en_relu, en_mp;
 reg clk, reset;
@@ -1279,17 +1297,31 @@ wire [7:0] out_en;
 reg [width_b-1:0] readi_w_each[0:8];
 reg [height_b-1:0] readi_h_each;
 
-npu_simple npu (write_w, write_h, data_in, en_in, readi_w, readi_h, en_read, en_bias, step, en_pe, bound_level, step_p,
+npu_simple npu (write_w0, write_h0, data_in0, en_in0, readi_w0, readi_h0, en_read0, en_bias0, step00, en_pe0, bound_level, step_p,
 					en_relu, en_mp, 
 					out, out_en, clk, reset);
 
 always #5 clk <= ~clk;
 
-integer i=0, j=0, k=0;
+integer i=0, j=0, k=0, select=0;
 
 // for debugging
 wire [7:0] out_1;
 assign out_1 = out[8*8-1-:8];
+
+always @(*) begin
+	write_w0 = write_w[select+1];
+	write_h0 = write_h[select+1];
+	data_in0 = data_in[select+1];
+	en_in0 = en_in[select+1];
+	readi_w0 = readi_w[select+1];
+	readi_h0 = readi_h[select+1];
+	en_read0 = en_read[select+1];
+	en_bias0 = en_bias[select+1];
+	step00 = step[select+1];
+	en_pe0 = en_pe[select+1];
+end
+
 
 initial
 begin
@@ -1298,21 +1330,83 @@ begin
 	en_relu <= 1;
 	en_mp <= 1;
 	bound_level <= 3'b011;
-	step_p <= 3'b001;
 	#12
 	reset <= 1;
+	step_p <= 3'b000;
+
+	#(9500-12);
+	reset <= 0;
+	#12
+	reset <= 1;
+	select <= 1;
+	step_p <= 3'b001;
+
+	#(7000+9500-12);
+	reset <= 0;
+	#12
+	reset <= 1;
+	select <= 2;
+	step_p <= 3'b001;
+
+	#(7000*2+9500-12);
+	reset <= 0;
+	#12
+	reset <= 1;
+	select <= 3;
+	step_p <= 3'b001;
+
+	#(7000*3+9500-12);
+	reset <= 0;
+	#12
+	reset <= 1;
+	select <= 4;
+	step_p <= 3'b001;
+
 
 end
 
 /*
-run_33 #( .input_width(28), .input_height(28), .write_delay(31), .read_delay(881), .save_delay(941),
+run_33 #( .input_width(128), .input_height(128), .write_delay(31), .read_delay(881), .save_delay(941),
 	.input_file("input_npu.txt"), .weight_file("input_npu_wi.txt"), .bias_file ("input_npu_bi.txt"), .output_file0 ("output_npu.txt"))
 		layer0 (write_w, write_h, data_in, en_in, readi_w, readi_h, en_read, step, en_bias, en_pe, out, out_en, clk);
 */
 
-run_44 #( .input_width(28), .input_height(28), .write_delay(31), .read_delay(881), .save_delay(951),
-	.input_file("input_npu.txt"), .weight_file("input_npu_wi.txt"), .bias_file ("input_npu_bi.txt"), .output_file0 ("output_npu.txt"))
-		layer0 (write_w, write_h, data_in, en_in, readi_w, readi_h, en_read, step, en_bias, en_pe, out, out_en, clk);
+run_33 #( .input_width(28), .input_height(28), .write_delay(31), .read_delay(881), .save_delay(941),
+	.input_file("input_npu.txt"), .weight_file("l0 weight.txt"), .bias_file ("l0 bias.txt"), 
+	.output_file0 ("output_npu_l0c0.txt"), .output_file1 ("output_npu_l0c1.txt"), .output_file2 ("output_npu_l0c2.txt"), .output_file3 ("output_npu_l0c3.txt"),
+	.output_file4 ("output_npu_l0c4.txt"), .output_file5 ("output_npu_l0c5.txt"), .output_file6 ("output_npu_l0c6.txt"), .output_file7 ("output_npu_l0c7.txt"))
+		layer0 (write_w[1], write_h[1], data_in[1], en_in[1], readi_w[1], readi_h[1], en_read[1], step[1], en_bias[1], en_pe[1], out, out_en, clk);
+// run 9500ns
+
+run_44 #( .input_width(14), .input_height(14), .write_delay(31+9500), .read_delay(881+9500), .save_delay(951+9500),
+	.input_file("output_npu_l0c0.txt"), .weight_file("l2 weight.txt"), .bias_file ("l2 bias.txt"), 
+	.output_file0 ("output_npu_l2c00.txt"), .output_file1 ("output_npu_l2c01.txt"), .output_file2 ("output_npu_l2c02.txt"), .output_file3 ("output_npu_l2c03.txt"),
+	.output_file4 ("output_npu_l2c04.txt"), .output_file5 ("output_npu_l2c05.txt"), .output_file6 ("output_npu_l2c06.txt"), .output_file7 ("output_npu_l2c07.txt"))
+		layer20 (write_w[2], write_h[2], data_in[2], en_in[2], readi_w[2], readi_h[2], en_read[2], step[2], en_bias[2], en_pe[2], out, out_en, clk);
+// run 7000ns
+
+
+run_44 #( .input_width(14), .input_height(14), .write_delay(31+7000+9500), .read_delay(881+7000+9500), .save_delay(951+7000+9500),
+	.input_file("output_npu_l0c1.txt"), .weight_file("l2 weight.txt"), .bias_file ("l2 bias.txt"), 
+	.output_file0 ("output_npu_l2c10.txt"), .output_file1 ("output_npu_l2c11.txt"), .output_file2 ("output_npu_l2c12.txt"), .output_file3 ("output_npu_l2c13.txt"),
+	.output_file4 ("output_npu_l2c14.txt"), .output_file5 ("output_npu_l2c15.txt"), .output_file6 ("output_npu_l2c16.txt"), .output_file7 ("output_npu_l2c17.txt"))
+		layer21 (write_w[3], write_h[3], data_in[3], en_in[3], readi_w[3], readi_h[3], en_read[3], step[3], en_bias[3], en_pe[3], out, out_en, clk);
+// run 7000ns
+
+run_44 #( .input_width(14), .input_height(14), .write_delay(31+7000*2+9500), .read_delay(881+7000*2+9500), .save_delay(951+7000*2+9500),
+	.input_file("output_npu_l0c2.txt"), .weight_file("l2 weight.txt"), .bias_file ("l2 bias.txt"), 
+	.output_file0 ("output_npu_l2c20.txt"), .output_file1 ("output_npu_l2c21.txt"), .output_file2 ("output_npu_l2c22.txt"), .output_file3 ("output_npu_l2c23.txt"),
+	.output_file4 ("output_npu_l2c24.txt"), .output_file5 ("output_npu_l2c25.txt"), .output_file6 ("output_npu_l2c26.txt"), .output_file7 ("output_npu_l2c27.txt"))
+		layer22 (write_w[4], write_h[4], data_in[4], en_in[4], readi_w[4], readi_h[4], en_read[4], step[4], en_bias[4], en_pe[4], out, out_en, clk);
+// run 7000ns
+
+run_44 #( .input_width(14), .input_height(14), .write_delay(31+7000*3+9500), .read_delay(881+7000*3+9500), .save_delay(951+7000*3+9500),
+	.input_file("output_npu_l0c3.txt"), .weight_file("l2 weight.txt"), .bias_file ("l2 bias.txt"), 
+	.output_file0 ("output_npu_l2c30.txt"), .output_file1 ("output_npu_l2c31.txt"), .output_file2 ("output_npu_l2c32.txt"), .output_file3 ("output_npu_l2c33.txt"),
+	.output_file4 ("output_npu_l2c34.txt"), .output_file5 ("output_npu_l2c35.txt"), .output_file6 ("output_npu_l2c36.txt"), .output_file7 ("output_npu_l2c37.txt"))
+		layer23 (write_w[5], write_h[5], data_in[5], en_in[5], readi_w[5], readi_h[5], en_read[5], step[5], en_bias[5], en_pe[5], out, out_en, clk);
+// run 7000ns
+
 
 
 
