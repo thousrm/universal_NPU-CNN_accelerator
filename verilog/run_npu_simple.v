@@ -208,7 +208,7 @@ parameter zero_padding = 1)
 				end
 			end
 			else if (j>0) begin
-				if (j==2 && (k!=0 || k!=1)) begin
+				if (j==2 && (k!=0 && k!=1)) begin
 					write_w = k==3 ? k_4d+w-1 : k_4d+w; 
 					write_h = (j-2+h)% memory_height;
 					data_in = k==3 ?
@@ -243,7 +243,7 @@ parameter zero_padding = 1)
 								end
 							end
 							else if (k==2 || k==3) begin 
-								write_w = 0+w*2; 
+								write_w = k==3 ? 0+w*2 : w; 
 								write_h = (j-2+h) % memory_height;
 								if (l==0 || l==1) begin
 									data_in = {mat_in[j-(input_height-(memory_height-2))+h+input_height*(i+1)*(memory_width-filter_width-filter_width*filter_height+1)
@@ -291,7 +291,7 @@ parameter zero_padding = 1)
 								end
 							end
 							else if (k==2 || k==3) begin
-								write_w = 0+w*2; 
+								write_w = k==3 ? 0+w*2 : w; 
 								write_h = (j-2+h)% memory_height;
 								if (l==0 || l==1) begin
 									data_in = {mat_in[j-(input_height-(memory_height-4))+h+input_height*(i+1)*(memory_width-filter_width-filter_width*filter_height+1)
@@ -371,52 +371,53 @@ parameter zero_padding = 1)
 	initial begin
 		enable_write_reading <= 0;
 		#(read_delay);
-		if (input_width > memory_width-9) begin
-			for ( i=0; i < (input_width/(memory_width-filter_width-filter_width*filter_height+1)); i=i+1 ) begin // fmap > right  
-				for ( j=0; j < input_height; j=j+2 ) begin // mem > under
-					for ( k= i==0 ? 0 : 1; k < memory_width-filter_width-filter_width*filter_height+1; k=k+2 ) begin // mem > right
-						for( l=0; l < 4; l=l+1 ) begin // for maxpooling
-							if (zero_padding == 1) begin
-								if (i==0 && k==0 && j==0 && l==0) begin // top-left
-									en_read <= 9'b000011011;
-								end
-								else if (i==0 && (j==input_height-1 || j==input_height-2) && k==0 && l==1) begin // bottom-left
-									en_read <= 9'b011011000;
-								end
-								else if (j==0 && (l==0 || l==3)) begin // top
-									en_read <= 9'b000111111;
-								end
-								else if (i==0 && k==0 && (l==0 || l==1)) begin // left
-									en_read <= 9'b011011011;
-								end
-								else if ((j==input_height-1 || j==input_height-2) && (l==1 || l==2)) begin // bottom
-									en_read <= 9'b111111000;
-								end
-								else en_read <= 9'b111111111;
+		
+		//if (input_width > memory_width-9) begin
+		for ( i=0; i < (input_width/(memory_width-filter_width-filter_width*filter_height+1)); i=i+1 ) begin // fmap > right  
+			for ( j=0; j < input_height; j=j+2 ) begin // mem > under
+				for ( k= i==0 ? 0 : 1; k < memory_width-filter_width-filter_width*filter_height+1; k=k+2 ) begin // mem > right
+					for( l=0; l < 4; l=l+1 ) begin // for maxpooling
+						if (zero_padding == 1) begin
+							if (i==0 && k==0 && j==0 && l==0) begin // top-left
+								en_read <= 9'b000011011;
 							end
-							else en_read <= 9'b111111111; // incompleted yet
-
-							if (l==0 || l==1) w <= 0;
-							else w <= 1;
-							if (l==0 || l==3) h <= 0;
-							else h <= 1; 
-
-							
-
-							en_bias <= 1;
-							en_pe <= 1;
-							step <= 3'b000;
-
-							// write_reading start
-							enable_write_reading <= 1;
-							
-
-							#10;
+							else if (i==0 && (j==input_height-1 || j==input_height-2) && k==0 && l==1) begin // bottom-left
+								en_read <= 9'b011011000;
+							end
+							else if (j==0 && (l==0 || l==3)) begin // top
+								en_read <= 9'b000111111;
+							end
+							else if (i==0 && k==0 && (l==0 || l==1)) begin // left
+								en_read <= 9'b011011011;
+							end
+							else if ((j==input_height-1 || j==input_height-2) && (l==1 || l==2)) begin // bottom
+								en_read <= 9'b111111000;
+							end
+							else en_read <= 9'b111111111;
 						end
+						else en_read <= 9'b111111111; // incompleted yet
+
+						if (l==0 || l==1) w <= 0;
+						else w <= 1;
+						if (l==0 || l==3) h <= 0;
+						else h <= 1; 
+
+						
+
+						en_bias <= 1;
+						en_pe <= 1;
+						step <= 3'b000;
+
+						// write_reading start
+						enable_write_reading <= 1;
+						
+
+						#10;
 					end
 				end
 			end
 		end
+		//end
 
 		// rightest fmap
 		for ( j=0; j < input_height; j=j+2 ) begin // mem > under
@@ -513,13 +514,13 @@ parameter zero_padding = 1)
 	always @(posedge clk) begin
 		if (out_en[7]==1 && start_save ==1 && s < (input_width/2) * (input_height/2)) begin
 			out_save[0][i_7d*(memory_width-filter_width-filter_width*filter_height)/2+(k_7d/2) + (k_7d % 2)][j_7d/2] <= out[8*8-1-8*0-:8];
-			out_save[1][i_7d*(memory_width-filter_width-filter_width*filter_height)/2+k_7d/2][j_7d/2] <= out[8*8-1-8*1-:8];
-			out_save[2][i_7d*(memory_width-filter_width-filter_width*filter_height)/2+k_7d/2][j_7d/2] <= out[8*8-1-8*2-:8];
-			out_save[3][i_7d*(memory_width-filter_width-filter_width*filter_height)/2+k_7d/2][j_7d/2] <= out[8*8-1-8*3-:8];
-			out_save[4][i_7d*(memory_width-filter_width-filter_width*filter_height)/2+k_7d/2][j_7d/2] <= out[8*8-1-8*4-:8];
-			out_save[5][i_7d*(memory_width-filter_width-filter_width*filter_height)/2+k_7d/2][j_7d/2] <= out[8*8-1-8*5-:8];
-			out_save[6][i_7d*(memory_width-filter_width-filter_width*filter_height)/2+k_7d/2][j_7d/2] <= out[8*8-1-8*6-:8];
-			out_save[7][i_7d*(memory_width-filter_width-filter_width*filter_height)/2+k_7d/2][j_7d/2] <= out[8*8-1-8*7-:8];
+			out_save[1][i_7d*(memory_width-filter_width-filter_width*filter_height)/2+(k_7d/2) + (k_7d % 2)][j_7d/2] <= out[8*8-1-8*1-:8];
+			out_save[2][i_7d*(memory_width-filter_width-filter_width*filter_height)/2+(k_7d/2) + (k_7d % 2)][j_7d/2] <= out[8*8-1-8*2-:8];
+			out_save[3][i_7d*(memory_width-filter_width-filter_width*filter_height)/2+(k_7d/2) + (k_7d % 2)][j_7d/2] <= out[8*8-1-8*3-:8];
+			out_save[4][i_7d*(memory_width-filter_width-filter_width*filter_height)/2+(k_7d/2) + (k_7d % 2)][j_7d/2] <= out[8*8-1-8*4-:8];
+			out_save[5][i_7d*(memory_width-filter_width-filter_width*filter_height)/2+(k_7d/2) + (k_7d % 2)][j_7d/2] <= out[8*8-1-8*5-:8];
+			out_save[6][i_7d*(memory_width-filter_width-filter_width*filter_height)/2+(k_7d/2) + (k_7d % 2)][j_7d/2] <= out[8*8-1-8*6-:8];
+			out_save[7][i_7d*(memory_width-filter_width-filter_width*filter_height)/2+(k_7d/2) + (k_7d % 2)][j_7d/2] <= out[8*8-1-8*7-:8];
 			s <= s+1;
 		end
 		else if (s == (input_width/2) * (input_height/2)) begin
@@ -950,91 +951,91 @@ parameter zero_padding = 1)
 	initial begin
 		enable_write_reading <= 0;
 		#(read_delay);
-		if (input_width > memory_width-18) begin
-			for ( i=0; i < (input_width/(memory_width-filter_width-(filter_width*filter_height+2))); i=i+1 ) begin // fmap > right  
-				for ( j=0; j < input_height; j=j+2 ) begin // mem > under
-					for ( k= i==0 ? 0 : 2; k < memory_width-filter_width-(filter_width*filter_height+2)+2; k=k+2 ) begin // mem > right
-						for( l=0; l < 8; l=l+1 ) begin // for maxpooling & step
-							if (zero_padding == 1) begin
-								if (i==0 && k==0 && j==0 && l==0) begin // top-left 0
-									en_read <= 9'b000000000;
-								end
-								else if (i==0 && k==0 && j==0 && l==1) begin // top-left 1
-									en_read <= 9'b001100110;
-								end
-								else if (i==0 && k==0 && j==0 && l==2) begin // top-left 2
-									en_read <= 9'b000000110;
-								end
-								else if (i==0 && k==0 && j==0 && l==3) begin // top-left 3
-									en_read <= 9'b001100110;
-								end
-								else if (i==0 && k==0 && j==0 && l==4) begin // top-left 4
-									en_read <= 9'b000001110;
-								end
-								else if (i==0 && k==0 && j==0 && l==5) begin // top-left 5
-									en_read <= 9'b011101110;
-								end
-								else if (i==0 && k==0 && j==0 && l==6) begin // top-left 6
-									en_read <= 9'b000000000;
-								end
-								else if (i==0 && k==0 && j==0 && l==7) begin // top-left 7
-									en_read <= 9'b011101110;
-								end
-								else if (i==0 && (j==input_height-1 || j==input_height-2) && k==0 && (l==0 || l==1 || l==2)) begin // bottom-left 0 1 2
-									en_read <= 9'b001100110;
-								end
-								else if (i==0 && (j==input_height-1 || j==input_height-2) && k==0 && l==3) begin // bottom-left 3
-									en_read <= 9'b001100000;
-								end
-								else if (i==0 && (j==input_height-1 || j==input_height-2) && k==0 && (l==4 || l==6 || l==7)) begin // bottom-left 4 6 7
-									en_read <= 9'b011101110;
-								end
-								else if (i==0 && (j==input_height-1 || j==input_height-2) && k==0 && l==5) begin // bottom-left 5
-									en_read <= 9'b011100000;
-								end
-								else if (j==0 && (l==0 || l==6)) begin // top 0 6
-									en_read <= 9'b000000000;
-								end
-								else if (j==0 && (l==2 || l==4)) begin // top 2 4
-									en_read <= 9'b000011110;
-								end
-								else if (i==0 && k==0 && (l==0 || l==1 || l==2 || l==3)) begin // left 0 1 2 3
-									en_read <= 9'b001100110;
-								end
-								else if (i==0 && k==0 && (l==4 || l==5 || l==6 || l==7)) begin // left 4 5 6 7
-									en_read <= 9'b011101110;
-								end
-								else if ((j==input_height-1 || j==input_height-2) && (l==3 || l==5)) begin // bottom 3 5
-									en_read <= 9'b111100000;
-								end
-								else en_read <= 9'b111111110;
+		//if (input_width > memory_width-18) begin
+		for ( i=0; i < (input_width/(memory_width-filter_width-(filter_width*filter_height+2))); i=i+1 ) begin // fmap > right  
+			for ( j=0; j < input_height; j=j+2 ) begin // mem > under
+				for ( k= i==0 ? 0 : 2; k < memory_width-filter_width-(filter_width*filter_height+2)+2; k=k+2 ) begin // mem > right
+					for( l=0; l < 8; l=l+1 ) begin // for maxpooling & step
+						if (zero_padding == 1) begin
+							if (i==0 && k==0 && j==0 && l==0) begin // top-left 0
+								en_read <= 9'b000000000;
 							end
-							else en_read <= 9'b111111111; // incompleted yet
-
-							if (l==0 || l==1 || l==2 || l==3) w <= 0;
-							else w <= 1;
-							
-							if (l==1 || l==7) h <= 2;
-							else if (l==2 || l==4) h <= 1;
-							else if (l==3 || l==5) h <= 3;
-							else h <= 0; 
-
-							if (l==0 || l==2 || l==4 || l==6) step <= 3'b000;
-							else step <= 3'b001;
-
-							en_bias <= 1;
-							en_pe <= 1;
-
-							// write_reading start
-							enable_write_reading <= 1;
-							
-
-							#10;
+							else if (i==0 && k==0 && j==0 && l==1) begin // top-left 1
+								en_read <= 9'b001100110;
+							end
+							else if (i==0 && k==0 && j==0 && l==2) begin // top-left 2
+								en_read <= 9'b000000110;
+							end
+							else if (i==0 && k==0 && j==0 && l==3) begin // top-left 3
+								en_read <= 9'b001100110;
+							end
+							else if (i==0 && k==0 && j==0 && l==4) begin // top-left 4
+								en_read <= 9'b000001110;
+							end
+							else if (i==0 && k==0 && j==0 && l==5) begin // top-left 5
+								en_read <= 9'b011101110;
+							end
+							else if (i==0 && k==0 && j==0 && l==6) begin // top-left 6
+								en_read <= 9'b000000000;
+							end
+							else if (i==0 && k==0 && j==0 && l==7) begin // top-left 7
+								en_read <= 9'b011101110;
+							end
+							else if (i==0 && (j==input_height-1 || j==input_height-2) && k==0 && (l==0 || l==1 || l==2)) begin // bottom-left 0 1 2
+								en_read <= 9'b001100110;
+							end
+							else if (i==0 && (j==input_height-1 || j==input_height-2) && k==0 && l==3) begin // bottom-left 3
+								en_read <= 9'b001100000;
+							end
+							else if (i==0 && (j==input_height-1 || j==input_height-2) && k==0 && (l==4 || l==6 || l==7)) begin // bottom-left 4 6 7
+								en_read <= 9'b011101110;
+							end
+							else if (i==0 && (j==input_height-1 || j==input_height-2) && k==0 && l==5) begin // bottom-left 5
+								en_read <= 9'b011100000;
+							end
+							else if (j==0 && (l==0 || l==6)) begin // top 0 6
+								en_read <= 9'b000000000;
+							end
+							else if (j==0 && (l==2 || l==4)) begin // top 2 4
+								en_read <= 9'b000011110;
+							end
+							else if (i==0 && k==0 && (l==0 || l==1 || l==2 || l==3)) begin // left 0 1 2 3
+								en_read <= 9'b001100110;
+							end
+							else if (i==0 && k==0 && (l==4 || l==5 || l==6 || l==7)) begin // left 4 5 6 7
+								en_read <= 9'b011101110;
+							end
+							else if ((j==input_height-1 || j==input_height-2) && (l==3 || l==5)) begin // bottom 3 5
+								en_read <= 9'b111100000;
+							end
+							else en_read <= 9'b111111110;
 						end
+						else en_read <= 9'b111111111; // incompleted yet
+
+						if (l==0 || l==1 || l==2 || l==3) w <= 0;
+						else w <= 1;
+						
+						if (l==1 || l==7) h <= 2;
+						else if (l==2 || l==4) h <= 1;
+						else if (l==3 || l==5) h <= 3;
+						else h <= 0; 
+
+						if (l==0 || l==2 || l==4 || l==6) step <= 3'b000;
+						else step <= 3'b001;
+
+						en_bias <= 1;
+						en_pe <= 1;
+
+						// write_reading start
+						enable_write_reading <= 1;
+						
+
+						#10;
 					end
 				end
 			end
 		end
+		//end
 
 		// rightest fmap
 		for ( j=0; j < input_height; j=j+2 ) begin // mem > under
@@ -1187,13 +1188,13 @@ parameter zero_padding = 1)
 	always @(posedge clk) begin
 		if (out_en[7]==1 && start_save ==1 && s < (input_width/2) * (input_height/2)) begin
 			out_save[0][i_7d*(memory_width-filter_width-(filter_width*filter_height+2))/2+(k_7d/2) + (k_7d % 2)][j_7d/2] <= out[8*8-1-8*0-:8];
-			out_save[1][i_7d*(memory_width-filter_width-(filter_width*filter_height+2))/2+k_7d/2][j_7d/2] <= out[8*8-1-8*1-:8];
-			out_save[2][i_7d*(memory_width-filter_width-(filter_width*filter_height+2))/2+k_7d/2][j_7d/2] <= out[8*8-1-8*2-:8];
-			out_save[3][i_7d*(memory_width-filter_width-(filter_width*filter_height+2))/2+k_7d/2][j_7d/2] <= out[8*8-1-8*3-:8];
-			out_save[4][i_7d*(memory_width-filter_width-(filter_width*filter_height+2))/2+k_7d/2][j_7d/2] <= out[8*8-1-8*4-:8];
-			out_save[5][i_7d*(memory_width-filter_width-(filter_width*filter_height+2))/2+k_7d/2][j_7d/2] <= out[8*8-1-8*5-:8];
-			out_save[6][i_7d*(memory_width-filter_width-(filter_width*filter_height+2))/2+k_7d/2][j_7d/2] <= out[8*8-1-8*6-:8];
-			out_save[7][i_7d*(memory_width-filter_width-(filter_width*filter_height+2))/2+k_7d/2][j_7d/2] <= out[8*8-1-8*7-:8];
+			out_save[1][i_7d*(memory_width-filter_width-(filter_width*filter_height+2))/2+(k_7d/2) + (k_7d % 2)][j_7d/2] <= out[8*8-1-8*1-:8];
+			out_save[2][i_7d*(memory_width-filter_width-(filter_width*filter_height+2))/2+(k_7d/2) + (k_7d % 2)][j_7d/2] <= out[8*8-1-8*2-:8];
+			out_save[3][i_7d*(memory_width-filter_width-(filter_width*filter_height+2))/2+(k_7d/2) + (k_7d % 2)][j_7d/2] <= out[8*8-1-8*3-:8];
+			out_save[4][i_7d*(memory_width-filter_width-(filter_width*filter_height+2))/2+(k_7d/2) + (k_7d % 2)][j_7d/2] <= out[8*8-1-8*4-:8];
+			out_save[5][i_7d*(memory_width-filter_width-(filter_width*filter_height+2))/2+(k_7d/2) + (k_7d % 2)][j_7d/2] <= out[8*8-1-8*5-:8];
+			out_save[6][i_7d*(memory_width-filter_width-(filter_width*filter_height+2))/2+(k_7d/2) + (k_7d % 2)][j_7d/2] <= out[8*8-1-8*6-:8];
+			out_save[7][i_7d*(memory_width-filter_width-(filter_width*filter_height+2))/2+(k_7d/2) + (k_7d % 2)][j_7d/2] <= out[8*8-1-8*7-:8];
 			s <= s+1;
 		end
 		else if (s == (input_width/2) * (input_height/2)) begin
@@ -1304,11 +1305,13 @@ begin
 end
 
 /*
-run_33 #( .input_file("input_npu.txt"), .weight_file("input_npu_wi.txt"), .bias_file ("input_npu_bi.txt"), .output_file0 ("output_npu.txt"))
+run_33 #( .input_width(28), .input_height(28), .write_delay(31), .read_delay(881), .save_delay(941),
+	.input_file("input_npu.txt"), .weight_file("input_npu_wi.txt"), .bias_file ("input_npu_bi.txt"), .output_file0 ("output_npu.txt"))
 		layer0 (write_w, write_h, data_in, en_in, readi_w, readi_h, en_read, step, en_bias, en_pe, out, out_en, clk);
 */
 
-run_44 #( .input_file("input_npu.txt"), .weight_file("input_npu_wi.txt"), .bias_file ("input_npu_bi.txt"), .output_file0 ("output_npu.txt"))
+run_44 #( .input_width(28), .input_height(28), .write_delay(31), .read_delay(881), .save_delay(951),
+	.input_file("input_npu.txt"), .weight_file("input_npu_wi.txt"), .bias_file ("input_npu_bi.txt"), .output_file0 ("output_npu.txt"))
 		layer0 (write_w, write_h, data_in, en_in, readi_w, readi_h, en_read, step, en_bias, en_pe, out, out_en, clk);
 
 
