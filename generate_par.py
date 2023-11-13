@@ -6,7 +6,7 @@ import numpy as np
 img_rows = 28
 img_cols = 28
 
-model = load_model('model.h5')
+model = load_model('mymodel')
 weight_ori = model.get_weights()
 
 images = keras.preprocessing.image.load_img("img/7.png", target_size=(28,28))
@@ -17,22 +17,33 @@ img_tensor = np.expand_dims(img_tensor, axis=0)
 img_tensor.reshape(1, 28, 28, 3)
 
 img_tensor = img_tensor[:,:,:,0]
-
+img_tensor = 255 - img_tensor
 
 weight0 = weight_ori[0]
+weight0 = (weight0*256).astype(int)
+weight0_bin = np.vectorize(np.binary_repr)(weight0, 8)
+
+weightl0 = np.concatenate((weight0_bin[:,:,0,0], [ ["00000000","00000000","00000000"], ["00000000","00000000","00000000"], ["00000000","00000000","00000000"]]), axis=0)
+weightl0 = np.concatenate((weightl0, [ ["00000000","00000000","00000000"], ["00000000","00000000","00000000"], ["00000000","00000000","00000000"]]), axis=0)
+weightl0 = np.concatenate((weightl0, [ ["00000000","00000000","00000000"], ["00000000","00000000","00000000"], ["00000000","00000000","00000000"]]), axis=0)
+weightl0 = np.concatenate((weightl0, [ ["00000000","00000000","00000000"], ["00000000","00000000","00000000"], ["00000000","00000000","00000000"]]), axis=0)
+weightl0 = np.concatenate((weightl0, [ ["00000000","00000000","00000000"], ["00000000","00000000","00000000"], ["00000000","00000000","00000000"]]), axis=0)
+weightl0 = np.concatenate((weightl0, [ ["00000000","00000000","00000000"], ["00000000","00000000","00000000"], ["00000000","00000000","00000000"]]), axis=0)
+weightl0 = np.concatenate((weightl0, [ ["00000000","00000000","00000000"], ["00000000","00000000","00000000"], ["00000000","00000000","00000000"]]), axis=0)
+
 bias0 = weight_ori[1]
+bias0 = np.append(bias0, 0)
+bias0 = (bias0*128).astype(int)
+bias0_bin = np.vectorize(np.binary_repr)(bias0, 16)
 
-binary_repr_vec = np.vectorize(np.binary_repr)
 
-img_int = img_tensor[0,:,:].astype(int)
-np.savetxt("verilog/input_map_hex.txt", img_int, delimiter="", fmt= '%02x')
+img_int = img_tensor[0,:,:]/2
+img_int = img_int.astype(int)
+img_int_bin = np.vectorize(np.binary_repr)(img_int, 8)
 
-wei0_int = (weight0[:,:,0,0]*256).astype(int)
-np.savetxt("verilog/l0c0 weight.txt", np.vectorize(np.binary_repr)(wei0_int, 8), delimiter="\n", fmt= '%s')
-
-bias0_int = (bias0*128).astype(np.int8)
-np.savetxt("verilog/l0 bias.txt", np.vectorize(np.binary_repr)(bias0_int, 16), delimiter="\n", fmt= '%s')
-
+np.savetxt("verilog/input_npu.txt", np.transpose(img_int_bin), delimiter="\n", fmt= '%s')
+np.savetxt("verilog/l0 weight.txt", weightl0, delimiter="\n", fmt= '%s')
+np.savetxt("verilog/l0 bias.txt", bias0_bin, delimiter="\n", fmt= '%s')
 
 
 weight1 = weight_ori[2]
@@ -44,14 +55,15 @@ bias1 = weight_ori[3]
 bias1 = (bias1*128).astype(int)
 bias1_bin = np.vectorize(np.binary_repr)(bias1, 16)
 
+weightl1 = np.concatenate((weight1_bin[:,:,0,0], weight1_bin[:,:,0,1]), axis=0)
+weightl1 = np.concatenate((weightl1, weight1_bin[:,:,0,2]), axis=0)
+weightl1 = np.concatenate((weightl1, weight1_bin[:,:,0,3]), axis=0)
+weightl1 = np.concatenate((weightl1, weight1_bin[:,:,0,4]), axis=0)
+weightl1 = np.concatenate((weightl1, weight1_bin[:,:,0,5]), axis=0)
+weightl1 = np.concatenate((weightl1, weight1_bin[:,:,0,6]), axis=0)
+weightl1 = np.concatenate((weightl1, weight1_bin[:,:,0,7]), axis=0)
 
-np.savetxt("verilog/l2c0 weight.txt", weight1_bin[:,:,0,0], delimiter="\n", fmt= '%s')
-np.savetxt("verilog/l2c1 weight.txt", weight1_bin[:,:,0,1], delimiter="\n", fmt= '%s')
-np.savetxt("verilog/l2c2 weight.txt", weight1_bin[:,:,0,2], delimiter="\n", fmt= '%s')
-np.savetxt("verilog/l2c3 weight.txt", weight1_bin[:,:,0,3], delimiter="\n", fmt= '%s')
-np.savetxt("verilog/l2c4 weight.txt", weight1_bin[:,:,0,4], delimiter="\n", fmt= '%s')
-np.savetxt("verilog/l2c5 weight.txt", weight1_bin[:,:,0,5], delimiter="\n", fmt= '%s')
-np.savetxt("verilog/l2c6 weight.txt", weight1_bin[:,:,0,6], delimiter="\n", fmt= '%s')
-np.savetxt("verilog/l2c7 weight.txt", weight1_bin[:,:,0,7], delimiter="\n", fmt= '%s')
+np.savetxt("verilog/l2 weight.txt", weightl1, delimiter="\n", fmt= '%s')
+
 np.savetxt("verilog/l2 bias.txt", bias1_bin, delimiter="\n", fmt= '%s')
 
