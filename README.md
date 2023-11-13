@@ -15,6 +15,33 @@ If you have suitable tools, such as design compiler or else, please give me timi
 ---
 # Descripton
 
+## Control Part
+
+Control Part_simple version has only essential functions. (That's why its name is "simple version")
+
+This is because I can't determine which level of control part is efficient.
+
+Many functions are useful, but it requires more area and reduces flexibility.
+
+So, I decided to design the simple control part first and upgrade it later.
+
+## Memory Part
+
+Memory Part is neceessary to reduce power consumption and bottleneck effect.
+
+It decreases the number of communications with ram by saving required datas in its Flip Flop.
+
+There are many ways 
+
+
+
+
+
+
+
+
+
+
 ### Mechanism
 
 The whole process is Modified Booth Algorithm -> Wallace Tree -> Relu -> Maxpooling.
