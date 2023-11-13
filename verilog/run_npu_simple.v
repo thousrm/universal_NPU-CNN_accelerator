@@ -1214,14 +1214,14 @@ parameter zero_padding = 1)
 
 			for (fw=0; fw < (input_width/2); fw = fw + 1) begin
 				for (fh=0; fh < (input_height/2); fh = fh + 1) begin
-					$fdisplay(f0, "%b", out_save[0][fw][fh]);
-					$fdisplay(f1, "%b", out_save[1][fw][fh]);
-					$fdisplay(f2, "%b", out_save[2][fw][fh]);
-					$fdisplay(f3, "%b", out_save[3][fw][fh]);
-					$fdisplay(f4, "%b", out_save[4][fw][fh]);
-					$fdisplay(f5, "%b", out_save[5][fw][fh]);
-					$fdisplay(f6, "%b", out_save[6][fw][fh]);
-					$fdisplay(f7, "%b", out_save[7][fw][fh]);
+					$fdisplay(f0, "%d", out_save[0][fw][fh]);
+					$fdisplay(f1, "%d", out_save[1][fw][fh]);
+					$fdisplay(f2, "%d", out_save[2][fw][fh]);
+					$fdisplay(f3, "%d", out_save[3][fw][fh]);
+					$fdisplay(f4, "%d", out_save[4][fw][fh]);
+					$fdisplay(f5, "%d", out_save[5][fw][fh]);
+					$fdisplay(f6, "%d", out_save[6][fw][fh]);
+					$fdisplay(f7, "%d", out_save[7][fw][fh]);
 				end
 
 			end
@@ -1336,32 +1336,33 @@ begin
 
 	#(9500-12);
 	reset <= 0;
+	bound_level <= 3'b101;
 	#12
 	reset <= 1;
 	select <= 1;
 	step_p <= 3'b001;
-
-	#(7000+9500-12);
+/*
+	#(7000-12);
 	reset <= 0;
 	#12
 	reset <= 1;
 	select <= 2;
 	step_p <= 3'b001;
 
-	#(7000*2+9500-12);
+	#(7000-12);
 	reset <= 0;
 	#12
 	reset <= 1;
 	select <= 3;
 	step_p <= 3'b001;
 
-	#(7000*3+9500-12);
+	#(7000-12);
 	reset <= 0;
 	#12
 	reset <= 1;
 	select <= 4;
 	step_p <= 3'b001;
-
+*/
 
 end
 
@@ -1378,6 +1379,7 @@ run_33 #( .input_width(28), .input_height(28), .write_delay(31), .read_delay(881
 		layer0 (write_w[1], write_h[1], data_in[1], en_in[1], readi_w[1], readi_h[1], en_read[1], step[1], en_bias[1], en_pe[1], out, out_en, clk);
 // run 9500ns
 
+
 run_44 #( .input_width(14), .input_height(14), .write_delay(31+9500), .read_delay(881+9500), .save_delay(951+9500),
 	.input_file("output_npu_l0c0.txt"), .weight_file("l2 weight.txt"), .bias_file ("l2 bias.txt"), 
 	.output_file0 ("output_npu_l2c00.txt"), .output_file1 ("output_npu_l2c01.txt"), .output_file2 ("output_npu_l2c02.txt"), .output_file3 ("output_npu_l2c03.txt"),
@@ -1385,7 +1387,7 @@ run_44 #( .input_width(14), .input_height(14), .write_delay(31+9500), .read_dela
 		layer20 (write_w[2], write_h[2], data_in[2], en_in[2], readi_w[2], readi_h[2], en_read[2], step[2], en_bias[2], en_pe[2], out, out_en, clk);
 // run 7000ns
 
-
+/*
 run_44 #( .input_width(14), .input_height(14), .write_delay(31+7000+9500), .read_delay(881+7000+9500), .save_delay(951+7000+9500),
 	.input_file("output_npu_l0c1.txt"), .weight_file("l2 weight.txt"), .bias_file ("l2 bias.txt"), 
 	.output_file0 ("output_npu_l2c10.txt"), .output_file1 ("output_npu_l2c11.txt"), .output_file2 ("output_npu_l2c12.txt"), .output_file3 ("output_npu_l2c13.txt"),
@@ -1406,7 +1408,7 @@ run_44 #( .input_width(14), .input_height(14), .write_delay(31+7000*3+9500), .re
 	.output_file4 ("output_npu_l2c34.txt"), .output_file5 ("output_npu_l2c35.txt"), .output_file6 ("output_npu_l2c36.txt"), .output_file7 ("output_npu_l2c37.txt"))
 		layer23 (write_w[5], write_h[5], data_in[5], en_in[5], readi_w[5], readi_h[5], en_read[5], step[5], en_bias[5], en_pe[5], out, out_en, clk);
 // run 7000ns
-
+*/
 
 
 
