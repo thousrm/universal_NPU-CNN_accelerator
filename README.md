@@ -99,7 +99,7 @@ After several convolutions, line 1 is no longer needed, so the memory part repla
 
 When there is no more next line, the memory part starts to store the data on the right side of the input feature map.
 
-By these step, the arithmetic part can perform convolution continuously, because there is no need to stop reading data from the memory part to store the required data.
+By these steps, the arithmetic part can perform convolution continuously, because there is no need to stop reading data from the memory part to store the required data.
 
 <br/>
 
