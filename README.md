@@ -13,6 +13,18 @@ If you have suitable tools, such as design compiler or else, please give me timi
 <br/>
 
 ---
+# Usage
+1. Install required pakages (tensorflow, keras, numpy, pillow, matplotlib)
+2. run generate_par.py (I use pycharm)
+3. Compile all verilog files
+4. Simulate run_npu_simple.v
+5. Run predict.py
+
+If you want to use this module for other cnn model, you have to edit generate_par.py, run_npu_simple.v and predict.py for it.
+
+<br/>
+
+---
 # Descripton
 
 ## Overall Structure
@@ -156,33 +168,24 @@ As a result, the output becomes previous weight * previous input + current weigh
 
 
 
----
-# Usage
-1. run generate_par.py (I use pycharm)
-2. simulate tb_ap
-3. run predict.py
 
-If you want to use this module for other cnn model, you have to edit generate_par.py, tb_ap and predict.py for it.
-
-Because control part is not implemented yet, it can't be done automatically.
-
-<br/>
 
 ### CNN Model
 
 <br/>
 
-![image](https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/932f9015-8a5c-491c-b11b-26dd91d5f754)
+![image](https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/05f26167-7597-460d-a69e-af20b8461e77)
+
 
 <br/>
-layer0~3 are calculated by the accelerator.
+layer0~4 are calculated by the accelerator.
 
 
 
 ---
 # Architecture
 
-### NPU & Arithmetic_part (overall structure)
+### NPU & Arithmetic_part
 
 ![npu](https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/ae880dd7-c8e4-4abe-a55a-8ab0d594dfb2)
 
