@@ -15,6 +15,12 @@ If you have suitable tools, such as design compiler or else, please give me timi
 ---
 # Descripton
 
+## Overall Structure
+
+![image](https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/0976a968-a228-4b66-be5e-5a5e66285adb)
+
+<br/>
+
 ## Control Part
 
 Control Part_simple version has only essential functions. (That's why its name is "simple version")
@@ -25,22 +31,75 @@ Many functions are useful, but it requires more area and reduces flexibility.
 
 So, I decided to design the simple control part first and upgrade it later.
 
+<br/>
+
 ## Memory Part
 
 Memory Part is neceessary to reduce power consumption and bottleneck effect.
 
 It decreases the number of communications with ram by saving required datas in its Flip Flop.
 
-There are many ways 
+There are various ways to use the memory part, but I will introduce the way of run_npu_simple.v.
+
+<br/>
+
+### Structure
+
+![image](https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/f4866bc5-d84a-49ac-a1ea-86f3683ee15e)
+
+|Field|Description|
+|:---|:---|
+|Input Feture Map|This area is used to store input feture map. The data in this field is often edited.|
+|Additional Weight & Weight|This area is used to store weights. The data in this field is rarely edited.|
+|bias|This area is used to store biases. The data in this field is rarely edited.|
+
+<br/>
+
+### Desciption
+
+To make it easier to understand, some of the details in the description differ from the method that I actually used.
+
+Let's take the example of 128\*128\*1 input feature map and 3\*3\*1 filter.
+
+![image](https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/52bbe410-9c86-4dc8-ba7a-92ecfecb3163)
+
+First, data in this area is stored in the memory part.
+
+<br/>
+
+![image](https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/130baaec-9055-44af-89d9-46f537f23bf1)
+
+The left image shows the data stored in the memory part (red) and used in the arithmetic part for convoltion (blue) on the input feature map.
+
+The right image shows the data in the memory part.
+
+<br/>
+
+![image](https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/ed757519-78cb-4567-b323-0dfa9fbbb43f)
+
+After several convolutions, line 1 is no longer needed, so the memory part replaces it with line 9.
+
+<br/>
+
+![image](https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/e05b2a5d-aaa4-4b67-a731-14d8ca60284c)
+![image](https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/fc632287-4dc2-4fe6-b5d1-ee5afe144355)
 
 
+When there is no more next line, the memory part starts to store the data on the right side of the input feature map.
 
+By these step, the arithmetic part can perform convolution continuously, because there is no need to stop reading data from the memory part to store the required data.
 
+<br/>
 
+![image](https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/04b00f73-6b3e-4095-af54-d14b9021ed8f)
 
+As a result, all pixels in the input feature map are loaded from RAM almost once.
 
+Not exactly once, because some pixels in the specific columns have to be loaded twice. (Roughly 1.016 times on average)
 
+<br/>
 
+## Arithmetic Part
 
 ### Mechanism
 
