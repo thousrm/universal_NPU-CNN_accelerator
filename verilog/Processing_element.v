@@ -98,6 +98,7 @@ wire [1:0] a19, a18, a17, a16, a15, a14, a13, a12, a11, a10, a9, a8, a7, a6;
 wire a5; 
 
 wire [outport_add-1:0] addout;
+wire [outport_add-2:0] addout_o, addout_d;
 
 addertree_stage2 AT20(ao18_d, ao17_d, ao16_d, ao15_d, ao14_d, ao13_d, ao12_d, ao11_d, ao10_d, ao9_d, ao8_d, ao7_d, ao6_d, ao5_d, ao4_d, ao3_d,
                     pre_output,
@@ -118,20 +119,29 @@ adder_final AF0(a19, a18, a17, a16, a15, a14, a13, a12, a11, a10, a9, a8, a7, a6
 ////////////////
 
 
+assign addout_o[outport_add-2] = addout[outport_add-1];
+assign addout_o[outport_add-3:0] =  addout[outport_add-1] ^ addout[outport_add-2] ? {12{~addout[outport_add-1]}}
+                                                                                   : addout[outport_add-3:0];
+
+///clk+2
+D_FF14 F1 (addout_o, addout_d, clk, reset);
+
+/// from here
+
 ////////////////
 //set bound
 ////////////////
 
 wire signed [outport-1:0] b_out;
 wire oxor[0:5], chk_over[0:5]; 
-assign b_out[7] = addout[outport_add-1]; //MSB
+assign b_out[7] = addout_d[outport_add-1]; //MSB
 
-assign oxor[0] = addout[outport_add-1] ~^ addout[outport_add-2];
-assign oxor[1] = addout[outport_add-2] ~^ addout[outport_add-3];
-assign oxor[2] = addout[outport_add-3] ~^ addout[outport_add-4];
-assign oxor[3] = addout[outport_add-4] ~^ addout[outport_add-5];
-assign oxor[4] = addout[outport_add-5] ~^ addout[outport_add-6];
-assign oxor[5] = addout[outport_add-6] ~^ addout[outport_add-7];
+assign oxor[0] = addout_d[outport_add-1] ~^ addout_d[outport_add-2];
+assign oxor[1] = addout_d[outport_add-2] ~^ addout_d[outport_add-3];
+assign oxor[2] = addout_d[outport_add-3] ~^ addout_d[outport_add-4];
+assign oxor[3] = addout_d[outport_add-4] ~^ addout_d[outport_add-5];
+assign oxor[4] = addout_d[outport_add-5] ~^ addout_d[outport_add-6];
+assign oxor[5] = addout_d[outport_add-6] ~^ addout_d[outport_add-7];
 
 assign chk_over[0] = oxor[0];
 assign chk_over[1] = oxor[0] & oxor[1];
@@ -141,25 +151,24 @@ assign chk_over[4] = oxor[0] & oxor[1] & oxor[2] & oxor[3] & oxor[4];
 assign chk_over[5] = oxor[0] & oxor[1] & oxor[2] & oxor[3] & oxor[4] & oxor[5];
 
 assign b_out[6:0] =   bound_level_d == 3'b001 ?
-                            chk_over[1] == 1'b0 ? {7{~addout[outport_add-1]}}
-                                : addout[outport_add-4-:7]
+                            chk_over[1] == 1'b0 ? {7{~addout_d[outport_add-1]}}
+                                : addout_d[outport_add-4-:7]
 
                     : bound_level_d == 3'b010 ?
-                            chk_over[2] == 1'b0 ? {7{~addout[outport_add-1]}}
-                                : addout[outport_add-5-:7]
+                            chk_over[2] == 1'b0 ? {7{~addout_d[outport_add-1]}}
+                                : addout_d[outport_add-5-:7]
                     
                     : bound_level_d == 3'b011 ?
-                            chk_over[3] == 1'b0 ? {7{~addout[outport_add-1]}}
-                                : addout[outport_add-6-:7]
+                            chk_over[3] == 1'b0 ? {7{~addout_d[outport_add-1]}}
+                                : addout_d[outport_add-6-:7]
                     : bound_level_d == 3'b100 ?
-                            chk_over[4] == 1'b0 ? {7{~addout[outport_add-1]}}
-                                : addout[outport_add-7-:7]
+                            chk_over[4] == 1'b0 ? {7{~addout_d[outport_add-1]}}
+                                : addout_d[outport_add-7-:7]
                     : bound_level_d == 3'b101 ?
-                            chk_over[5] == 1'b0 ? {7{~addout[outport_add-1]}}
-                                : addout[outport_add-8-:7]
+                            chk_over[5] == 1'b0 ? {7{~addout_d[outport_add-1]}}
+                                : addout_d[outport_add-8-:7]
                     
-                    : chk_over[0] == 1'b0 ? {7{~addout[outport_add-1]}}
-                                : addout[outport_add-3-:7];
+                    : addout_d[outport_add-3-:7];
 
 wire signed [outport-1:0] pre_output_b;
 
@@ -220,8 +229,7 @@ end
 assign pre_output_b = mux_f_s ? out : 8'b0000_0000;
 
 
-///clk+2
-D_FF8 F1 (b_out, out, clk, reset);
+
 
 //D_FF1 F2 (out_en_b, out_en, clk, reset);
 

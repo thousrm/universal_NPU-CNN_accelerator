@@ -186,3 +186,24 @@ else
 end
 
 endmodule
+
+module D_FF14 # (parameter port = 10) (d, q, clk, reset);
+
+
+input [port-1:0] d;
+input clk, reset;
+output reg [port-1:0] q;
+
+
+always @ (posedge clk)
+
+begin
+
+if(!reset)
+	q <= 'd0;
+else
+	q <= d;
+
+end
+
+endmodule
