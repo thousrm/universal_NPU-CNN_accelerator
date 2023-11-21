@@ -88,6 +88,13 @@ Top level modules:
 	adder_15to4_mod
 	adder_15to4_mod2
 
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_ap.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\tb_ap.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module tb_ap
+
+Top level modules:
+	tb_ap
+
 } {} {}} C:/Users/thouh/Desktop/npu/verilog/maxpooling.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/maxpooling.v
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
 -- Compiling module maxpooling
@@ -139,6 +146,15 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 Top level modules:
 	PE_m2
 
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/run_npu_simple.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\run_npu_simple.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module run_33
+-- Compiling module run_44
+-- Compiling module run_npu_simple
+
+Top level modules:
+	run_npu_simple
+
 } {} {}} C:/Users/thouh/Desktop/npu/verilog/adder_final.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/adder_final.v
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
 -- Compiling module adder_final
@@ -188,29 +204,6 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 Top level modules:
 	adder_14to4
 	adder_14to4_mod
-
-} {} {}} C:/Users/thouh/Desktop/npu/verilog/Flip_Flop.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\Flip_Flop.v}
-Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling module D_FF144
--- Compiling module D_FF114
--- Compiling module D_FF8
--- Compiling module D_FF1
--- Compiling module D_FF3
--- Compiling module D_FF2
--- Compiling module D_FF16
--- Compiling module D_FF119
--- Compiling module D_FF10
-
-Top level modules:
-	D_FF144
-	D_FF114
-	D_FF8
-	D_FF1
-	D_FF3
-	D_FF2
-	D_FF16
-	D_FF119
-	D_FF10
 
 } {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_multiplier.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\tb_multiplier.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
@@ -274,13 +267,6 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 
 Top level modules:
 	tb_relu
-
-} {} {}} C:/Users/thouh/Desktop/npu/verilog/Processing_element.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\Processing_element.v}
-Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling module PE
-
-Top level modules:
-	PE
 
 } {} {}} C:/Users/thouh/Desktop/npu/verilog/multiplier.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/multiplier.v
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
