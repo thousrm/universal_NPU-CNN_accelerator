@@ -187,7 +187,7 @@ end
 
 endmodule
 
-module D_FF14 # (parameter port = 10) (d, q, clk, reset);
+module D_FF13 # (parameter port = 13) (d, q, clk, reset);
 
 
 input [port-1:0] d;
