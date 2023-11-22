@@ -203,7 +203,7 @@ layer0~4 are calculated by the accelerator.
 
 ### processing_element
 
-<img width="588" alt="pe0" src="https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/425ce009-53be-417a-90cd-fa29df127c4a">
+<img width="588" alt="pe drawio" src="https://github.com/thousrm/universal_NPU-CNN_accelerator/assets/101848060/43a4bce6-6f95-4094-b575-84f2816333a7">
 
 &nbsp;
 <br/>
