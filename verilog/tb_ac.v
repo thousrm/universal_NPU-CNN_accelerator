@@ -47,15 +47,15 @@ module tb_ac;
 	//module PE(in, weight, bias, bound_level, step, en, out, out_en, clk, reset);
 	//PE P0(in, weightin, 16'b0000_0000_0000_0000, 2'b0, 3'b000, en, out, out_en, clk, reset);
 
-    /*arithmetic_core A0 (in, weightin, bias, bound_level, step, en,
-                            en_relu, en_mp, 
-                            out, out_en,
-                            clk, reset);*/
-
-	arithmetic_core_mod A0 (in, weightin, bias, bound_level, step, en,
+    arithmetic_core A0 (in, weightin, bias, bound_level, step, en,
                             en_relu, en_mp, 
                             out, out_en,
                             clk, reset);
+
+	/*arithmetic_core_mod A0 (in, weightin, bias, bound_level, step, en,
+                            en_relu, en_mp, 
+                            out, out_en,
+                            clk, reset);*/
 
 	/*
 	always @(posedge clk) begin

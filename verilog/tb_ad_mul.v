@@ -1,4 +1,4 @@
-
+/*
 `timescale 1ns/10ps
 module tb_ad_mul;
 
@@ -32,7 +32,7 @@ module tb_ad_mul;
 	assign weightin = {weight[0], weight[1], weight[2], weight[3], weight[4], weight[5], weight[6], weight[7], weight[8]}; 
 
 	//module PE(in, weight, bias, bound_level, step, en, out, out_en, clk, reset);
-	PE P0(in, weightin, 16'b0000_0000_0000_0000, 2'b0, 3'b000, en, out, out_en, clk, reset);
+	PE P0(in, weightin, 16'b0000_0000_0000_0000, 3'b000, 3'b000, en, out, out_en, clk, reset);
 	
 	initial
 	begin
@@ -52,7 +52,7 @@ module tb_ad_mul;
 		$readmemh("input_pe.txt", mat_in);
 		$readmemh("input_pe_wi.txt", weight);
 		begin
-			#(20);
+			#(21);
 			for (i=0; i<64; i=i+1)
 			begin
 				in = mat_in[i];
@@ -84,3 +84,4 @@ module tb_ad_mul;
 
 
 endmodule
+*/
