@@ -182,6 +182,9 @@ Top level modules:
 	CLG4
 	CLG4_3
 
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_ad_mul.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\tb_ad_mul.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+
 } {} {}} C:/Users/thouh/Desktop/npu/verilog/MBE_enc.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/MBE_enc.v
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
 -- Compiling module MBE_enc
@@ -306,6 +309,13 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 
 Top level modules:
 	multiplier
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_ac.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\tb_ac.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module tb_ac
+
+Top level modules:
+	tb_ac
 
 } {} {}} C:/Users/thouh/Desktop/npu/verilog/adder_5to3.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\adder_5to3.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020

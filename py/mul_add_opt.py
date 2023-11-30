@@ -7,12 +7,14 @@ get optimized process of wallace tree
 import numpy as np
 import copy
 
+"""
 original = np.array([0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1])
-
+"""
+original = np.array([0, 0, 0, 0, 0, 18, 18, 18, 18])
 list_num = []
-types = [5, 4, 3]
-area = [1, 1, 1]
-delay = [1, 1, 1]
+types = [7, 6, 5, 4, 3]
+area = [1, 1, 1, 1, 1]
+delay = [2, 2, 1, 1, 1]
 best_cost = 1000000
 best_series = []
 step = 0
@@ -24,22 +26,29 @@ def getopt(line, cost, wa, wd):
     step = step + 1
     print("getopt{}".format(step))
 
-    for i in [0, 1, 2]:
+    for i in [0, 1, 2, 3, 4]:
         temp = copy.deepcopy(line)
         list_num.append(types[i])
-        rate = temp // types[i]
-        remain = temp % types[i]
-        cost_temp = cost + max(sum(rate), 1) * area[i] * wa + delay[i] * wd
+        rate_final = np.zeros_like(temp)
+        cost_temp = delay[i] * wd
 
-        temp = rate + remain
-        rate = np.delete(rate, 0)
-        rate = np.append(rate, 0)
-        temp = temp + rate
+        for j in [0, 1, 2, 3, 4]:
+            if j >= i:
+                rate = temp // types[j]
+                temp = temp % types[j]
+                cost_temp = cost_temp + max(sum(rate), 1) * area[j] * wa
 
-        if i == 0 or i == 1:
-            rate = np.delete(rate, 0)
-            rate = np.append(rate, 0)
-            temp = temp + rate
+                rate_final = rate_final + rate
+                rate = np.delete(rate, 0)
+                rate = np.append(rate, 0)
+                rate_final = rate_final + rate
+                if j == 0 or j == 1 or j == 2 or j == 3:
+                    rate = np.delete(rate, 0)
+                    rate = np.append(rate, 0)
+                    rate_final = rate_final + rate
+
+        temp = temp + rate_final
+        cost_temp = cost + cost_temp
 
         print("cost_temp: {}".format(cost_temp))
         print("list: {}".format(list_num))
@@ -47,7 +56,7 @@ def getopt(line, cost, wa, wd):
         print("best_cost: {}".format(best_cost))
         print("best_series: {}".format(best_series))
 
-        temp_true = temp < types[i]
+        temp_true = temp < 4
 
         if all(temp_true):
             print("true\n")
@@ -101,7 +110,7 @@ def getopt3(line, cost, wa, wd):
     return [cost_temp, time]
 
 
-getopt(original, 0, 1, 0)
+getopt(original, 0, 0, 1)
 print("{}, {}".format(best_cost, best_series))
 
 """
