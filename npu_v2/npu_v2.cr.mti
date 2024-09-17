@@ -1,0 +1,22 @@
+C:/Users/thouh/Desktop/npu/npu_v2/RTL/common/fifo_no_rst_data.sv {1 {vlog -work work -sv -stats=none C:/Users/thouh/Desktop/npu/npu_v2/RTL/common/fifo_no_rst_data.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module fifo_no_rst_data
+
+Top level modules:
+	fifo_no_rst_data
+
+} {} {}} C:/Users/thouh/Desktop/npu/npu_v2/RTL/common/pipe_ctrl.sv {1 {vlog -work work -sv -stats=none C:/Users/thouh/Desktop/npu/npu_v2/RTL/common/pipe_ctrl.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module pipe_ctrl
+
+Top level modules:
+	pipe_ctrl
+
+} {} {}} C:/Users/thouh/Desktop/npu/npu_v2/TB/common/tb_pipe_ctrl.sv {1 {vlog -work work -sv -stats=none C:/Users/thouh/Desktop/npu/npu_v2/TB/common/tb_pipe_ctrl.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module tb_pipe_ctrl
+
+Top level modules:
+	tb_pipe_ctrl
+
+} {} {}}

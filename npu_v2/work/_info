@@ -1,0 +1,111 @@
+m255
+K4
+z2
+!s11f vlog 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/intelFPGA/20.1
+vfifo_no_rst_data
+Z0 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
+!s110 1726562918
+!i10b 1
+!s100 R[1<]T]eRR45fJ>FBa7zb0
+Z1 !s11b Dg1SIo80bB@j0V0VzS_@n1
+IjYXGimZ1eP<=SGN:=9beV0
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+S1
+Z3 dC:/Users/thouh/Desktop/npu/npu_v2
+w1726562916
+8C:/Users/thouh/Desktop/npu/npu_v2/RTL/common/fifo_no_rst_data.sv
+FC:/Users/thouh/Desktop/npu/npu_v2/RTL/common/fifo_no_rst_data.sv
+!i122 7
+L0 2 82
+Z4 OV;L;2020.1;71
+r1
+!s85 0
+31
+!s108 1726562918.000000
+!s107 C:/Users/thouh/Desktop/npu/npu_v2/RTL/common/fifo_no_rst_data.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/thouh/Desktop/npu/npu_v2/RTL/common/fifo_no_rst_data.sv|
+!i113 1
+Z5 o-work work -sv
+Z6 tCvgOpt 0
+vpipe_ctrl
+R0
+!s110 1726554671
+!i10b 1
+!s100 h[BYZNi4o8[3Qc=HL=HHX1
+R1
+I25f9a4=dd@PookX3P6@nT3
+R2
+S1
+R3
+w1726554668
+8C:/Users/thouh/Desktop/npu/npu_v2/RTL/common/pipe_ctrl.sv
+FC:/Users/thouh/Desktop/npu/npu_v2/RTL/common/pipe_ctrl.sv
+!i122 1
+L0 2 56
+R4
+r1
+!s85 0
+31
+!s108 1726554670.000000
+!s107 C:/Users/thouh/Desktop/npu/npu_v2/RTL/common/pipe_ctrl.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/thouh/Desktop/npu/npu_v2/RTL/common/pipe_ctrl.sv|
+!i113 1
+R5
+R6
+vtb_fifo_no_rst_data
+R0
+!s110 1726563018
+!i10b 1
+!s100 WXbmkY<o12ZzLkjWiX;3j0
+R1
+I_Y?_JUZdVD[W<=iaV36mW3
+R2
+S1
+R3
+w1726563009
+8C:/Users/thouh/Desktop/npu/npu_v2/TB/common/tb_fifo_no_rst_data.sv
+FC:/Users/thouh/Desktop/npu/npu_v2/TB/common/tb_fifo_no_rst_data.sv
+!i122 8
+L0 3 56
+R4
+r1
+!s85 0
+31
+!s108 1726563017.000000
+!s107 C:/Users/thouh/Desktop/npu/npu_v2/TB/common/tb_fifo_no_rst_data.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/thouh/Desktop/npu/npu_v2/TB/common/tb_fifo_no_rst_data.sv|
+!i113 1
+R5
+R6
+vtb_pipe_ctrl
+R0
+!s110 1726555086
+!i10b 1
+!s100 =B:R>zWANBN=0Pl0AaKPn0
+R1
+IG0ZDYCn778Ybkj>[>FIg<2
+R2
+S1
+R3
+w1726555077
+8C:/Users/thouh/Desktop/npu/npu_v2/TB/common/tb_pipe_ctrl.sv
+FC:/Users/thouh/Desktop/npu/npu_v2/TB/common/tb_pipe_ctrl.sv
+!i122 5
+L0 3 58
+R4
+r1
+!s85 0
+31
+!s108 1726555086.000000
+!s107 C:/Users/thouh/Desktop/npu/npu_v2/TB/common/tb_pipe_ctrl.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/thouh/Desktop/npu/npu_v2/TB/common/tb_pipe_ctrl.sv|
+!i113 1
+R5
+R6
