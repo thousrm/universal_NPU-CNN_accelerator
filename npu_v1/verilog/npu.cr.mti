@@ -1,0 +1,394 @@
+C:/Users/thouh/Desktop/npu/verilog/addertree_stage2_mod2.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/addertree_stage2_mod2.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module addertree_stage2_mod2
+
+Top level modules:
+	addertree_stage2_mod2
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/adder_8to4.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\adder_8to4.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module adder_8to4
+
+Top level modules:
+	adder_8to4
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/adder_10to4.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\adder_10to4.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module adder_10to4
+
+Top level modules:
+	adder_10to4
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/adder_7to3.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\adder_7to3.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module adder_7to3
+
+Top level modules:
+	adder_7to3
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/addertree_stage1_mod2.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\addertree_stage1_mod2.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module addertree_stage1_mod2
+
+Top level modules:
+	addertree_stage1_mod2
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/arithmatic_core_mod.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\arithmatic_core_mod.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module arithmetic_core_mod
+
+Top level modules:
+	arithmetic_core_mod
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/Relu.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/Relu.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module relu
+
+Top level modules:
+	relu
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_addertree3.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\tb_addertree3.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module tb_addertree3
+
+Top level modules:
+	tb_addertree3
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/adder_4to3.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\adder_4to3.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module adder_4to3
+-- Compiling module adder_4to3_mod
+
+Top level modules:
+	adder_4to3
+	adder_4to3_mod
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/arithmetic_core.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\arithmetic_core.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module arithmetic_core
+
+Top level modules:
+	arithmetic_core
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/half_adder.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/half_adder.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module HA
+
+Top level modules:
+	HA
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/adder_15to4.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\adder_15to4.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module adder_15to4
+-- Compiling module adder_15to4_mod
+-- Compiling module adder_15to4_mod2
+
+Top level modules:
+	adder_15to4
+	adder_15to4_mod
+	adder_15to4_mod2
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_ap.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\tb_ap.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module tb_ap
+
+Top level modules:
+	tb_ap
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/maxpooling.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/maxpooling.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module maxpooling
+
+Top level modules:
+	maxpooling
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/addertree_stage3.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\addertree_stage3.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module addertree_stage3
+
+Top level modules:
+	addertree_stage3
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/Control_part_simple.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\Control_part_simple.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module control_part_simple
+
+Top level modules:
+	control_part_simple
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/adder_12to4.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\adder_12to4.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module adder_12to4
+-- Compiling module adder_12to4_mod
+
+Top level modules:
+	adder_12to4
+	adder_12to4_mod
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/NPU_simple.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\NPU_simple.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module npu_simple
+
+Top level modules:
+	npu_simple
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_adder.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\tb_adder.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module tb_adder
+
+Top level modules:
+	tb_adder
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/Processing_element_mod2.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\Processing_element_mod2.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module PE_m2
+
+Top level modules:
+	PE_m2
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/run_npu_simple.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\run_npu_simple.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module run_33
+-- Compiling module run_44
+-- Compiling module run_npu_simple
+
+Top level modules:
+	run_npu_simple
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/adder_final.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/adder_final.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module adder_final
+-- Compiling module adder_final_simple
+
+Top level modules:
+	adder_final
+	adder_final_simple
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/adder_6to3.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\adder_6to3.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module adder_6to3
+
+Top level modules:
+	adder_6to3
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/Carry_look_ahead_Generator.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\Carry_look_ahead_Generator.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module CLG2
+-- Compiling module CLG4
+-- Compiling module CLG4_3
+
+Top level modules:
+	CLG2
+	CLG4
+	CLG4_3
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_ad_mul.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\tb_ad_mul.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/MBE_enc.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/MBE_enc.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module MBE_enc
+
+Top level modules:
+	MBE_enc
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/Flip_Flop.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\Flip_Flop.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module D_FF144
+-- Compiling module D_FF114
+-- Compiling module D_FF8
+-- Compiling module D_FF1
+-- Compiling module D_FF3
+-- Compiling module D_FF2
+-- Compiling module D_FF16
+-- Compiling module D_FF119
+-- Compiling module D_FF10
+-- Compiling module D_FF13
+
+Top level modules:
+	D_FF144
+	D_FF114
+	D_FF8
+	D_FF1
+	D_FF3
+	D_FF2
+	D_FF16
+	D_FF119
+	D_FF10
+	D_FF13
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/adder_14to4.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\adder_14to4.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module adder_14to4
+-- Compiling module adder_14to4_mod
+
+Top level modules:
+	adder_14to4
+	adder_14to4_mod
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_multiplier.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\tb_multiplier.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module tb_multiplier
+
+Top level modules:
+	tb_multiplier
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_addertree1.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\tb_addertree1.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module tb_addertree1
+
+Top level modules:
+	tb_addertree1
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/Memory_part.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/Memory_part.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module memory_part
+
+Top level modules:
+	memory_part
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/adder_9to4.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\adder_9to4.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module adder_9to4
+
+Top level modules:
+	adder_9to4
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/adder_11to4.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\adder_11to4.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module adder_11to4
+
+Top level modules:
+	adder_11to4
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_npu_simple.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\tb_npu_simple.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module tb_npu_simple
+
+Top level modules:
+	tb_npu_simple
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/Arithmatic_part.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\Arithmatic_part.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module AP
+
+Top level modules:
+	AP
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/addertree_stage1.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\addertree_stage1.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module addertree_stage1
+
+Top level modules:
+	addertree_stage1
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/Processing_element_mod.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\Processing_element_mod.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module PE_m
+
+Top level modules:
+	PE_m
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_relu.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/tb_relu.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module tb_relu
+
+Top level modules:
+	tb_relu
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/multiplier.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/multiplier.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module multiplier
+
+Top level modules:
+	multiplier
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_ac.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\tb_ac.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module tb_ac
+
+Top level modules:
+	tb_ac
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/adder_5to3.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\adder_5to3.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module adder_5to3
+-- Compiling module adder_5to3_mod
+-- Compiling module adder_5to3_mod2
+
+Top level modules:
+	adder_5to3
+	adder_5to3_mod
+	adder_5to3_mod2
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/full_adder.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/full_adder.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module FA
+
+Top level modules:
+	FA
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/FF_test.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/FF_test.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module FF_test
+
+Top level modules:
+	FF_test
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_ppg.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/tb_ppg.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module tb_ppg
+
+Top level modules:
+	tb_ppg
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_adderfinal.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\tb_adderfinal.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module tb_adderfinal
+
+Top level modules:
+	tb_adderfinal
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_addertree2.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\tb_addertree2.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module tb_addertree2
+
+Top level modules:
+	tb_addertree2
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/addertree_stage3_mod2.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\addertree_stage3_mod2.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module addertree_stage3_mod2
+
+Top level modules:
+	addertree_stage3_mod2
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/tb_mp.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/tb_mp.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module tb_mp
+
+Top level modules:
+	tb_mp
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/adder_13to4.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\adder_13to4.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module adder_13to4
+
+Top level modules:
+	adder_13to4
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/Partial_product_generator.v {1 {vlog -work work -stats=none C:/Users/thouh/Desktop/npu/verilog/Partial_product_generator.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module PPG
+
+Top level modules:
+	PPG
+
+} {} {}} C:/Users/thouh/Desktop/npu/verilog/addertree_stage2.v {1 {vlog -work work -stats=none {C:\Users\thouh\Desktop\npu\verilog\addertree_stage2.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module addertree_stage2
+
+Top level modules:
+	addertree_stage2
+
+} {} {}}
