@@ -1,9 +1,13 @@
 ///////
 //// - tx_top
 //// - mac_lane
-module mac (
+module mac 
+import tx_pkg::*;
+(
     input logic
 );
+
+::
 
 
 

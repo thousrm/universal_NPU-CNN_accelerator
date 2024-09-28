@@ -3,3 +3,5 @@ npu_v2/npu_v2.cr.mti
 npu_v2/npu_v2.mpf
 npu_v2/vsim.wlf
 /npu_v2/work
+npu_v2/wave.do
+npu_v2/diagram/.$MAC.drawio.bkp
