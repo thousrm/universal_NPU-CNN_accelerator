@@ -5,9 +5,11 @@ module fp32_adder (
   input  logic        rst_n,
   input  logic [31:0] a,
   input  logic [31:0] b,
-  input  logic        valid_in,
+  output logic        in_ready,
+  input  logic        in_valid,
   output logic [31:0] result,
-  output logic        valid_out
+  input  logic        out_ready,
+  output logic        out_valid
 );
 
   // IEEE 754 FP32 format
@@ -33,6 +35,24 @@ module fp32_adder (
   logic        is_zero, is_inf, is_nan;
   logic        a_subnormal, b_subnormal;
 
+
+  // pipe control
+  logic [2-1:0]   pipe_en;
+  pipe_ctrl #(.STAGE(2)) u_pipe_control 
+(
+    .i_clk                  (clk        ),
+    .i_reset                (rst_n      ),
+    .o_input_ready          (in_ready   ),
+    .i_input_valid          (in_valid   ),
+    .i_output_ready         (out_ready  ),
+    .o_output_valid         (out_valid  ),
+    .o_pipe_ctrl            (pipe_en    )
+);
+
+
+
+  ///////////////
+
   // Unpack inputs
   assign a_fp = a;
   assign b_fp = b;
@@ -57,10 +77,10 @@ module fp32_adder (
       //is_zero <= 1'b0;
       is_inf <= 1'b0;
       is_nan <= 1'b0;
-    end else begin
+    end else if (pipe_en[0]) begin
       a_fp_r <= a_fp;
       b_fp_r <= b_fp;
-      valid_r <= valid_in;
+      valid_r <= in_valid;
       
       if (a_larger) begin
         aligned_a <= a_subnormal ? {1'b0, a_fp.fraction, 1'b0} : {2'b01, a_fp.fraction};
@@ -126,11 +146,11 @@ module fp32_adder (
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             result      <= 0;
-            valid_out   <= 0;
+            //out_valid   <= 0;
         end
-        else begin
+        else if (pipe_en[1])begin
             result      <= result_fp;
-            valid_out   <= valid_r;
+            //out_valid   <= valid_r;
         end
     end
 
