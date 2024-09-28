@@ -8,6 +8,7 @@ module tb_fp32_adder;
   logic        valid_in;
   logic [31:0] result;
   logic        valid_out;
+  logic        out_ready;
 
   // Instantiate the Unit Under Test (UUT)
   fp32_adder uut (
@@ -15,10 +16,14 @@ module tb_fp32_adder;
     .rst_n(rst_n),
     .a(a),
     .b(b),
-    .valid_in(valid_in),
+    .in_ready(        ),
+    .in_valid(valid_in),
     .result(result),
-    .valid_out(valid_out)
+    .out_ready(out_ready),
+    .out_valid(valid_out)
   );
+
+  assign out_ready=1;
 
   // Clock generation
   always #5 clk = ~clk;
@@ -161,7 +166,7 @@ endfunction
 
     // Finish simulation
     $display("error : %d", error);
-    #100 $finish;
+    //#100 $finish;
   end
 
 endmodule
