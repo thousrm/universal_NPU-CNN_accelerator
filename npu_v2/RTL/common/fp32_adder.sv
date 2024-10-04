@@ -126,17 +126,20 @@ module fp32_adder (
         //$display("sum[24]==1");
         result_fp.fraction = sum[23:1];
         result_fp.exponent = larger_exp + 1;
-    end else begin
-        result_fp.fraction = sum[22:0] << leading_zeros;
-        result_fp.exponent = larger_exp - leading_zeros;
-    end
-
+    end 
     // Handle subnormal results
-    if (result_fp.exponent <= leading_zeros) begin
+    else if (result_fp.exponent <= leading_zeros) begin
         //$display("result_fp.exponent = leading_zeros");
         result_fp.fraction = sum[22:0] >> (leading_zeros - result_fp.exponent + 1);
         result_fp.exponent = 8'h00;
     end
+    else begin
+        result_fp.fraction = sum[22:0] << leading_zeros;
+        result_fp.exponent = larger_exp - leading_zeros;
+    end
+
+    
+    
 
     result_fp.sign = a_larger ? a_fp_r.sign : b_fp_r.sign;
     end
