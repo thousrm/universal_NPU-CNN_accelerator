@@ -5,14 +5,14 @@
 
 module mac_multiplier_mid (
     input  logic         a_sign     ,
-    input  logic [3 :0]  a_exp      ,
-    input  logic [4 :0]  a_mant     ,
+    input  logic [2 :0]  a_exp      ,
+    input  logic [7 :0]  a_mant     ,
     input  logic         b_sign     ,
-    input  logic [3 :0]  b_exp      ,
-    input  logic [4 :0]  b_mant     ,
+    input  logic [2 :0]  b_exp      ,
+    input  logic [7 :0]  b_mant     ,
     output logic         o_sign     ,
-    output logic [4 :0]  o_exp      ,
-    output logic [9 :0]  o_mant     
+    output logic [3 :0]  o_exp      ,
+    output logic [17:0]  o_mant     
 );
 
 assign o_sign = a_sign  ^   b_sign  ;
