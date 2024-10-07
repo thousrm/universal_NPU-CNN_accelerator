@@ -25,8 +25,16 @@ assign compare[3] = data[1] > data[2];
 assign compare[4] = data[1] > data[3];
 assign compare[5] = data[2] > data[3];
 
+logic [3:0] is_greatest;
 
+assign is_greatest[0] =   compare[0]  &   compare[1]  &   compare[2];
+assign is_greatest[1] = (~compare[0]) &   compare[3]  &   compare[4];
+assign is_greatest[2] = (~compare[1]) & (~compare[3]) &   compare[5];
+assign is_greatest[3] = (~compare[2]) & (~compare[4]) & (~compare[5]);
 
-assign result = ;
+assign result = {data[0] & {(WIDTH){is_greatest[0]}}} |
+                {data[1] & {(WIDTH){is_greatest[1]}}} |
+                {data[2] & {(WIDTH){is_greatest[2]}}} |
+                {data[3] & {(WIDTH){is_greatest[3]}}} ;
 
 endmodule
