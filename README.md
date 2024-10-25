@@ -14,10 +14,10 @@
 ![MAC-NPU drawio](https://github.com/user-attachments/assets/dd9c4c09-44fb-4016-8491-e2b8012c30a4)
 
 ## TX (draft version)
-![MAC-TX drawio](https://github.com/user-attachments/assets/cede76ab-8276-48fc-bc06-2f3ee77e1fba)
+![MAC-TX drawio](https://github.com/user-attachments/assets/e05a3f23-1524-476e-9c27-a6909c1bacdc)
 
 ## MAC (draft version)
-![MAC_TOP drawio](https://github.com/user-attachments/assets/0b5c72d7-9cef-4178-8523-6fbf3f151be4)
+![MAC-TOP drawio](https://github.com/user-attachments/assets/201f3901-83ed-44db-9fa7-a5b048e9b8bf)
 
 ## MAC_lane (draft version)
 ![MAC-MAC_lane_draft drawio](https://github.com/user-attachments/assets/eba212eb-e90e-421a-a3f0-42fea025dbc6)
