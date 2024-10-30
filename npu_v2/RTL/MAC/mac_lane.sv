@@ -376,9 +376,88 @@ generate
 endgenerate
 
 
+///////// right shifter
+localparam OUT_W_SHIFTER = 32- $clogs(16);
 
+logic [5-1:0] big_shift_value    [0:31];
+logic [OUT_W_SHIFTER -1:0] big_output_shifter [0:31];
+logic [5-1:0] mid_shift_value    [0:31];
+logic [OUT_W_SHIFTER -1:0] mid_output_shifter [0:31];
 
+generate
+    for (genvar i=0; i<32; i++) begin : 2s_complement
 
+        assign big_shift_value[i] = mac_lane_config.ifm_datatype == MAC_DATATYPE_I9 ? 5
+                                :   after_findmax_big_exp[i][5] ? 31- $clogs(16) : after_findmax_big_exp[i][4:0];
+        
+        right_shifter  # (.IN_WIDTH (23), .IN_S_WIDTH (6-1), .OUT_WIDTH (OUT_W_SHIFTER), .TAIL_BIT(5)) u_mac_right_shifter_big
+            (
+                .i_data         ( { r_comple_big_o_sign[i], r_comple_big_o_mant[i] } ),
+                .i_shift_value  ( big_shift_value[i]    ),
+                .o_data         ( big_output_shifter[i] )
+            );
+
+        assign mid_shift_value[i] = mac_lane_config.ifm_datatype == MAC_DATATYPE_I9 ? 9
+                                :   after_findmax_mid_exp[i][4:0];
+        
+        right_shifter  # (.IN_WIDTH (19), .IN_S_WIDTH (6-1), .OUT_WIDTH (OUT_W_SHIFTER), .TAIL_BIT(9)) u_mac_right_shifter_mid
+            (
+                .i_data         ( { r_comple_mid_o_sign[i], r_comple_mid_o_mant[i] } ),
+                .i_shift_value  ( mid_shift_value[i]    ),
+                .o_data         ( mid_output_shifter[i] )
+            );
+    end
+endgenerate
+
+/// pipeline 2
+logic [OUT_W_SHIFTER -1:0] r_big_output_shifter [0:31];
+logic [OUT_W_SHIFTER -1:0] r_mid_output_shifter [0:31];
+
+generate
+    for (genvar i=0; i<32; i++) begin : pipeline_2
+        always_ff @ (posedge i_clk) begin // big
+            if (pipe_o_pipe_ctrl[2] & (~pipe_big_is_zero_or[1][i]) & pipe_big_data_element_valid[1][i]) begin
+                r_big_output_shifter[i] <= big_output_shifter[i];
+            end
+        end
+        always_ff @ (posedge i_clk) begin // mid
+            if (pipe_o_pipe_ctrl[2] & (~pipe_mid_is_zero_or[1][i]) & pipe_mid_data_element_valid[1][i]) begin
+                r_mid_output_shifter[i] <= mid_output_shifter[i];
+            end
+        end
+    end
+endgenerate
+
+///// masking 0
+logic [OUT_W_SHIFTER -1:0] masked_big_output_shifter [0:31];
+logic [OUT_W_SHIFTER -1:0] masked_mid_output_shifter [0:31];
+
+generate
+    for (genvar i=0; i<32; i++) begin : mask_0
+        assign masked_big_output_shifter[i] = pipe_big_is_zero_or[2][i] | (~pipe_big_data_element_valid[2][i]) ? 0 : r_big_output_shifter[i];
+        assign masked_mid_output_shifter[i] = pipe_mid_is_zero_or[2][i] | (~pipe_mid_data_element_valid[2][i]) ? 0 : r_mid_output_shifter[i];
+    end
+endgenerate
+
+////// sign bit for clog2(16) bit
+logic [5 :0] big_sum_sign;
+logic [5 :0] mid_sum_sign;
+logic [5 :0] big_final_sum_sign;
+logic [5 :0] mid_final_sum_sign;
+
+always_comb begin
+    big_sum_sign = 0;
+    mid_sum_sign = 0;
+    for (int i=0; i<32; i++) begin
+        big_sum_sign += masked_big_output_shifter[i][OUT_W_SHIFTER-1];
+        mid_sum_sign += masked_mid_output_shifter[i][OUT_W_SHIFTER-1];
+    end
+end
+
+assign big_final_sum_sign = big_sum_sign + (big_sum_sign << 1) + (big_sum_sign << 2) + (big_sum_sign << 3) + (big_sum_sign << 4) +
+                            (big_sum_sign << 5);
+assign mid_final_sum_sign = mid_sum_sign + (mid_sum_sign << 1) + (mid_sum_sign << 2) + (mid_sum_sign << 3) + (mid_sum_sign << 4) +
+                            (mid_sum_sign << 5);
 
 
 endmodule
