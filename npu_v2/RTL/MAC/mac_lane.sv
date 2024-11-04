@@ -200,7 +200,9 @@ generate
 endgenerate
 
 
+////////////////
 //// multiplier
+////////////////
 
 logic [31:0]  big_o_sign        ;
 logic [5 :0]  big_o_exp [0:31]  ;
@@ -251,9 +253,9 @@ endgenerate
 
 
 
-
+///////////////////
 /// find max exp
-
+///////////////////
 logic [6*64 -1:0] exp_array;
 logic [6    -1:0] c;
 logic             pipe_en_find_max;
@@ -275,7 +277,10 @@ find_max_64 u_find_max_64
 
 assign pipe_en_find_max = pipe_o_pipe_ctrl[0];
 
+///////////////////
 //// pipeline 0
+///////////////////
+
 logic [31:0]  r_big_o_sign              ;
 logic [5 :0]  r_big_o_exp [0:31]        ;
 logic [21:0]  r_big_o_mant[0:31]        ;
@@ -311,8 +316,10 @@ generate
 endgenerate
 
 
-
+///////////////////
 ///// 2s complement
+///////////////////
+
 logic [31:0]  comple_big_o_sign              ;
 logic [21:0]  comple_big_o_mant[0:31]        ;
 logic [31:0]  comple_mid_o_sign              ;
@@ -339,7 +346,10 @@ generate
     end
 endgenerate
 
+///////////////////
 //// pipeline 1
+///////////////////
+
 logic [31:0]  r_comple_big_o_sign              ;
 logic [5 :0]  after_findmax_big_exp[0:31]      ;
 logic [21:0]  r_comple_big_o_mant[0:31]        ;
@@ -375,14 +385,15 @@ generate
     end
 endgenerate
 
-
-///////// right shifter
-localparam OUT_W_SHIFTER = 32- $clogs(16);
+///////////////////
+//// right shifter
+///////////////////
+localparam W_O_SHIFTER = 32- $clogs(16);
 
 logic [5-1:0] big_shift_value    [0:31];
-logic [OUT_W_SHIFTER -1:0] big_output_shifter [0:31];
+logic [W_O_SHIFTER -1:0] big_output_shifter [0:31];
 logic [5-1:0] mid_shift_value    [0:31];
-logic [OUT_W_SHIFTER -1:0] mid_output_shifter [0:31];
+logic [W_O_SHIFTER -1:0] mid_output_shifter [0:31];
 
 generate
     for (genvar i=0; i<32; i++) begin : 2s_complement
@@ -390,7 +401,7 @@ generate
         assign big_shift_value[i] = mac_lane_config.ifm_datatype == MAC_DATATYPE_I9 ? 5
                                 :   after_findmax_big_exp[i][5] ? 31- $clogs(16) : after_findmax_big_exp[i][4:0];
         
-        right_shifter  # (.IN_WIDTH (23), .IN_S_WIDTH (6-1), .OUT_WIDTH (OUT_W_SHIFTER), .TAIL_BIT(5)) u_mac_right_shifter_big
+        right_shifter  # (.IN_WIDTH (23), .IN_S_WIDTH (6-1), .OUT_WIDTH (W_O_SHIFTER), .TAIL_BIT(5)) u_mac_right_shifter_big
             (
                 .i_data         ( { r_comple_big_o_sign[i], r_comple_big_o_mant[i] } ),
                 .i_shift_value  ( big_shift_value[i]    ),
@@ -400,7 +411,7 @@ generate
         assign mid_shift_value[i] = mac_lane_config.ifm_datatype == MAC_DATATYPE_I9 ? 9
                                 :   after_findmax_mid_exp[i][4:0];
         
-        right_shifter  # (.IN_WIDTH (19), .IN_S_WIDTH (6-1), .OUT_WIDTH (OUT_W_SHIFTER), .TAIL_BIT(9)) u_mac_right_shifter_mid
+        right_shifter  # (.IN_WIDTH (19), .IN_S_WIDTH (6-1), .OUT_WIDTH (W_O_SHIFTER), .TAIL_BIT(9)) u_mac_right_shifter_mid
             (
                 .i_data         ( { r_comple_mid_o_sign[i], r_comple_mid_o_mant[i] } ),
                 .i_shift_value  ( mid_shift_value[i]    ),
@@ -409,9 +420,12 @@ generate
     end
 endgenerate
 
+///////////////////
 /// pipeline 2
-logic [OUT_W_SHIFTER -1:0] r_big_output_shifter [0:31];
-logic [OUT_W_SHIFTER -1:0] r_mid_output_shifter [0:31];
+///////////////////
+
+logic [W_O_SHIFTER -1:0] r_big_output_shifter [0:31];
+logic [W_O_SHIFTER -1:0] r_mid_output_shifter [0:31];
 
 generate
     for (genvar i=0; i<32; i++) begin : pipeline_2
@@ -428,9 +442,12 @@ generate
     end
 endgenerate
 
+///////////////////
 ///// masking 0
-logic [OUT_W_SHIFTER -1:0] masked_big_output_shifter [0:31];
-logic [OUT_W_SHIFTER -1:0] masked_mid_output_shifter [0:31];
+///////////////////
+
+logic [W_O_SHIFTER -1:0] masked_big_output_shifter [0:31];
+logic [W_O_SHIFTER -1:0] masked_mid_output_shifter [0:31];
 
 generate
     for (genvar i=0; i<32; i++) begin : mask_0
@@ -439,7 +456,10 @@ generate
     end
 endgenerate
 
+///////////////////
 ////// sign bit for clog2(16) bit
+///////////////////
+
 logic [5 :0] big_sum_sign;
 logic [5 :0] mid_sum_sign;
 logic [5 :0] big_final_sum_sign;
@@ -449,8 +469,8 @@ always_comb begin
     big_sum_sign = 0;
     mid_sum_sign = 0;
     for (int i=0; i<32; i++) begin
-        big_sum_sign += masked_big_output_shifter[i][OUT_W_SHIFTER-1];
-        mid_sum_sign += masked_mid_output_shifter[i][OUT_W_SHIFTER-1];
+        big_sum_sign += masked_big_output_shifter[i][W_O_SHIFTER-1];
+        mid_sum_sign += masked_mid_output_shifter[i][W_O_SHIFTER-1];
     end
 end
 
@@ -458,6 +478,13 @@ assign big_final_sum_sign = big_sum_sign + (big_sum_sign << 1) + (big_sum_sign <
                             (big_sum_sign << 5);
 assign mid_final_sum_sign = mid_sum_sign + (mid_sum_sign << 1) + (mid_sum_sign << 2) + (mid_sum_sign << 3) + (mid_sum_sign << 4) +
                             (mid_sum_sign << 5);
+
+
+////////////////////////
+///// wallace tree
+////////////////////////
+
+
 
 
 endmodule
