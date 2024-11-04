@@ -5,8 +5,8 @@ module mac
 import tx_pkg::*;
 (
     input logic
-);
-
+        
+)
 ::
 
 
