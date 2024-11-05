@@ -242,10 +242,10 @@ generate
 
             assign big_is_zero_or[i] = big_a_is_zero[i] | big_b_is_zero[i];
             assign mid_is_zero_or[i] = mid_a_is_zero[i] | mid_b_is_zero[i];
-            assign big_data_element_valid = mac_lane_config.ifm_datatype == MAC_DATATYPE_FP16 ?
+            assign big_data_element_valid[i] = mac_lane_config.ifm_datatype == MAC_DATATYPE_FP16 ?
                                                 mac_lane_i_ifm.data_element_valid[i*2 ]
                                             :   mac_lane_i_ifm.data_element_valid[i   ];
-            assign mid_data_element_valid = mac_lane_config.ifm_datatype == MAC_DATATYPE_FP16 ?
+            assign mid_data_element_valid[i] = mac_lane_config.ifm_datatype == MAC_DATATYPE_FP16 ?
                                                 0
                                             :   mac_lane_i_ifm.data_element_valid[i+32];
     end
@@ -483,6 +483,72 @@ assign mid_final_sum_sign = mid_sum_sign + (mid_sum_sign << 1) + (mid_sum_sign <
 ////////////////////////
 ///// wallace tree
 ////////////////////////
+logic [16*28-1:0] big_wallace_tree_input_0, big_wallace_tree_input_1;
+logic [16*28-1:0] mid_wallace_tree_input_0, mid_wallace_tree_input_1;
+logic [32   -1:0] big_wallace_tree_output_0, big_wallace_tree_output_1, mid_wallace_tree_output_0, mid_wallace_tree_output_1;
+
+
+generate
+    for (genvar i=0; i<16; i++) begin : parsing_wallace_tree_input
+        assign big_wallace_tree_input_0[i*28+:28] = masked_big_output_shifter[i];
+        assign big_wallace_tree_input_1[i*28+:28] = masked_big_output_shifter[i+16];
+        assign mid_wallace_tree_input_0[i*28+:28] = masked_mid_output_shifter[i];
+        assign mid_wallace_tree_input_1[i*28+:28] = masked_mid_output_shifter[i+16];
+    end
+endgenerate
+
+wallace_tree u_wallace_tree_big_0
+    (
+        .i_data_array   (big_wallace_tree_input_0   ),
+        .o_data         (big_wallace_tree_output_0  )
+    );
+wallace_tree u_wallace_tree_big_1
+    (
+        .i_data_array   (big_wallace_tree_input_1   ),
+        .o_data         (big_wallace_tree_output_1  )
+    );
+wallace_tree u_wallace_tree_mid_0
+    (
+        .i_data_array   (mid_wallace_tree_input_0   ),
+        .o_data         (mid_wallace_tree_output_0  )
+    );
+wallace_tree u_wallace_tree_mid_1
+    (
+        .i_data_array   (mid_wallace_tree_input_1   ),
+        .o_data         (mid_wallace_tree_output_1  )
+    );
+
+///////////////////
+/// pipeline 3
+///////////////////
+
+logic [32-1:0] r_wallace_tree_output [0:3];
+logic [6 -1:0] r_big_final_sum_sign;
+logic [6 -1:0] r_mid_final_sum_sign;
+
+always_ff @ (posedge i_clk) begin
+    if (pipe_o_pipe_ctrl[3]) begin
+        r_wallace_tree_output[0] <= big_wallace_tree_output_0;
+        r_wallace_tree_output[1] <= big_wallace_tree_output_1;
+        r_wallace_tree_output[2] <= mid_wallace_tree_output_0;
+        r_wallace_tree_output[3] <= mid_wallace_tree_output_1;
+        r_big_final_sum_sign     <= big_final_sum_sign;
+        r_mid_final_sum_sign     <= mid_final_sum_sign;
+    end
+end
+
+/////////
+/// adder tree final output
+/////////
+logic [33-1:0] big_adder_tree_output;
+logic [33-1:0] mid_adder_tree_output;
+
+assign big_adder_tree_output = {1'b0, r_wallace_tree_output[0]} + {1'b0, r_wallace_tree_output[1]} + {r_big_final_sum_sign[4:0], 28'd0};
+assign mid_adder_tree_output = {1'b0, r_wallace_tree_output[2]} + {1'b0, r_wallace_tree_output[3]} + {r_mid_final_sum_sign[4:0], 28'd0};
+
+logic [34-1:0] adder_tree_final_output;
+assign adder_tree_final_output = {big_adder_tree_output[32], big_adder_tree_output} + {mid_adder_tree_output[32], mid_adder_tree_output};
+
 
 
 
