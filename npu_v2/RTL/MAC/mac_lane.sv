@@ -259,6 +259,7 @@ endgenerate
 logic [6*64 -1:0] exp_array;
 logic [6    -1:0] c;
 logic             pipe_en_find_max;
+logic [6    -1:0] max_exp;
 
 generate
     for (genvar i=0; i<32; i++) begin : concat_exp
@@ -385,6 +386,14 @@ generate
     end
 endgenerate
 
+logic [6-1:0] r_max_exp;
+always_ff @ (posedge i_clk) begin
+    if (pipe_o_pipe_ctrl[1] & (mac_lane_config.ifm_datatype != MAC_DATATYPE_I9)) begin
+        r_max_exp <= max_exp;
+    end
+end
+
+
 ///////////////////
 //// right shifter
 ///////////////////
@@ -441,6 +450,13 @@ generate
         end
     end
 endgenerate
+
+logic [6-1:0] r2_max_exp;
+always_ff @ (posedge i_clk) begin
+    if (pipe_o_pipe_ctrl[2] & (mac_lane_config.ifm_datatype != MAC_DATATYPE_I9)) begin
+        r2_max_exp <= r_max_exp;
+    end
+end
 
 ///////////////////
 ///// masking 0
@@ -537,6 +553,13 @@ always_ff @ (posedge i_clk) begin
     end
 end
 
+logic [6-1:0] r3_max_exp;
+always_ff @ (posedge i_clk) begin
+    if (pipe_o_pipe_ctrl[3] & (mac_lane_config.ifm_datatype != MAC_DATATYPE_I9)) begin
+        r3_max_exp <= r2_max_exp;
+    end
+end
+
 /////////
 /// adder tree final output
 /////////
@@ -548,6 +571,30 @@ assign mid_adder_tree_output = {1'b0, r_wallace_tree_output[2]} + {1'b0, r_walla
 
 logic [34-1:0] adder_tree_final_output;
 assign adder_tree_final_output = {big_adder_tree_output[32], big_adder_tree_output} + {mid_adder_tree_output[32], mid_adder_tree_output};
+
+///////////////////
+/// pipeline 4
+///////////////////
+
+logic [34-1:0] r_adder_tree_final_output;
+
+always_ff @ (posedge i_clk) begin
+    if (pipe_o_pipe_ctrl[4]) begin
+        r_adder_tree_final_output <= adder_tree_final_output;
+    end
+end
+
+logic [6-1:0] r4_max_exp;
+always_ff @ (posedge i_clk) begin
+    if (pipe_o_pipe_ctrl[4] & (mac_lane_config.ifm_datatype != MAC_DATATYPE_I9)) begin
+        r4_max_exp <= r3_max_exp;
+    end
+end
+
+//////
+// fp32 converter
+/////
+
 
 
 
