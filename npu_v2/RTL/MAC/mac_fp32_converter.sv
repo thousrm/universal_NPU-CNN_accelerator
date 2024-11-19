@@ -7,8 +7,8 @@ import mac_pkg::*;
 )
 (
     input  logic                i_clk           ,
-    input  logic [MAC_W_DATATYPE -1:0] i_ifm_datatype  ,
-    input  logic [MAC_W_DATATYPE -1:0] i_wfm_datatype  ,
+    input  mac_datatype         i_ifm_datatype  ,
+    input  mac_datatype         i_wfm_datatype  ,
     input  logic [W_I_EXP -1:0] i_exp           ,
     input  logic [W_I_INT -1:0] i_intdata       ,
     input  logic [STAGE   -1:0] i_pipe_en       ,
@@ -30,19 +30,17 @@ assign bias_i = i_ifm_datatype == MAC_DATATYPE_FP16 ? BIAS_FP16
 assign bias_w = i_wfm_datatype == MAC_DATATYPE_FP16 ? BIAS_FP16
             :   i_wfm_datatype == MAC_DATATYPE_FP8  ? BIAS_FP8 : 0;
 assign bias_add = i_ifm_datatype == MAC_DATATYPE_I9 ? W_I_INT-1 : BIAS_ADD_FP;
-assign bias_total = BIAS_FP32 - bias_i - bias_w + BIAS_ADD_FP;
+assign bias_total = BIAS_FP32 - bias_i - bias_w + bias_add;
 
 assign exp_is_int = i_ifm_datatype == MAC_DATATYPE_I9 ? 0 : i_exp;
 assign exp_biased = exp_is_int + bias_total;
 
 
 /// calculate abs
-logic [W_I_INT-1 -1:0] pre_abs;
 logic [W_I_INT   -1:0] abs;
 logic is_zero;
 
-assign pre_abs = i_intdata[W_I_INT-1] ? (~i_intdata[W_I_INT-2:0]) +1 : i_intdata[W_I_INT-2:0];
-assign abs = {i_intdata[W_I_INT-1], pre_abs};
+assign abs = i_intdata[W_I_INT-1] ? ~(i_intdata) +1 : i_intdata;
 assign is_zero = i_intdata == 0;
 
 /// find leading one 0
@@ -70,10 +68,10 @@ end
 logic [6-1:0] leading_one;
 
 always_comb begin
-    case (r_abs[W_I_INT-1:W_I_INT-2])
-        2'b00   : begin leading_one = r_pre_leading_one +3; end
-        2'b01   : begin leading_one = 2; end
-        default : begin leading_one = 1; end
+    case (r_abs[W_I_INT-1:W_I_INT-2]) //leading one 
+        2'b00   : begin leading_one = r_pre_leading_one +2; end
+        2'b01   : begin leading_one = 1; end
+        default : begin leading_one = 0; end
     endcase
 end
 
@@ -81,7 +79,7 @@ end
 logic [W_I_INT -1:0] shifted_mant;
 logic [W_I_INT -1:0] pre_mant;
 
-assign shifted_mant = r_abs << leading_one  ;
+assign shifted_mant = r_abs << (leading_one+1)  ;
 
 // pipeline 1
 logic r2_sign;
@@ -92,7 +90,7 @@ logic [W_I_INT -1:0] r_shifted_mant;
 always_ff @(posedge i_clk) begin
     if (i_pipe_en[1]) begin
         r2_sign         <= r_sign               ;
-        r_exp_biased    <= exp_biased           ;
+        r2_exp_biased   <= r_exp_biased - leading_one;
         r2_is_zero      <= r_is_zero            ;
         r_shifted_mant  <= shifted_mant         ;
     end
@@ -117,7 +115,7 @@ always_comb begin // there is no need for overflow, underflow, subnormal. becaus
     fp32_mant   = 0;
 
     if (r2_is_zero) begin
-        fp32_exp = BIAS_FP32;
+        fp32_exp  = 0;
         fp32_mant = 0;
     end
     else begin
@@ -127,7 +125,7 @@ always_comb begin // there is no need for overflow, underflow, subnormal. becaus
         else begin
             fp32_mant = mant;
         end
-        fp32_exp = r_exp_biased + is_overflow;
+        fp32_exp = r2_exp_biased + is_overflow;
     end
 end
 
