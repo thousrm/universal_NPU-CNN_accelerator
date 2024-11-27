@@ -23,13 +23,16 @@ import mac_pkg::*;
 );
 
 // pipe ctrl for input -> psum accum
-localparam STAGE = 5;
+localparam STAGE = 7;
 
 logic               pipe_o_input_ready  ;
 logic               pipe_i_input_valid  ;
 logic               pipe_i_output_ready ;
 logic               pipe_o_output_valid ;
 logic [STAGE-1:0]   pipe_o_pipe_ctrl    ;
+
+assign pipe_i_input_valid = mac_lane_i_ifm_valid & mac_lane_i_wfm_valid;
+assign mac_lane_o_ifm_ready = pipe_o_input_ready;
 
 
 pipe_ctrl # ( .STAGE (STAGE) ) u_pipe_ctrl_mac_lane
@@ -65,7 +68,7 @@ always_ff @ (posedge i_clk or negedge i_reset) begin
         pipe_big_is_zero_or[0]          <= 0;
         pipe_mid_is_zero_or[0]          <= 0;
     end
-    else begin
+    else if (pipe_o_pipe_ctrl[0]) begin
         inter_end[0]                    <= mac_lane_i_ifm.inter_end;
         accum_end[0]                    <= mac_lane_i_ifm.accum_end;
         pipe_big_data_element_valid[0]  <= big_data_element_valid;
@@ -86,7 +89,7 @@ generate
                 pipe_big_is_zero_or[i]          <= 0;
                 pipe_mid_is_zero_or[i]          <= 0;
             end
-            else begin
+            else if (pipe_o_pipe_ctrl[i]) begin
                 inter_end[i] <= inter_end[i-1];
                 accum_end[i] <= accum_end[i-1];
                 pipe_big_data_element_valid[i]  <= pipe_big_data_element_valid[i-1];
@@ -594,6 +597,47 @@ end
 //////
 // fp32 converter
 /////
+
+logic mac_fp32_converter_o_data;
+
+mac_fp32_converter u_mac_fp32_converter
+    (
+        .i_clk              ( i_clk                     ),
+        .i_ifm_datatype     ( mac_lane_config.ifm_datatype),
+        .i_wfm_datatype     ( mac_lane_config.wfm_datatype),
+        .i_exp              ( r4_max_exp                ),
+        .i_intdata          ( r_adder_tree_final_output ),
+        .i_pipe_en          ( pipe_o_pipe_ctrl[6:5]     ),
+        .o_data             ( mac_fp32_converter_o_data )
+    );
+
+
+///////
+/// fifo for cutting ready signal
+///////
+
+logic fifo_mac_fp32_converter_o_input_ready;
+logic fifo_mac_fp32_converter_i_input_valid;
+logic fifo_mac_fp32_converter_i_output_ready;
+logic fifo_mac_fp32_converter_o_output_valid;
+logic [32-1:0] fifo_mac_fp32_converter_o_output_data;
+
+assign fifo_mac_fp32_converter_i_input_valid = pipe_o_output_valid;
+assign pipe_i_output_ready = fifo_mac_fp32_converter_o_input_ready;
+
+fifo_no_rst_data #( .WIDTH(32) ) u_fifo_mac_fp32_converter
+    (
+        .i_clk              ( i_clk     ),
+        .i_reset            ( i_reset   ),
+        .o_input_ready      ( fifo_mac_fp32_converter_o_input_ready     ),
+        .i_input_valid      ( fifo_mac_fp32_converter_i_input_valid     ),
+        .i_input_data       ( mac_fp32_converter_o_data                 ),
+        .i_output_ready     ( fifo_mac_fp32_converter_i_output_ready    ),
+        .o_output_valid     ( fifo_mac_fp32_converter_o_output_valid    ),
+        .o_output_data      ( fifo_mac_fp32_converter_o_output_data     )
+    );
+    
+
 
 
 

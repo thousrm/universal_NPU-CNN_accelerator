@@ -9,7 +9,8 @@ module fp32_adder (
   input  logic        in_valid,
   output logic [31:0] result,
   input  logic        out_ready,
-  output logic        out_valid
+  output logic        out_valid,
+  output logic [ 1:0] out_pipe
 );
 
   // IEEE 754 FP32 format
@@ -156,5 +157,7 @@ module fp32_adder (
             //out_valid   <= valid_r;
         end
     end
+
+  assign out_pipe = pipe_en;
 
 endmodule
