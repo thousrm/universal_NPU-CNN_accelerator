@@ -29,7 +29,7 @@ module fp32_adder (
   // Intermediate signals
   logic [24:0] aligned_a, aligned_b;
   logic [7:0]  exp_diff;
-  logic        a_larger;
+  logic        a_larger, r_a_larger;
   logic [24:0] sum;
   logic [7:0]  larger_exp;
   logic [4:0]  pre_leading_zeros, leading_zeros;
@@ -78,10 +78,12 @@ module fp32_adder (
       //is_zero <= 1'b0;
       is_inf <= 1'b0;
       is_nan <= 1'b0;
+      r_a_larger <= 1'b0;
     end else if (pipe_en[0]) begin
       a_fp_r <= a_fp;
       b_fp_r <= b_fp;
       valid_r <= in_valid;
+      r_a_larger <= a_larger;
       
       if (a_larger) begin
         aligned_a <= a_subnormal ? {1'b0, a_fp.fraction, 1'b0} : {2'b01, a_fp.fraction};
@@ -122,7 +124,8 @@ module fp32_adder (
 
     // Normalization
     //$display("start normalization");
-
+    result_fp.fraction = sum[22:0] << leading_zeros;
+    result_fp.exponent = larger_exp - leading_zeros;
     if (sum[24]) begin
         //$display("sum[24]==1");
         result_fp.fraction = sum[23:1];
@@ -134,15 +137,8 @@ module fp32_adder (
         result_fp.fraction = sum[22:0] >> (leading_zeros - result_fp.exponent + 1);
         result_fp.exponent = 8'h00;
     end
-    else begin
-        result_fp.fraction = sum[22:0] << leading_zeros;
-        result_fp.exponent = larger_exp - leading_zeros;
-    end
 
-    
-    
-
-    result_fp.sign = a_larger ? a_fp_r.sign : b_fp_r.sign;
+    result_fp.sign = r_a_larger ? a_fp_r.sign : b_fp_r.sign;
     end
   end
 
