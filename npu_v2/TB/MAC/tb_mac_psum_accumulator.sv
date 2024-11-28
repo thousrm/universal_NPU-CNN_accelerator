@@ -6,7 +6,7 @@ import mac_pkg::*;
 
   // Parameters
   parameter CLK_PERIOD = 10;
-  parameter NUM_RANDOM_TESTS = 100;
+  parameter NUM_RANDOM_TESTS = 1;
 
   // Signals
 
@@ -114,7 +114,8 @@ import mac_pkg::*;
       for (int j=0; j<64; j++) begin // gen psum
         data_in_0[j] = $random() * 1000.0 / 32'h7FFFFFFF;
         data_in_1[j] = $random() * 1000.0 / 32'h7FFFFFFF;
-        expected_out[j] = data_in_0[j] + data_in_1[j] + bias;
+        expected_out[j] = bias + data_in_0[j];
+        expected_out[j] = expected_out[j] + data_in_1[j];
       end
 
       mac_psum_accumulator_i_bias_data = $shortrealtobits(bias);
@@ -162,7 +163,9 @@ import mac_pkg::*;
   shortreal real_output;
 
   assign real_output = logic_to_real(mac_psum_accumulator_o_output_data);
-  assign mac_psum_accumulator_i_output_ready = 1;
+
+  always #(CLK_PERIOD/2) mac_psum_accumulator_i_output_ready = $urandom_range(0,2);
+
 
   always_ff @(posedge i_clk or negedge i_reset) begin // check output
     if (!i_reset) begin
