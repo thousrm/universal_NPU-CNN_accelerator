@@ -14,7 +14,7 @@ module right_shifter
 
 logic signed [OUT_WIDTH-1:0] pre_out;
 
-assign pre_out = { i_data, (TAIL_BIT){1'b0} };
+assign pre_out = { i_data, {(TAIL_BIT){1'b0}} };
 
 assign o_data = pre_out >>> i_shift_value;
 

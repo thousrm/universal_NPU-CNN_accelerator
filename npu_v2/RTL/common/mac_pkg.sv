@@ -12,10 +12,10 @@ typedef enum {
 } mac_datatype;
 
 typedef struct packed {
-    logic   [MAC_W_DATATYPE-1:0]    ifm_datatype;
-    logic   [MAC_W_DATATYPE-1:0]    wfm_datatype;
-    logic                           bias_enable ; 
-    logic                           bias_mode   ;
+    mac_datatype    ifm_datatype;
+    mac_datatype    wfm_datatype;
+    logic           bias_enable ; 
+    logic           bias_mode   ;
 } mac_instruction_port;
 
 typedef struct packed {
@@ -31,6 +31,7 @@ typedef struct packed {
 
 typedef struct packed {
     logic   [32-1:0]    data;
+    logic               accum_end;
 } mac_lane_ofm_port;
 
 typedef struct packed {
