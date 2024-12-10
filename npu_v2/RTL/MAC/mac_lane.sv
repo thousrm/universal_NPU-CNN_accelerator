@@ -10,15 +10,14 @@ import mac_pkg::*;
     output logic                mac_lane_o_ifm_ready    ,
     input  logic                mac_lane_i_ifm_valid    ,
     input  mac_lane_ifm_port    mac_lane_i_ifm          ,
-    output logic                mac_lane_o_wfm_ready    ,
     input  logic                mac_lane_i_wfm_valid    ,
-    input  mac_lane_wfm_port    mac_lane_wfm            ,
+    input  mac_lane_wfm_port    mac_lane_i_wfm          ,
     output logic                mac_lane_o_bias_ready   ,
     input  logic                mac_lane_i_bias_valid   ,
     input  [32      -1:0]       mac_lane_i_bias         ,
     input  logic                mac_lane_i_ofm_ready    ,
     output logic                mac_lane_o_ofm_valid    ,
-    input  mac_lane_ofm_port    mac_lane_o_ofm          ,
+    output mac_lane_ofm_port    mac_lane_o_ofm          ,
     output mac_lane_monitor     mac_lane_o_monitor
 );
 
@@ -44,7 +43,7 @@ pipe_ctrl # ( .STAGE (STAGE) ) u_pipe_ctrl_mac_lane
         .i_output_ready         (pipe_i_output_ready    ),
         .o_output_valid         (pipe_o_output_valid    ),
         .o_pipe_ctrl            (pipe_o_pipe_ctrl       )
-    )
+    );
 
 
 /// control signal pipeline
@@ -56,8 +55,8 @@ logic [31:0]  pipe_big_data_element_valid[STAGE-1 :0];
 logic [31:0]  pipe_mid_data_element_valid[STAGE-1 :0];
 logic [31:0]  big_is_zero_or        ;
 logic [31:0]  mid_is_zero_or        ;
-logic [31:0]  pipe_big_is_zero_or   ;
-logic [31:0]  pipe_mid_is_zero_or   ;
+logic [31:0]  pipe_big_is_zero_or[STAGE-1 :0]   ;
+logic [31:0]  pipe_mid_is_zero_or[STAGE-1 :0]   ;
 
 always_ff @ (posedge i_clk or negedge i_reset) begin
     if (!i_reset) begin
@@ -207,13 +206,6 @@ endgenerate
 //// multiplier
 ////////////////
 
-logic [31:0]  big_o_sign        ;
-logic [5 :0]  big_o_exp [0:31]  ;
-logic [21:0]  big_o_mant[0:31]  ;
-logic [31:0]  mid_o_sign        ;
-logic [4 :0]  mid_o_exp [0:31]  ;
-logic [17:0]  mid_o_mant[0:31]  ;
-
 
 generate
     for (genvar i=0; i<32; i++) begin : multiplier
@@ -331,7 +323,7 @@ logic [17:0]  comple_mid_o_mant[0:31]        ;
 
 
 generate
-    for (genvar i=0; i<32; i++) begin : 2s_complement
+    for (genvar i=0; i<32; i++) begin : g_2s_complement
         mac_2s_complement  # (.WIDTH (22)) u_mac_2s_complement_big
             (
                 .i_sign ( r_big_o_sign[i]       ),
@@ -400,7 +392,7 @@ end
 ///////////////////
 //// right shifter
 ///////////////////
-localparam W_O_SHIFTER = 32- $clogs(16);
+localparam W_O_SHIFTER = 32-4;
 
 logic [5-1:0] big_shift_value    [0:31];
 logic [W_O_SHIFTER -1:0] big_output_shifter [0:31];
@@ -408,10 +400,10 @@ logic [5-1:0] mid_shift_value    [0:31];
 logic [W_O_SHIFTER -1:0] mid_output_shifter [0:31];
 
 generate
-    for (genvar i=0; i<32; i++) begin : 2s_complement
+    for (genvar i=0; i<32; i++) begin : g_right_shifter
 
         assign big_shift_value[i] = mac_lane_config.ifm_datatype == MAC_DATATYPE_I9 ? 5
-                                :   after_findmax_big_exp[i][5] ? 31- $clogs(16) : after_findmax_big_exp[i][4:0];
+                                :   after_findmax_big_exp[i][5] ? 31-4 : after_findmax_big_exp[i][4:0];
         
         right_shifter  # (.IN_WIDTH (23), .IN_S_WIDTH (6-1), .OUT_WIDTH (W_O_SHIFTER), .TAIL_BIT(5)) u_mac_right_shifter_big
             (
@@ -598,7 +590,7 @@ end
 // fp32 converter
 /////
 
-logic mac_fp32_converter_o_data;
+logic [32-1:0] mac_fp32_converter_o_data;
 
 mac_fp32_converter u_mac_fp32_converter
     (
@@ -620,28 +612,70 @@ logic fifo_mac_fp32_converter_o_input_ready;
 logic fifo_mac_fp32_converter_i_input_valid;
 logic fifo_mac_fp32_converter_i_output_ready;
 logic fifo_mac_fp32_converter_o_output_valid;
-logic [32-1:0] fifo_mac_fp32_converter_o_output_data;
+logic [32+2-1:0] fifo_mac_fp32_converter_o_output_data;
 
 assign fifo_mac_fp32_converter_i_input_valid = pipe_o_output_valid;
 assign pipe_i_output_ready = fifo_mac_fp32_converter_o_input_ready;
 
-fifo_no_rst_data #( .WIDTH(32) ) u_fifo_mac_fp32_converter
+fifo_no_rst_data #( .WIDTH(32+2) ) u_fifo_mac_fp32_converter
     (
         .i_clk              ( i_clk     ),
         .i_reset            ( i_reset   ),
         .o_input_ready      ( fifo_mac_fp32_converter_o_input_ready     ),
         .i_input_valid      ( fifo_mac_fp32_converter_i_input_valid     ),
-        .i_input_data       ( mac_fp32_converter_o_data                 ),
+        .i_input_data       ( {mac_fp32_converter_o_data, inter_end[STAGE-1], accum_end[STAGE-1]}),
         .i_output_ready     ( fifo_mac_fp32_converter_i_output_ready    ),
         .o_output_valid     ( fifo_mac_fp32_converter_o_output_valid    ),
         .o_output_data      ( fifo_mac_fp32_converter_o_output_data     )
     );
     
 
+///////////////
+//// psum accumulator
+///////////////
 
+logic                mac_psum_accumulator_o_psum_ready   ;
+logic                mac_psum_accumulator_i_psum_valid   ;
+logic [32    -1:0]   mac_psum_accumulator_i_psum_data    ;
+logic                mac_psum_accumulator_i_inter_end    ;
+logic                mac_psum_accumulator_i_accum_end    ;
+logic                mac_psum_accumulator_o_bias_ready   ;
+logic                mac_psum_accumulator_i_bias_valid   ;
+logic [32    -1:0]   mac_psum_accumulator_i_bias_data    ;
+logic                mac_psum_accumulator_i_output_ready ;
+logic                mac_psum_accumulator_o_output_valid ;
+mac_lane_ofm_port    mac_psum_accumulator_o_output_data  ;
 
+mac_psum_accumulator u_mac_psum_accumulator
+(
+    .i_clk                               ( i_clk                               ),
+    .i_reset                             ( i_reset                             ),
+    .i_bias_enable                       ( mac_lane_config.bias_enable         ),
+    .i_bias_mode                         ( mac_lane_config.bias_mode           ),
+    .mac_psum_accumulator_o_psum_ready   ( mac_psum_accumulator_o_psum_ready   ),
+    .mac_psum_accumulator_i_psum_valid   ( mac_psum_accumulator_i_psum_valid   ),
+    .mac_psum_accumulator_i_psum_data    ( mac_psum_accumulator_i_psum_data    ),
+    .mac_psum_accumulator_i_inter_end    ( mac_psum_accumulator_i_inter_end    ),
+    .mac_psum_accumulator_i_accum_end    ( mac_psum_accumulator_i_accum_end    ),
+    .mac_psum_accumulator_o_bias_ready   ( mac_psum_accumulator_o_bias_ready   ),
+    .mac_psum_accumulator_i_bias_valid   ( mac_psum_accumulator_i_bias_valid   ),
+    .mac_psum_accumulator_i_bias_data    ( mac_psum_accumulator_i_bias_data    ),
+    .mac_psum_accumulator_i_output_ready ( mac_psum_accumulator_i_output_ready ),
+    .mac_psum_accumulator_o_output_valid ( mac_psum_accumulator_o_output_valid ),
+    .mac_psum_accumulator_o_output_data  ( mac_psum_accumulator_o_output_data  )
+);
 
-
+assign fifo_mac_fp32_converter_i_output_ready   = mac_psum_accumulator_o_psum_ready             ;
+assign mac_psum_accumulator_i_psum_valid        = fifo_mac_fp32_converter_o_output_valid        ;
+assign mac_psum_accumulator_i_psum_data         = fifo_mac_fp32_converter_o_output_data[33:2]   ;
+assign mac_psum_accumulator_i_inter_end         = fifo_mac_fp32_converter_o_output_data[1]      ;
+assign mac_psum_accumulator_i_accum_end         = fifo_mac_fp32_converter_o_output_data[0]      ;
+assign mac_lane_o_bias_ready                    = mac_psum_accumulator_o_bias_ready             ;
+assign mac_psum_accumulator_i_bias_valid        = mac_lane_i_bias_valid                         ;
+assign mac_psum_accumulator_i_bias_data         = mac_lane_i_bias                               ;
+assign mac_psum_accumulator_i_output_ready      = mac_lane_i_ofm_ready                          ;
+assign mac_lane_o_ofm_valid                     = mac_psum_accumulator_o_output_valid           ;
+assign mac_lane_o_ofm                           = mac_psum_accumulator_o_output_data            ;
 
 
 endmodule

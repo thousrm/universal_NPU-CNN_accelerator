@@ -1,5 +1,6 @@
 
 module mac_psum_accumulator 
+import mac_pkg::*;
 #(
     
 )
@@ -18,7 +19,7 @@ module mac_psum_accumulator
     input  logic [32    -1:0]   mac_psum_accumulator_i_bias_data    ,
     input  logic                mac_psum_accumulator_i_output_ready ,
     output logic                mac_psum_accumulator_o_output_valid ,
-    output logic [32    -1:0]   mac_psum_accumulator_o_output_data  
+    output mac_lane_ofm_port    mac_psum_accumulator_o_output_data  
 );
 
 //////////////
@@ -159,15 +160,15 @@ logic output_o_input_ready;
 logic output_i_input_valid;
 logic output_i_output_ready;
 logic output_o_output_valid;
-logic [32-1:0]  output_o_output_data;
+logic [32+1-1:0]  output_o_output_data;
 
-fifo_no_rst_data #( .WIDTH(32) ) u_fifo_mac_output
+fifo_no_rst_data #( .WIDTH(32+1) ) u_fifo_mac_output
     (
         .i_clk              ( i_clk                 ),
         .i_reset            ( i_reset               ),
         .o_input_ready      ( output_o_input_ready  ),
         .i_input_valid      ( output_i_input_valid  ),
-        .i_input_data       ( fp32_adder_output     ),
+        .i_input_data       ( {fp32_adder_output, accum_end[STAGE+STAGE_ADD-1]}),
         .i_output_ready     ( output_i_output_ready ),
         .o_output_valid     ( output_o_output_valid ),
         .o_output_data      ( output_o_output_data  )
@@ -239,6 +240,7 @@ assign output_i_input_valid = accum_end[STAGE+STAGE_ADD-1] ? fp32_adder_o_output
 
 assign output_i_output_ready = mac_psum_accumulator_i_output_ready;
 assign mac_psum_accumulator_o_output_valid = output_o_output_valid;
-assign mac_psum_accumulator_o_output_data = output_o_output_data;
+assign mac_psum_accumulator_o_output_data.data = output_o_output_data[32:1];
+assign mac_psum_accumulator_o_output_data.accum_end = output_o_output_data[0];
 
 endmodule
