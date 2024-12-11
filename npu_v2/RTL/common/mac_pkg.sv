@@ -1,7 +1,7 @@
 
 package mac_pkg;
 
-parameter MAC_W_ELEMENT = 10;
+parameter MAC_W_ELEMENT = 11;
 parameter MAC_W_DATATYPE = 3;
 
 typedef enum { 
@@ -31,7 +31,7 @@ typedef struct packed {
 
 typedef struct packed {
     logic   [32-1:0]    data;
-    logic               accum_end;
+    logic               output_end;
 } mac_lane_ofm_port;
 
 typedef struct packed {

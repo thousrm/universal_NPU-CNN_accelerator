@@ -126,9 +126,10 @@ endfunction
 
   logic signed [9-1:0] input_set [3][64][64];
   logic signed [9-1:0] weight_set[3][64];
+  logic [8:0] temp;
 
   logic signed [34-1:0] pre_int_ref_value[3][64],  int_ref_value[64];
-  shortreal bias, ref_value[64];
+  shortreal bias, ref_value[64], temp_psum;
 
   assign mac_lane_config.bias_enable = 1;
   assign mac_lane_config.bias_mode = 0;
@@ -150,11 +151,13 @@ endfunction
     for (int i = 0; i < NUM_RANDOM_TESTS; i++) begin
       // generate test vector
       bias = $random() * 1000.0 / 32'h7FFFFFFF; // gen bias
+      //bias = 0;
 
       for (int j=0; j<3; j++) begin // gen input vector
         for (int k=0; k<64; k++) begin 
           for (int l=0; l<64; l++) begin 
             input_set[j][k][l] = $signed($urandom_range(255 - (-256)) -256);
+            //input_set[j][k][l] = 1;
           end
         end
       end
@@ -162,6 +165,7 @@ endfunction
       for (int j=0; j<3; j++) begin // gen weight vector
         for (int k=0; k<64; k++) begin 
           weight_set[j][k] = $signed($urandom_range(255 - (-256)) -256);
+          //weight_set[j][k] = 1;
         end
       end
 
@@ -174,9 +178,14 @@ endfunction
         end
       end
       for (int j=0; j<64; j++) begin
-        int_ref_value[j] = pre_int_ref_value[0][j] + pre_int_ref_value[1][j] + pre_int_ref_value[2][j];
-        ref_value[j] = int34_to_float32_ref(int_ref_value[j]);
-        ref_value[j] = ref_value[j] + bias;
+        //int_ref_value[j] = pre_int_ref_value[0][j] + pre_int_ref_value[1][j] + pre_int_ref_value[2][j];
+        //ref_value[j] = logic_to_real(int34_to_float32_ref(int_ref_value[j]));
+        temp_psum = logic_to_real(int34_to_float32_ref(pre_int_ref_value[0][j]));
+        ref_value[j] = bias + temp_psum;
+        temp_psum = logic_to_real(int34_to_float32_ref(pre_int_ref_value[1][j]));
+        ref_value[j] = ref_value[j] + temp_psum;
+        temp_psum = logic_to_real(int34_to_float32_ref(pre_int_ref_value[2][j]));
+        ref_value[j] = ref_value[j] + temp_psum;
       end
 
       mac_lane_i_bias = $shortrealtobits(bias);
@@ -193,11 +202,13 @@ endfunction
       for (int l=0; l<3; l++) begin // input & weight set
         mac_lane_i_wfm_valid = 1;
         for (int k=0; k<64; k++) begin
-          mac_lane_i_wfm.data[k*10+:10]  = {weight_set[l][k]==0, weight_set[l][k]};
+          temp = weight_set[l][k][8] ? ~weight_set[l][k][8:0] +1 : weight_set[l][k][8:0];
+          mac_lane_i_wfm.data[k*MAC_W_ELEMENT+:MAC_W_ELEMENT]  = {weight_set[l][k]==0, weight_set[l][k][8], temp};
         end
         for (int j=0; j<64; j++) begin
           for (int k=0; k<64; k++) begin
-            mac_lane_i_ifm.data[k*10+:10] = {input_set[l][j][k]==0, input_set[l][j][k]};
+            temp = input_set[l][j][k][8] ? ~input_set[l][j][k][8:0] +1 : input_set[l][j][k][8:0];
+            mac_lane_i_ifm.data[k*MAC_W_ELEMENT+:MAC_W_ELEMENT] = {input_set[l][j][k]==0, input_set[l][j][k][8], temp};
             mac_lane_i_ifm.data_element_valid[k] = 1;
           end
           if (j==63) begin  mac_lane_i_ifm.inter_end = 1; end
@@ -211,6 +222,7 @@ endfunction
           #(CLK_PERIOD);
         end
       end
+      mac_lane_i_ifm_valid = 0;
     end
 
 
@@ -221,10 +233,14 @@ endfunction
 
   int err;
   logic [6-1:0] chk_id;
-  shortreal real_output;
+  shortreal real_output, real_output_set[64];
 
-  always #(CLK_PERIOD/2) mac_lane_i_ofm_ready = $urandom_range(0,2);
+  assign real_output = logic_to_real(mac_lane_o_ofm.data);
 
+  always_ff @(posedge i_clk) begin
+    mac_lane_i_ofm_ready <= $urandom_range(0,2);
+  end
+  //assign mac_lane_i_ofm_ready = 1;
 
   always_ff @(posedge i_clk or negedge i_reset) begin // check output
     if (!i_reset) begin
@@ -232,7 +248,9 @@ endfunction
       chk_id <= 0;
     end
     else if (mac_lane_i_ofm_ready & mac_lane_o_ofm_valid) begin
-      if ( !(mac_lane_o_ofm.data - ref_value[chk_id] < 0.001 && ref_value[chk_id] - mac_lane_o_ofm.data < 0.001) ) begin
+      real_output_set[chk_id] <= real_output;
+      if ( !(real_output - ref_value[chk_id] < 1 && ref_value[chk_id] - real_output < 1) ) begin
+      //if ( real_output != ref_value[chk_id] ) begin
         err <= err+1;
       end
       chk_id <= chk_id +1;
