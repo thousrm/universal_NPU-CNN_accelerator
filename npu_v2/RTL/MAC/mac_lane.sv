@@ -120,11 +120,11 @@ logic [21:0]  big_o_mant[0:31]  ;
 logic [31:0]  mid_a_is_zero     ;
 logic [31:0]  mid_a_sign        ;
 logic [3 :0]  mid_a_exp [0:31]  ;
-logic [7 :0]  mid_a_mant[0:31]  ;
+logic [8 :0]  mid_a_mant[0:31]  ;
 logic [31:0]  mid_b_is_zero     ;
 logic [31:0]  mid_b_sign        ;
 logic [3 :0]  mid_b_exp [0:31]  ;
-logic [7 :0]  mid_b_mant[0:31]  ;
+logic [8 :0]  mid_b_mant[0:31]  ;
 logic [31:0]  mid_o_sign        ;
 logic [4 :0]  mid_o_exp [0:31]  ;
 logic [17:0]  mid_o_mant[0:31]  ;
@@ -133,10 +133,10 @@ generate
     for (genvar i=0; i<32; i++) begin : decoding_ifm_wfm
         assign big_a_is_zero[i] =     mac_lane_config.ifm_datatype == MAC_DATATYPE_FP16 ?
                                         mac_lane_i_ifm.data[17+i*MAC_W_ELEMENT*2+:1]
-                                    :   mac_lane_i_ifm.data[9 +i*MAC_W_ELEMENT*1+:1];
+                                    :   mac_lane_i_ifm.data[10+i*MAC_W_ELEMENT*1+:1];
         assign big_a_sign[i]    =     mac_lane_config.ifm_datatype == MAC_DATATYPE_FP16 ?
                                         mac_lane_i_ifm.data[16+i*MAC_W_ELEMENT*2+:1]
-                                    :   mac_lane_i_ifm.data[8 +i*MAC_W_ELEMENT*1+:1];
+                                    :   mac_lane_i_ifm.data[9 +i*MAC_W_ELEMENT*1+:1];
         assign big_a_exp [i]    =     mac_lane_config.ifm_datatype == MAC_DATATYPE_FP16 ?
                                         mac_lane_i_ifm.data[11+i*MAC_W_ELEMENT*2+:5]
                                     : mac_lane_config.ifm_datatype == MAC_DATATYPE_FP8  ?
@@ -146,14 +146,14 @@ generate
                                         mac_lane_i_ifm.data[0+i*MAC_W_ELEMENT*2+:11]
                                     : mac_lane_config.ifm_datatype == MAC_DATATYPE_FP8  ?
                                         {5'b0, mac_lane_i_ifm.data[0+i*MAC_W_ELEMENT*1+:4], 2'b0}
-                                    :   {3'b0, mac_lane_i_ifm.data[0+i*MAC_W_ELEMENT*1+:8]};
+                                    :   {2'b0, mac_lane_i_ifm.data[0+i*MAC_W_ELEMENT*1+:9]};
 
         assign big_b_is_zero[i] =     mac_lane_config.wfm_datatype == MAC_DATATYPE_FP16 ?
                                         mac_lane_i_wfm.data[17+i*MAC_W_ELEMENT*2+:1]
-                                    :   mac_lane_i_wfm.data[9 +i*MAC_W_ELEMENT*1+:1];
+                                    :   mac_lane_i_wfm.data[10+i*MAC_W_ELEMENT*1+:1];
         assign big_b_sign[i]    =     mac_lane_config.wfm_datatype == MAC_DATATYPE_FP16 ?
                                         mac_lane_i_wfm.data[16+i*MAC_W_ELEMENT*2+:1]
-                                    :   mac_lane_i_wfm.data[8 +i*MAC_W_ELEMENT*1+:1];
+                                    :   mac_lane_i_wfm.data[9 +i*MAC_W_ELEMENT*1+:1];
         assign big_b_exp [i]    =     mac_lane_config.wfm_datatype == MAC_DATATYPE_FP16 ?
                                         mac_lane_i_wfm.data[11+i*MAC_W_ELEMENT*2+:5]
                                     : mac_lane_config.wfm_datatype == MAC_DATATYPE_FP8  ?
@@ -163,14 +163,14 @@ generate
                                         mac_lane_i_wfm.data[0+i*MAC_W_ELEMENT*2+:11]
                                     : mac_lane_config.wfm_datatype == MAC_DATATYPE_FP8  ?
                                         {5'b0, mac_lane_i_wfm.data[0+i*MAC_W_ELEMENT*1+:4], 2'b0}
-                                    :   {3'b0, mac_lane_i_wfm.data[0+i*MAC_W_ELEMENT*1+:8]};
+                                    :   {2'b0, mac_lane_i_wfm.data[0+i*MAC_W_ELEMENT*1+:9]};
 
         assign mid_a_is_zero[i] =     mac_lane_config.ifm_datatype == MAC_DATATYPE_FP16 ?
                                         0
-                                    :   mac_lane_i_ifm.data[9 +i*MAC_W_ELEMENT*1 + 32*MAC_W_ELEMENT +:1];
+                                    :   mac_lane_i_ifm.data[10+i*MAC_W_ELEMENT*1 + 32*MAC_W_ELEMENT +:1];
         assign mid_a_sign[i]    =     mac_lane_config.ifm_datatype == MAC_DATATYPE_FP16 ?
                                         0
-                                    :   mac_lane_i_ifm.data[8 +i*MAC_W_ELEMENT*1 + 32*MAC_W_ELEMENT +:1];
+                                    :   mac_lane_i_ifm.data[9 +i*MAC_W_ELEMENT*1 + 32*MAC_W_ELEMENT +:1];
         assign mid_a_exp [i]    =     mac_lane_config.ifm_datatype == MAC_DATATYPE_FP16 ?
                                         0
                                     : mac_lane_config.ifm_datatype == MAC_DATATYPE_FP8  ?
@@ -180,14 +180,14 @@ generate
                                         0
                                     : mac_lane_config.ifm_datatype == MAC_DATATYPE_FP8  ?
                                         {5'b0, mac_lane_i_ifm.data[0+i*MAC_W_ELEMENT*1 + 32*MAC_W_ELEMENT +:4], 2'b0}
-                                    :   {3'b0, mac_lane_i_ifm.data[0+i*MAC_W_ELEMENT*1 + 32*MAC_W_ELEMENT +:8]};
+                                    :   mac_lane_i_ifm.data[0+i*MAC_W_ELEMENT*1 + 32*MAC_W_ELEMENT +:9];
 
         assign mid_b_is_zero[i] =     mac_lane_config.wfm_datatype == MAC_DATATYPE_FP16 ?
                                         0
-                                    :   mac_lane_i_wfm.data[9 +i*MAC_W_ELEMENT*1 + 32*MAC_W_ELEMENT +:1];
+                                    :   mac_lane_i_wfm.data[10+i*MAC_W_ELEMENT*1 + 32*MAC_W_ELEMENT +:1];
         assign mid_b_sign[i]    =     mac_lane_config.wfm_datatype == MAC_DATATYPE_FP16 ?
                                         0
-                                    :   mac_lane_i_wfm.data[8 +i*MAC_W_ELEMENT*1 + 32*MAC_W_ELEMENT +:1];
+                                    :   mac_lane_i_wfm.data[9 +i*MAC_W_ELEMENT*1 + 32*MAC_W_ELEMENT +:1];
         assign mid_b_exp [i]    =     mac_lane_config.wfm_datatype == MAC_DATATYPE_FP16 ?
                                         0
                                     : mac_lane_config.wfm_datatype == MAC_DATATYPE_FP8  ?
@@ -197,7 +197,7 @@ generate
                                         0
                                     : mac_lane_config.wfm_datatype == MAC_DATATYPE_FP8  ?
                                         {5'b0, mac_lane_i_wfm.data[0+i*MAC_W_ELEMENT*1 + 32*MAC_W_ELEMENT +:4], 2'b0}
-                                    :   {3'b0, mac_lane_i_wfm.data[0+i*MAC_W_ELEMENT*1 + 32*MAC_W_ELEMENT +:8]};
+                                    :   mac_lane_i_wfm.data[0+i*MAC_W_ELEMENT*1 + 32*MAC_W_ELEMENT +:9];
     end
 endgenerate
 
@@ -316,9 +316,7 @@ endgenerate
 ///// 2s complement
 ///////////////////
 
-logic [31:0]  comple_big_o_sign              ;
 logic [21:0]  comple_big_o_mant[0:31]        ;
-logic [31:0]  comple_mid_o_sign              ;
 logic [17:0]  comple_mid_o_mant[0:31]        ;
 
 
@@ -328,7 +326,6 @@ generate
             (
                 .i_sign ( r_big_o_sign[i]       ),
                 .i_mant ( r_big_o_mant[i]       ),
-                .o_sign ( comple_big_o_sign[i]  ),
                 .o_mant ( comple_big_o_mant[i]  )
             );
 
@@ -336,7 +333,6 @@ generate
             (
                 .i_sign ( r_mid_o_sign[i]       ),
                 .i_mant ( r_mid_o_mant[i]       ),
-                .o_sign ( comple_mid_o_sign[i]  ),
                 .o_mant ( comple_mid_o_mant[i]  )
             );
     end
@@ -358,7 +354,7 @@ generate
     for (genvar i=0; i<32; i++) begin : pipeline_1
         always_ff @ (posedge i_clk) begin // big
             if (pipe_o_pipe_ctrl[1] & (~pipe_big_is_zero_or[0][i]) & pipe_big_data_element_valid[0][i]) begin
-                r_comple_big_o_sign[i] <= comple_big_o_sign[i];
+                r_comple_big_o_sign[i] <= r_big_o_sign[i];
                 r_comple_big_o_mant[i] <= comple_big_o_mant[i];
             end
         end
@@ -369,7 +365,7 @@ generate
         end
         always_ff @ (posedge i_clk) begin // mid
             if (pipe_o_pipe_ctrl[1] & (~pipe_mid_is_zero_or[0][i]) & pipe_mid_data_element_valid[0][i]) begin
-                r_comple_mid_o_sign[i] <= comple_mid_o_sign[i];
+                r_comple_mid_o_sign[i] <= r_mid_o_sign[i];
                 r_comple_mid_o_mant[i] <= comple_mid_o_mant[i];
             end
         end
