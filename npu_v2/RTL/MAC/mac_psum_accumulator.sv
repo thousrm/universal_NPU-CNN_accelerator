@@ -54,7 +54,7 @@ always_ff @ (posedge i_clk or negedge i_reset) begin
         inter_end[0]                    <= 0;
         accum_end[0]                    <= 0;
     end
-    else begin
+    else if (pipe_o_pipe_ctrl[0]) begin
         inter_end[0]                    <= mac_psum_accumulator_i_inter_end;
         accum_end[0]                    <= mac_psum_accumulator_i_accum_end;
     end
@@ -67,7 +67,7 @@ generate
                 inter_end[i] <= 0;
                 accum_end[i] <= 0;
             end
-            else begin
+            else if (pipe_o_pipe_ctrl[i]) begin
                 inter_end[i] <= inter_end[i-1];
                 accum_end[i] <= accum_end[i-1];
             end
@@ -188,10 +188,10 @@ always_ff @ (posedge i_clk or negedge i_reset) begin
     if (!i_reset) begin
         sel_bias_psum   <=  0;
     end
-    else if (mac_psum_accumulator_i_inter_end & mac_psum_accumulator_i_accum_end) begin
+    else if (mac_psum_accumulator_i_inter_end & mac_psum_accumulator_i_accum_end & pipe_o_pipe_ctrl[0]) begin
         sel_bias_psum   <=  0;
     end
-    else if (mac_psum_accumulator_i_inter_end) begin
+    else if (mac_psum_accumulator_i_inter_end & mac_psum_accumulator_o_psum_ready & pipe_o_pipe_ctrl[0]) begin
         sel_bias_psum   <=  1;
     end
 end
