@@ -3,6 +3,7 @@ package mac_pkg;
 
 parameter MAC_W_ELEMENT = 11;
 parameter MAC_W_DATATYPE = 3;
+parameter MAC_LANE_GROUP = 8;
 
 typedef enum { 
     MAC_DATATYPE_I9     ,
@@ -17,6 +18,17 @@ typedef struct packed {
     logic           bias_enable ; 
     logic           bias_mode   ;
 } mac_instruction_port;
+
+typedef struct packed {
+    logic   [MAC_W_ELEMENT*64*MAC_LANE_GROUP-1:0]       data;
+    logic   [64*MAC_LANE_GROUP  -1:0]     data_element_valid;
+    logic   [MAC_LANE_GROUP     -1:0]              inter_end;
+    logic   [MAC_LANE_GROUP     -1:0]              accum_end;
+} mac_pre_ifm_port;
+
+typedef struct packed {
+    logic   [MAC_W_ELEMENT*64*64-1:0]       data;
+} mac_pre_wfm_port;
 
 typedef struct packed {
     logic   [MAC_W_ELEMENT*64-1:0]  data;
