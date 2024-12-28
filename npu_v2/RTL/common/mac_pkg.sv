@@ -28,6 +28,7 @@ typedef struct packed {
 
 typedef struct packed {
     logic   [MAC_W_ELEMENT*64*64-1:0]       data;
+    logic                                   is_last;
 } mac_pre_wfm_port;
 
 typedef struct packed {
