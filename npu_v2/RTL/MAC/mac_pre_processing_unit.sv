@@ -1,10 +1,11 @@
 ///////
 //// - tx_top
-//// - mac_lane
 module mac_pre_processing_unit
-import tx_pkg::*;
 import mac_pkg::*;
+import tx_pkg::*;
 (
+    input  logic                        i_clk                       ,
+    input  logic                        i_reset                     ,
     output logic                        mac_pre_o_instruction_ready ,
     input  logic                        mac_pre_i_instruction_valid ,
     input  tx_mac_instruction_port      mac_pre_i_instruction       ,
@@ -35,12 +36,12 @@ logic ifm_fifo_o_input_ready;
 logic ifm_fifo_i_input_valid;
 logic ifm_fifo_i_output_ready;
 logic ifm_fifo_o_output_valid;
-logic tx_mac_ifm_port  ifm_fifo_i_output_data;
-logic tx_mac_ifm_port  ifm_fifo_o_output_data;
+tx_mac_ifm_port  ifm_fifo_i_output_data;
+tx_mac_ifm_port  ifm_fifo_o_output_data;
 
-assign mac_o_ifm_ready = ifm_fifo_o_input_ready;
-assign ifm_fifo_i_input_valid = mac_i_ifm_valid;
-assign ifm_fifo_i_output_data = mac_i_ifm      ;
+assign mac_pre_o_ifm_ready = ifm_fifo_o_input_ready;
+assign ifm_fifo_i_input_valid = mac_pre_i_ifm_valid;
+assign ifm_fifo_i_output_data = mac_pre_i_ifm;
 
 
 fifo_no_rst_data_type #( .DATA_TYPE(tx_mac_ifm_port) ) u_fifo_mac_ifm_fifo
@@ -64,12 +65,12 @@ logic wfm_fifo_o_input_ready;
 logic wfm_fifo_i_input_valid;
 logic wfm_fifo_i_output_ready;
 logic wfm_fifo_o_output_valid;
-logic tx_mac_wfm_port  wfm_fifo_i_output_data;
-logic tx_mac_wfm_port  wfm_fifo_o_output_data;
+tx_mac_wfm_port  wfm_fifo_i_output_data;
+tx_mac_wfm_port  wfm_fifo_o_output_data;
 
-assign mac_o_wfm_ready = wfm_fifo_o_input_ready;
-assign wfm_fifo_i_input_valid = mac_i_wfm_valid;
-assign wfm_fifo_i_output_data = mac_i_wfm      ;
+assign mac_pre_o_wfm_ready = wfm_fifo_o_input_ready;
+assign wfm_fifo_i_input_valid = mac_pre_i_wfm_valid;
+assign wfm_fifo_i_output_data = mac_pre_i_wfm      ;
 
 
 fifo_no_rst_data_type #( .DATA_TYPE(tx_mac_wfm_port) ) u_fifo_mac_wfm_fifo
@@ -216,8 +217,8 @@ logic                   pipe_ifm_i_output_ready ;
 logic                   pipe_ifm_o_output_valid ;
 logic [STAGE_IFM-1:0]   pipe_ifm_o_pipe_ctrl    ;
 
-assign mac_pre_o_ifm_ready         = pipe_ifm_o_input_ready;
-assign pipe_ifm_i_input_valid      = mac_pre_i_ifm_valid;
+assign ifm_fifo_i_output_ready     = pipe_ifm_o_input_ready;
+assign pipe_ifm_i_input_valid      = ifm_fifo_o_output_valid;;
 assign pipe_ifm_i_output_ready     = mac_pre_to_lane_i_ifm_ready;
 assign mac_pre_to_lane_o_ifm_valid = pipe_ifm_o_output_valid;
 
@@ -239,9 +240,9 @@ always_ff @ (posedge i_clk or negedge i_reset) begin
         r_accum_end             <= 0;
     end
     else if (pipe_ifm_o_pipe_ctrl[0]) begin
-        r_data_element_valid    <= mac_pre_i_ifm.data_element_valid;
-        r_inter_end             <= mac_pre_i_ifm.inter_end         ;
-        r_accum_end             <= mac_pre_i_ifm.accum_end         ;
+        r_inter_end             <= ifm_fifo_o_output_data.inter_end         ;
+        r_accum_end             <= ifm_fifo_o_output_data.accum_end         ;
+        r_data_element_valid    <= ifm_fifo_o_output_data.data_element_valid;
     end
 end
 
@@ -254,9 +255,9 @@ generate
                 r_g_data_element_valid[1][i]  <= 0;
             end
             else if (pipe_ifm_o_pipe_ctrl[1]) begin
-                r_g_inter_end[1][i]           <= r_data_element_valid;
-                r_g_accum_end[1][i]           <= r_inter_end         ;
-                r_g_data_element_valid[1][i]  <= r_accum_end         ;
+                r_g_inter_end[1][i]           <= r_inter_end            ;
+                r_g_accum_end[1][i]           <= r_accum_end            ;
+                r_g_data_element_valid[1][i]  <= r_data_element_valid   ;
             end
         end
     end
@@ -284,7 +285,7 @@ endgenerate
 generate
     for (genvar i=0; i<32; i++) begin : pipeline_ifm_0
         always_ff @ (posedge i_clk) begin
-            if (pipe_ifm_o_pipe_ctrl[0] & mac_pre_i_ifm.data_element_valid[i]) begin
+            if (pipe_ifm_o_pipe_ctrl[0] & ifm_fifo_o_output_data.data_element_valid[i]) begin
                 r_decoder_ifm_array[i] <= decoder_ifm_array[i];
             end
         end
@@ -308,7 +309,7 @@ generate
         for (genvar j=0; j<MAC_LANE_GROUP; j++) begin : pipeline_ifm_g
             for (genvar i=0; i<32; i++) begin : pipeline_ifm_e
                 always_ff @ (posedge i_clk) begin
-                    if (pipe_ifm_o_pipe_ctrl[k] & r_g_data_element_valid[i]) begin
+                    if (pipe_ifm_o_pipe_ctrl[k] & r_g_data_element_valid[k][j][i]) begin
                         r_g_decoder_ifm_array[k][j][i] <= r_g_decoder_ifm_array[k-1][j][i];
                     end
                 end
@@ -346,8 +347,8 @@ logic                     pipe_wfm_i_output_ready ;
 logic                     pipe_wfm_o_output_valid ;
 logic [STAGE_WFM_DEC-1:0] pipe_wfm_dec_o_pipe_ctrl;
 
-assign mac_pre_o_wfm_ready    = pipe_wfm_o_input_ready;
-assign pipe_wfm_i_input_valid = mac_pre_i_wfm_valid;
+assign wfm_fifo_i_output_ready= pipe_wfm_o_input_ready;
+assign pipe_wfm_i_input_valid = wfm_fifo_o_output_valid;;
 
 pipe_ctrl # ( .STAGE (STAGE_WFM_DEC) ) u_pipe_ctrl_wfm
     (
@@ -365,7 +366,7 @@ always_ff @ (posedge i_clk or negedge i_reset) begin
         r_is_last <= 0;
     end
     else if (pipe_wfm_dec_o_pipe_ctrl[0]) begin
-        r_is_last <= mac_pre_i_wfm.is_last;
+        r_is_last <= wfm_fifo_o_output_data.is_last;
     end
 end
 
@@ -385,7 +386,7 @@ localparam STAGE_WFM_BUF = 2;
 
 logic [MAC_W_ELEMENT*2-1:0] wfm_buffer[STAGE_WFM_BUF][64][32];
 logic [6-1:0]               ptr_buffer;
-logic [64-1:0]              lane_valid[STAGE_WFM_BUF];
+logic [6-1:0]               r_ptr_buffer[STAGE_WFM_BUF];
 
 logic                     pipe_wfm_buf_o_input_ready  ;
 logic                     pipe_wfm_buf_i_input_valid  ;
@@ -412,7 +413,7 @@ always_ff @ (posedge i_clk or negedge i_reset) begin
     if (!i_reset) begin
         ptr_buffer <= 0;
     end
-    else if (pipe_wfm_buf_o_input_ready & pipe_wfm_o_output_valid & r_is_last) begin
+    else if (pipe_wfm_buf_o_input_ready & pipe_wfm_o_output_valid & r_is_last) begin // pipe_wfm_buf_o_pipe_ctrl[0]
         ptr_buffer <= 0;
     end
     else if (pipe_wfm_buf_o_input_ready & pipe_wfm_o_output_valid) begin
@@ -420,14 +421,12 @@ always_ff @ (posedge i_clk or negedge i_reset) begin
     end
 end
 
-always_ff @ (posedge i_clk or negedge i_reset) begin
-    if (!i_reset) begin
-        lane_valid[0][i] <= 0;
-    end
-    else if (pipe_wfm_buf_o_input_ready & pipe_wfm_o_output_valid) begin
-        lane_valid[0][ptr_buffer] = 1'b1;
+always_ff @ (posedge i_clk) begin
+    if (pipe_wfm_buf_o_pipe_ctrl[0]) begin
+        r_ptr_buffer[0] <= ptr_buffer;
     end
 end
+
 
 generate
     for (genvar i=0; i<32; i++) begin : wfm_buffer_element
@@ -442,16 +441,11 @@ endgenerate
 generate
     for (genvar k=1; k<STAGE_WFM_BUF; k++) begin : pipeline_wfm_buffer
         always_ff @ (posedge i_clk) begin
-            if (pipe_wfm_buf_o_input_ready & pipe_wfm_o_output_valid) begin
-                lane_valid[k] <= lane_valid[k-1];
+            if (pipe_wfm_buf_o_pipe_ctrl[k]) begin
+                r_ptr_buffer[k] <= r_ptr_buffer[k-1];
             end
         end
         for (genvar j=0; j<64; j++) begin : pipeline_wfm_buffer_line
-            always_ff @ (posedge i_clk) begin
-                if (pipe_wfm_buf_o_pipe_ctrl[k]) begin
-                    wfm_buffer[k][j][i] <= wfm_buffer[k-1][j][i];
-                end
-            end
             for (genvar i=0; i<32; i++) begin : pipe_line_wfm_buffer_element
                 always_ff @ (posedge i_clk) begin
                     if (pipe_wfm_buf_o_pipe_ctrl[k]) begin
@@ -468,7 +462,19 @@ logic pop_wfm_buffer, r_pop_wfm_buffer;
 assign pop_wfm_buffer = mac_pre_to_lane_i_ifm_ready & mac_pre_to_lane_o_ifm_valid & mac_pre_to_lane_o_ifm.inter_end[0];
 
 assign pipe_wfm_buf_i_output_ready = pop_wfm_buffer;
-assign mac_pre_to_lane_o_wfm_valid = pipe_wfm_buf_o_output_valid;
+
+generate
+    for (genvar i=0; i<64; i++) begin
+        assign mac_pre_to_lane_o_wfm_valid[i] = pipe_wfm_buf_o_output_valid && (i <= r_ptr_buffer[STAGE_WFM_BUF-1]);
+    end
+    for (genvar j=0; j<64; j++) begin
+        for (genvar i=0; i<32; i++) begin
+            assign mac_pre_to_lane_o_wfm.data[j*MAC_W_ELEMENT*64+i*MAC_W_ELEMENT*2+:MAC_W_ELEMENT*2] 
+                                        = wfm_buffer[STAGE_WFM_BUF-1][j][i];
+        end
+    end
+endgenerate
+
 
 
 endmodule

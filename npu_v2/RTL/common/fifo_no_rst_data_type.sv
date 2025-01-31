@@ -18,7 +18,7 @@ module fifo_no_rst_data_type
     output DATA_TYPE            o_output_data           
 );
 
-logic DATA_TYPE             mem [0:DEPTH-1];
+DATA_TYPE             mem [0:DEPTH-1];
 logic [DEPTH_BIT-1:0]       wr_ptr, rd_ptr;
 logic [DEPTH_OCP_BIT-1:0]   occupy;
 

@@ -1,6 +1,7 @@
 
 module mac_decoder_big 
 import tx_pkg::*;
+import mac_pkg::*;
 (
     input  mac_datatype     i_datatype  ,
     input  logic [9*2-2-1:0]  i_data      ,

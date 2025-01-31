@@ -1,6 +1,7 @@
 
 module mac_decoder_mid
 import tx_pkg::*;
+import mac_pkg::*;
 (
     input  mac_datatype     i_datatype  ,
     input  logic [9-1:0]    i_data      ,
