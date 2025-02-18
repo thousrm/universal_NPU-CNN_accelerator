@@ -24,7 +24,8 @@ assign pre_mant = i_datatype == MAC_DATATYPE_FP16 ? i_data[ 9: 0]
 assign is_subnormal = pre_exp == 0 && pre_mant != 0;
 
 always_comb begin
-    o_iszero = i_data == 0;
+    o_iszero = i_datatype == MAC_DATATYPE_FP16 ? i_data == 0      
+             : i_datatype == MAC_DATATYPE_FP8  ? i_data[7:0] == 0   : i_data[8:0] == 0 ;
     o_sign   = pre_sign   ;
     o_exp    = pre_exp    ;
     if (i_datatype == MAC_DATATYPE_FP16) begin

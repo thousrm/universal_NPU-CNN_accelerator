@@ -144,15 +144,15 @@ generate
                                         {4'b0,  decoder_big_ifm_o_iszero[i]   ,  decoder_big_ifm_o_sign[i], 
                                                 decoder_big_ifm_o_exp[i]      ,  decoder_big_ifm_o_mant[i]}
                                     : mac_pre_i_instruction.ifm_datatype == MAC_DATATYPE_FP8  ?
-                                        {1'b0,  decoder_big_ifm_o_iszero[i]   ,  decoder_big_ifm_o_sign[i], 
-                                                decoder_big_ifm_o_exp[i][3:0] ,  decoder_big_ifm_o_mant[i][3:0],
-                                         1'b0,  decoder_mid_ifm_o_iszero[i]   ,  decoder_mid_ifm_o_sign[i], 
-                                                decoder_mid_ifm_o_exp[i]      ,  decoder_mid_ifm_o_mant[i][3:0]}
+                                        {1'b0,  decoder_mid_ifm_o_iszero[i]   ,  decoder_mid_ifm_o_sign[i], 
+                                                decoder_mid_ifm_o_exp[i]      ,  decoder_mid_ifm_o_mant[i][3:0],
+                                         1'b0,  decoder_big_ifm_o_iszero[i]   ,  decoder_big_ifm_o_sign[i], 
+                                                decoder_big_ifm_o_exp[i][3:0] ,  decoder_big_ifm_o_mant[i][3:0]}
                                     : //int9
-                                        {       decoder_big_ifm_o_iszero[i]   ,  decoder_big_ifm_o_sign[i], 
-                                                decoder_big_ifm_o_mant[i][8:0],
-                                                decoder_mid_ifm_o_iszero[i]   ,  decoder_mid_ifm_o_sign[i], 
-                                                decoder_mid_ifm_o_mant[i][8:0]};
+                                        {       decoder_mid_ifm_o_iszero[i]   ,  decoder_mid_ifm_o_sign[i], 
+                                                decoder_mid_ifm_o_mant[i][8:0],
+                                                decoder_big_ifm_o_iszero[i]   ,  decoder_big_ifm_o_sign[i], 
+                                                decoder_big_ifm_o_mant[i][8:0]};
 
         assign decoder_big_wfm_i_data[i] = wfm_fifo_o_output_data.data[i*TX_MAC_W_ELEMENT*2+:TX_MAC_W_ELEMENT*2-2];
         assign decoder_mid_wfm_i_data[i] = wfm_fifo_o_output_data.data[i*TX_MAC_W_ELEMENT*2 +TX_MAC_W_ELEMENT +:TX_MAC_W_ELEMENT];
@@ -181,15 +181,15 @@ generate
                                         {4'b0,  decoder_big_wfm_o_iszero[i]   ,  decoder_big_wfm_o_sign[i], 
                                                 decoder_big_wfm_o_exp[i]      ,  decoder_big_wfm_o_mant[i]}
                                     : mac_pre_i_instruction.wfm_datatype == MAC_DATATYPE_FP8  ?
-                                        {1'b0,  decoder_big_wfm_o_iszero[i]   ,  decoder_big_wfm_o_sign[i], 
-                                                decoder_big_wfm_o_exp[i][3:0] ,  decoder_big_wfm_o_mant[i][3:0],
-                                         1'b0,  decoder_mid_wfm_o_iszero[i]   ,  decoder_mid_wfm_o_sign[i], 
-                                                decoder_mid_wfm_o_exp[i]      ,  decoder_mid_wfm_o_mant[i][3:0]}
+                                        {1'b0,  decoder_mid_wfm_o_iszero[i]   ,  decoder_mid_wfm_o_sign[i], 
+                                                decoder_mid_wfm_o_exp[i]      ,  decoder_mid_wfm_o_mant[i][3:0],
+                                         1'b0,  decoder_big_wfm_o_iszero[i]   ,  decoder_big_wfm_o_sign[i], 
+                                                decoder_big_wfm_o_exp[i][3:0] ,  decoder_big_wfm_o_mant[i][3:0]}
                                     : //int9
-                                        {       decoder_big_wfm_o_iszero[i]   ,  decoder_big_wfm_o_sign[i], 
-                                                decoder_big_wfm_o_mant[i][8:0],
-                                                decoder_mid_wfm_o_iszero[i]   ,  decoder_mid_wfm_o_sign[i], 
-                                                decoder_mid_wfm_o_mant[i][8:0]};
+                                        {       decoder_mid_wfm_o_iszero[i]   ,  decoder_mid_wfm_o_sign[i], 
+                                                decoder_mid_wfm_o_mant[i][8:0],
+                                                decoder_big_wfm_o_iszero[i]   ,  decoder_big_wfm_o_sign[i], 
+                                                decoder_big_wfm_o_mant[i][8:0]};
     end
 endgenerate
 

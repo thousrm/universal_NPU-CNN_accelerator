@@ -16,7 +16,7 @@ logic [4  -1:0]  pre_exp        ;
 logic [10 -1:0]  pre_mant       ;
 logic            is_subnormal   ;
 
-assign pre_sign = i_datatype == MAC_DATATYPE_FP8 ? i_data[8]     : i_data[7];
+assign pre_sign = i_datatype == MAC_DATATYPE_FP8 ? i_data[7]     : i_data[8];
 assign pre_exp  = i_data[6:3];
 assign pre_mant = i_datatype == MAC_DATATYPE_FP8 ? i_data[2:0]   : i_data[8:0];
 assign is_subnormal = pre_exp == 0 && pre_mant != 0;

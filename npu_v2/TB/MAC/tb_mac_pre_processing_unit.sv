@@ -130,8 +130,8 @@ endfunction
 
   logic signed [9-1:0] input_set [3][64][64];
   logic signed [9-1:0] weight_set[3][64];
-  logic [11-1:0] ref_out_input_set [3][64][64];
-  logic [11-1:0] ref_out_weight_set[3][64][64];
+  logic [MAC_W_ELEMENT-1:0] ref_out_input_set [3][64][64];
+  logic [MAC_W_ELEMENT-1:0] ref_out_weight_set[3][64][64];
 
   logic signed [34-1:0] pre_int_ref_value[3][64],  int_ref_value[64];
   shortreal bias, ref_value[64], temp_psum;
@@ -232,13 +232,17 @@ endfunction
   logic [64-1:0] err_id_i, err_id_w;
   logic [6-1:0] id_0, id_1, id_2;
   //shortreal real_output, real_output_set[64];
-  logic [11-1:0] out_input_set [3][64][64];
-  logic [11-1:0] out_weight_set[3][64][64];
+  logic [MAC_W_ELEMENT-1:0] out_input_set [3][64][64];
+  logic [MAC_W_ELEMENT-1:0] out_input_elements [64];
+  logic [MAC_W_ELEMENT-1:0] ref_out_input_elements [64];
+  logic [MAC_W_ELEMENT-1:0] out_weight_set[3][64][64];
 
   always_comb begin
     for (int i=0; i<64; i++) begin
-      err_id_i[i] = ref_out_input_set[id_1][id_0][i] == mac_pre_to_lane_o_ifm.data[11*i+:11];
-      err_id_w[i] = ref_out_weight_set[id_1][id_0][i] == mac_pre_to_lane_o_wfm.data[11*i+:11];
+      err_id_i[i] = ref_out_input_set[id_1][id_0][i]  != mac_pre_to_lane_o_ifm.data[MAC_W_ELEMENT*i+:MAC_W_ELEMENT];
+      err_id_w[i] = ref_out_weight_set[id_1][id_0][i] != mac_pre_to_lane_o_wfm.data[MAC_W_ELEMENT*i+:MAC_W_ELEMENT];
+      out_input_elements[i] = mac_pre_to_lane_o_ifm.data[MAC_W_ELEMENT*i+:MAC_W_ELEMENT];
+      ref_out_input_elements[i] = ref_out_input_set[id_1][id_0][i];
     end
   end
 
@@ -258,9 +262,9 @@ endfunction
     else if (mac_pre_to_lane_i_ifm_ready & mac_pre_to_lane_o_ifm_valid & mac_pre_to_lane_o_wfm_valid[0]) begin
       for (int i=0; i<64; i++) begin
         if (mac_pre_to_lane_o_ifm.data_element_valid[i]) begin
-          out_input_set[id_1][id_0][i] <= mac_pre_to_lane_o_ifm.data[11*i+:11];
+          out_input_set[id_1][id_0][i] <= mac_pre_to_lane_o_ifm.data[MAC_W_ELEMENT*i+:MAC_W_ELEMENT];
         end
-        out_weight_set[id_1][id_0][i] <= mac_pre_to_lane_o_wfm.data[11*i+:11];
+        out_weight_set[id_1][id_0][i] <= mac_pre_to_lane_o_wfm.data[MAC_W_ELEMENT*i+:MAC_W_ELEMENT];
       end
       if ((|err_id_i)!=0) begin
         err_i <= err_i+1;
