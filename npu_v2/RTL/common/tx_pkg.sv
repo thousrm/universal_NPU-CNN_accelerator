@@ -12,6 +12,13 @@ typedef struct packed {
     logic           bias_mode   ;
 } tx_mac_instruction_port;
 
+typedef enum { IDLE, RUN } mac_main_state;
+
+typedef struct packed {
+    mac_main_state main_fsm;
+    logic          is_nan_or_inf;
+} tx_mac_exception_port;
+
 typedef struct packed {
     logic   [TX_MAC_W_ELEMENT*64-1:0]  data;
     logic   [64  -1:0]              data_element_valid;

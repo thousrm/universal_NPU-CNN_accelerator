@@ -1,5 +1,4 @@
-///////
-//// - tx_top
+
 module mac_pre_processing_unit
 import mac_pkg::*;
 import tx_pkg::*;
